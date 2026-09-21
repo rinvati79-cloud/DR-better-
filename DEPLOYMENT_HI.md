@@ -26,6 +26,12 @@ Production में:
 ## 3) Mobile/Hopwep से खोलना
 सिर्फ ZIP को mobile editor में खोलने से PostgreSQL backend online नहीं होता। App को **deployed backend URL** से serve करना जरूरी है। इस build में frontend और API एक ही Express server से serve होते हैं, इसलिए अलग frontend URL की जरूरत नहीं है।
 
+
+## 4A) Render Free — database table fix
+इस Docker build में `backend/schema.sql` image के अंदर copy होता है और server start होने से पहले `CREATE TABLE IF NOT EXISTS` schema अपने-आप चलाता है। इसलिए Render Free में Shell/SSH की जरूरत नहीं है। Existing PostgreSQL database में missing tables startup पर बन जाएँगी।
+
+अगर Render में पहले `relation "users" does not exist` दिखा था, इस updated ZIP को GitHub में push करके Render में नया deploy करें। `DATABASE_URL` और `JWT_SECRET` को वैसे ही रहने दें; secret values chat में share न करें।
+
 ## 4) Real wallet
 Wallet database-backed है और शुरुआत ₹0 से होती है। Real money credit/debit के लिए अलग payment provider और server-side webhook verification जोड़ना होगा। Frontend से balance बदलने की अनुमति नहीं है।
 

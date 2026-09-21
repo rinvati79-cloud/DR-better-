@@ -1,9 +1,10 @@
 FROM node:22-alpine
 WORKDIR /app
-COPY package*.json ./
+COPY backend/package*.json ./
 RUN npm install --omit=dev
-COPY server.js ./
+COPY backend/server.js ./
+COPY backend/schema.sql ./schema.sql
 COPY index.html ./public/index.html
-COPY *.jpg ./public/assets/
+COPY assets ./public/assets
 EXPOSE 3000
 CMD ["node","server.js"]

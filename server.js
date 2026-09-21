@@ -1,4 +1,5 @@
 import express from 'express';
+import fs from 'node:fs/promises';
 import cors from 'cors';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -14,6 +15,12 @@ app.use(express.static('/app/public'));
 const pool = new Pool({ connectionString: process.env.DATABASE_URL, ssl: process.env.DATABASE_SSL === 'true' ? { rejectUnauthorized:false } : undefined });
 const JWT_SECRET = process.env.JWT_SECRET;
 if (!JWT_SECRET) { console.error('JWT_SECRET is required. Set it in the environment before starting the API.'); process.exit(1); }
+
+async function initDatabase(){
+  const schema = await fs.readFile('/app/schema.sql', 'utf8');
+  await pool.query(schema);
+  console.log('Database schema is ready.');
+}
 
 function sign(user){ return jwt.sign({sub:String(user.id), username:user.username}, JWT_SECRET, {expiresIn:'7d'}); }
 function auth(req,res,next){
@@ -122,4 +129,11 @@ app.post('/api/join',auth,async(req,res)=>{
 
 const port=process.env.PORT||3000;
 app.get('/', (_req,res)=>res.sendFile('/app/public/index.html'));
-app.listen(port,()=>console.log(`DR Better API + frontend running on port ${port}`));
+
+try {
+  await initDatabase();
+  app.listen(port,()=>console.log(`DR Better API + frontend running on port ${port}`));
+} catch (e) {
+  console.error('Database initialization failed:', e);
+  process.exit(1);
+}
