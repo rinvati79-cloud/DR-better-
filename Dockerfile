@@ -2,7 +2,7 @@ FROM node:22-alpine
 WORKDIR /app
 COPY backend/package*.json ./
 RUN npm install --omit=dev
-COPY backend/server.js ./
+COPY server.js ./
 COPY index.html ./public/index.html
 COPY *.jpg ./public/assets/
 EXPOSE 3000
