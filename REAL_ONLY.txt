@@ -1,0 +1,7 @@
+DR Better — REAL ONLY
+
+No demo/fake login.
+No demo/fake contest seed data.
+No fake wallet/payment flow.
+Login/Register require the real PostgreSQL backend.
+Real deposits/withdrawals require a real payment provider and verified server-side webhooks.
