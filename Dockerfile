@@ -5,6 +5,5 @@ RUN npm install --omit=dev
 COPY backend/server.js ./
 COPY backend/schema.sql ./schema.sql
 COPY index.html ./public/index.html
-COPY assets ./public/assets
 EXPOSE 3000
 CMD ["node","server.js"]
