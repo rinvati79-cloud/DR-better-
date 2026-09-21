@@ -4,6 +4,6 @@ COPY backend/package*.json ./
 RUN npm install --omit=dev
 COPY backend/server.js ./
 COPY index.html ./public/index.html
-COPY assets ./public/assets
+COPY *.jpg ./public/assets/
 EXPOSE 3000
 CMD ["node","server.js"]
