@@ -2,11 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport"
+      content="width=device-width,initial-scale=1.0">
 
 <title>DR Better - Sign Up</title>
 
 <style>
+
 *{
   box-sizing:border-box;
   -webkit-tap-highlight-color:transparent;
@@ -15,6 +17,8 @@
 html,body{
   margin:0;
   padding:0;
+  width:100%;
+  min-height:100%;
   background:#061a30;
   font-family:Arial,sans-serif;
 }
@@ -23,121 +27,211 @@ body{
   min-height:100vh;
 }
 
-/* Main Box */
-.class-box{
+/* MAIN CARD */
+.signup-card{
   width:100%;
   max-width:700px;
   min-height:100vh;
+
   margin:0 auto;
+
   background:#fff;
-  border-radius:0 0 45px 45px;
-  padding:55px 30px 35px;
+
+  border-radius:0 0 40px 40px;
+
+  padding:30px 30px 25px;
 }
 
-/* Heading */
-h1{
-  margin:0 0 35px;
+/* HEADING */
+.signup-card h1{
+  margin:0 0 25px;
+
   color:#6200ee;
-  font-size:42px;
-  font-weight:900;
+
+  font-size:38px;
+  line-height:1.05;
+
+  font-weight:800;
 }
 
-/* Input Box */
+/* FORM */
+#registerForm{
+  width:100%;
+}
+
+/* INPUT BOX */
 .input-box{
   width:100%;
-  height:82px;
-  margin-bottom:22px;
+  height:58px;
 
-  border:1.5px solid #dedede;
-  border-radius:45px;
+  margin-bottom:12px;
 
   background:#fff;
+
+  border:1.5px solid #e0e0e0;
+
+  border-radius:32px;
 
   display:flex;
   align-items:center;
 
-  padding:0 25px;
+  padding:0 22px;
+
+  box-shadow:0 3px 7px rgba(0,0,0,.08);
 }
 
-/* Input */
+/* INPUT */
 .input-box input{
   width:100%;
   height:100%;
 
-  border:none;
-  outline:none;
+  padding:0;
+
+  border:0;
+  outline:0;
 
   background:transparent;
 
-  font-size:19px;
   color:#222;
-  font-weight:600;
+
+  font-family:Arial,sans-serif;
+
+  font-size:17px;
+  font-weight:500;
 }
 
-/* Text INSIDE box */
+/* PLACEHOLDER */
 .input-box input::placeholder{
-  color:#222;
+  color:#999;
   opacity:1;
-  font-weight:700;
 }
 
-/* Focus */
+/* FOCUS */
 .input-box:focus-within{
   border-color:#6200ee;
-  box-shadow:0 0 0 2px rgba(98,0,238,.08);
 }
 
-/* Sign Up Button */
-button{
-  width:100%;
-  height:82px;
+/* PASSWORD SHOW */
+.password-box{
+  position:relative;
+}
 
-  margin-top:8px;
+.password-box input{
+  padding-right:55px;
+}
 
-  border:none;
-  border-radius:45px;
+.show-btn{
+  position:absolute;
 
-  background:#6200ee;
-  color:white;
+  right:20px;
+  top:50%;
 
-  font-size:23px;
+  transform:translateY(-50%);
+
+  border:0;
+  background:transparent;
+
+  color:#222;
+
+  font-size:15px;
   font-weight:700;
+
+  padding:5px;
 
   cursor:pointer;
 }
 
-button:active{
+/* SIGN UP BUTTON */
+.signup-btn{
+  width:100%;
+  height:60px;
+
+  margin-top:7px;
+
+  border:0;
+  border-radius:32px;
+
+  background:#6200ee;
+
+  color:#fff;
+
+  font-size:21px;
+  font-weight:700;
+
+  cursor:pointer;
+
+  box-shadow:0 4px 10px rgba(98,0,238,.25);
+}
+
+.signup-btn:active{
   transform:scale(.98);
 }
 
-/* Login */
+/* LOGIN */
 .login-text{
   text-align:center;
-  margin-top:25px;
 
-  font-size:19px;
-  font-weight:600;
+  margin-top:18px;
 
   color:#222;
+
+  font-size:17px;
+  font-weight:500;
 }
 
 .login-text a{
   color:#6200ee;
+
   font-weight:700;
+
   text-decoration:underline;
 }
+
+/* MOBILE */
+@media(max-width:480px){
+
+  .signup-card{
+    padding:28px 30px 24px;
+  }
+
+  .signup-card h1{
+    font-size:36px;
+    margin-bottom:24px;
+  }
+
+  .input-box{
+    height:58px;
+    margin-bottom:11px;
+    padding:0 20px;
+  }
+
+  .input-box input{
+    font-size:16px;
+  }
+
+  .signup-btn{
+    height:60px;
+    font-size:21px;
+  }
+
+  .login-text{
+    font-size:16px;
+    margin-top:17px;
+  }
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="class-box">
+<div class="signup-card">
 
   <h1>Sign Up</h1>
 
   <form id="registerForm">
 
-    <!-- First Name -->
+    <!-- FIRST NAME -->
     <div class="input-box">
       <input
         id="firstName"
@@ -146,7 +240,7 @@ button:active{
         required>
     </div>
 
-    <!-- Last Name -->
+    <!-- LAST NAME -->
     <div class="input-box">
       <input
         id="lastName"
@@ -155,7 +249,7 @@ button:active{
         required>
     </div>
 
-    <!-- Username -->
+    <!-- USERNAME -->
     <div class="input-box">
       <input
         id="username"
@@ -164,7 +258,7 @@ button:active{
         required>
     </div>
 
-    <!-- Mobile Number -->
+    <!-- MOBILE -->
     <div class="input-box">
       <input
         id="mobile"
@@ -173,7 +267,7 @@ button:active{
         required>
     </div>
 
-    <!-- Email -->
+    <!-- EMAIL -->
     <div class="input-box">
       <input
         id="email"
@@ -182,16 +276,26 @@ button:active{
         required>
     </div>
 
-    <!-- Password -->
-    <div class="input-box">
+    <!-- PASSWORD -->
+    <div class="input-box password-box">
+
       <input
         id="password"
         type="password"
         placeholder="Password"
         required>
+
+      <button
+        type="button"
+        class="show-btn"
+        onclick="showPassword()"
+        id="showPasswordBtn">
+        Show
+      </button>
+
     </div>
 
-    <!-- Referral Code -->
+    <!-- REFERRAL -->
     <div class="input-box">
       <input
         id="referralCode"
@@ -199,7 +303,7 @@ button:active{
         placeholder="Referral Code">
     </div>
 
-    <!-- Game UID -->
+    <!-- GAME UID -->
     <div class="input-box">
       <input
         id="gameUid"
@@ -207,79 +311,145 @@ button:active{
         placeholder="Game UID">
     </div>
 
-    <!-- Button -->
-    <button type="submit">
+    <!-- SIGN UP -->
+    <button
+      type="submit"
+      class="signup-btn">
       Sign Up
     </button>
 
-    <div class="login-text">
-      Already have an account?
-      <a href="login.html">Login</a>
-    </div>
-
   </form>
+
+  <!-- LOGIN -->
+  <div class="login-text">
+    Already have an account?
+    <a href="login.html">Login</a>
+  </div>
 
 </div>
 
 
 <script>
 
-document.getElementById("registerForm").onsubmit = async e => {
+/* PASSWORD SHOW / HIDE */
+
+function showPassword(){
+
+  const password =
+    document.getElementById("password");
+
+  const btn =
+    document.getElementById("showPasswordBtn");
+
+  if(password.type === "password"){
+
+    password.type = "text";
+
+    btn.innerText = "Hide";
+
+  }else{
+
+    password.type = "password";
+
+    btn.innerText = "Show";
+  }
+}
+
+
+/* REGISTER */
+
+document
+.getElementById("registerForm")
+.addEventListener("submit", async function(e){
 
   e.preventDefault();
 
-  try {
+  try{
 
-    let r = await fetch("/api/auth/register", {
-      method:"POST",
+    const r = await fetch(
+      "/api/auth/register",
+      {
+        method:"POST",
 
-      headers:{
-        "Content-Type":"application/json"
-      },
+        headers:{
+          "Content-Type":
+          "application/json"
+        },
 
-      body:JSON.stringify({
+        body:JSON.stringify({
 
-        firstName:document.getElementById("firstName").value,
+          firstName:
+          document.getElementById(
+            "firstName"
+          ).value,
 
-        lastName:document.getElementById("lastName").value,
+          lastName:
+          document.getElementById(
+            "lastName"
+          ).value,
 
-        username:document.getElementById("username").value,
+          username:
+          document.getElementById(
+            "username"
+          ).value,
 
-        mobile:document.getElementById("mobile").value,
+          mobile:
+          document.getElementById(
+            "mobile"
+          ).value,
 
-        email:document.getElementById("email").value,
+          email:
+          document.getElementById(
+            "email"
+          ).value,
 
-        password:document.getElementById("password").value,
+          password:
+          document.getElementById(
+            "password"
+          ).value,
 
-        referralCode:document.getElementById("referralCode").value,
+          referralCode:
+          document.getElementById(
+            "referralCode"
+          ).value,
 
-        gameUid:document.getElementById("gameUid").value
+          gameUid:
+          document.getElementById(
+            "gameUid"
+          ).value
 
-      })
-    });
+        })
+      }
+    );
 
-    let d = await r.json();
+    const d = await r.json();
 
     if(!r.ok){
-      throw new Error(d.error || "Signup failed");
+
+      throw new Error(
+        d.error || "Signup failed"
+      );
+
     }
 
     if(d.token){
+
       localStorage.setItem(
         "DR_BETTER_TOKEN",
         d.token
       );
+
     }
 
     location.href = "index.html";
 
-  } catch(e) {
+  }catch(error){
 
-    alert(e.message);
+    alert(error.message);
 
   }
 
-};
+});
 
 </script>
 
