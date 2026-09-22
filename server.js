@@ -165,7 +165,7 @@ app.post('/api/auth/register', async (req, res) => {
 
     const result = await pool.query(
       `INSERT INTO users
-       (username,password_hash,game_uid,first_name,last_name,mobile,email,referral_code,referred_by)
+             (username,password_hash,game_uid,first_name,last_name,mobile,email,referral_code,referred_by)
        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)
        RETURNING id,username,game_uid,first_name,last_name,mobile,email,referral_code,created_at`,
       [
@@ -207,6 +207,7 @@ app.post('/api/auth/register', async (req, res) => {
     });
   }
 });
+
 app.post('/api/auth/login', async (req, res) => {
   try {
     const username = String(req.body?.username || '').trim();
@@ -265,7 +266,9 @@ app.get('/api/auth/me', auth, async (req, res) => {
   res.json({
     user: r.rows[0]
   });
-  app.get('/api/wallet', auth, async (req, res) => {
+});
+
+app.get('/api/wallet', auth, async (req, res) => {
   const r = await pool.query(
     'SELECT balance FROM wallets WHERE user_id=$1',
     [req.user.sub]
@@ -329,8 +332,8 @@ app.get('/api/contests', async (req, res) => {
     res.status(500).json({
       error: e.message
     });
-  }
-});
+        }
+  });
 
 app.get('/api/contests/:id', async (req, res) => {
   const r = await pool.query(
@@ -360,6 +363,7 @@ app.get('/api/contests/:id/joinings', async (req, res) => {
 
   res.json(r.rows);
 });
+
 app.post('/api/join', auth, async (req, res) => {
   const { contestId, slot, ign, uid } = req.body || {};
 
@@ -640,7 +644,8 @@ app.patch(
 );
 
 const port = process.env.PORT || 3000;
-  app.get('/', (_req, res) => {
+
+app.get('/', (_req, res) => {
   res.sendFile('/app/public/index.html');
 });
 
@@ -655,9 +660,10 @@ try {
   );
 
 } catch (e) {
-  console.error('=== DR BETTER STARTUP ERROR ===');
-  console.error(e?.stack || e);
-  console.error('=== END STARTUP ERROR ===');
+  console.error(
+    'Database initialization failed:',
+    e
+  );
 
   process.exit(1);
-}
+        }
