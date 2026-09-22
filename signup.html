@@ -3,41 +3,102 @@
 <head>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>DR Better - Sign Up</title>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#061a30;font-family:Arial;color:#222}
-.box{max-width:600px;margin:20px auto;background:white;border-radius:28px;padding:25px 18px}
-h1{color:#5b00e8;font-size:34px}
-input{width:100%;height:50px;margin:7px 0;padding:12px 16px;border:1px solid #ddd;border-radius:25px;font-size:16px}
-label{font-weight:bold}
-button{width:100%;height:50px;border:0;border-radius:25px;background:#5b00e8;color:white;font-size:18px;margin-top:15px}
-a{color:#5b00e8;font-weight:bold}
+
+body{
+margin:0;
+background:#061a30;
+font-family:Arial,sans-serif;
+color:#222;
+}
+
+.box{
+max-width:600px;
+margin:20px auto;
+background:white;
+border-radius:28px;
+padding:25px 18px;
+}
+
+h1{
+color:#5b00e8;
+font-size:34px;
+margin:0 0 35px;
+}
+
+label{
+display:block;
+font-weight:bold;
+margin:14px 0 6px;
+}
+
+input{
+width:100%;
+height:50px;
+margin:0;
+padding:12px 16px;
+border:1px solid #ddd;
+border-radius:25px;
+font-size:16px;
+outline:none;
+}
+
+input:focus{
+border-color:#5b00e8;
+}
+
+button{
+width:100%;
+height:50px;
+border:0;
+border-radius:25px;
+background:#5b00e8;
+color:white;
+font-size:18px;
+margin-top:20px;
+cursor:pointer;
+}
+
+a{
+color:#5b00e8;
+font-weight:bold;
+}
 </style>
 </head>
+
 <body>
+
 <div class="box">
+
 <h1>Welcome to,<br>Sign Up</h1>
+
 <form id="registerForm">
+
 <label>First Name</label>
-<input id="firstName" required placeholder="First Name">
+<input id="firstName" required>
+
 <label>Last Name</label>
-<input id="lastName" required placeholder="Last Name">
+<input id="lastName" required>
+
 <label>Username</label>
-<input id="username" required placeholder="Username">
+<input id="username" required>
+
 <label>Mobile Number</label>
-<input id="mobile" required type="tel" placeholder="Mobile Number">
+<input id="mobile" required type="tel">
 
 <label>Email</label>
-<input id="email" required type="email" placeholder="Email">
+<input id="email" required type="email">
 
 <label>Password</label>
-<input id="password" required type="password" placeholder="Password">
+<input id="password" required type="password">
 
 <label>Referral Code</label>
-<input id="referralCode" placeholder="Referral Code">
+<input id="referralCode">
 
 <label>Game UID</label>
-<input id="gameUid" placeholder="Game UID">
+<input id="gameUid">
 
 <button type="submit">Sign Up</button>
 
@@ -45,13 +106,22 @@ a{color:#5b00e8;font-weight:bold}
 Already have an account?
 <a href="login.html">Login</a>
 </p>
+
 </form>
 </div>
+
 <script>
 document.getElementById("registerForm").onsubmit=async e=>{
 e.preventDefault();
+
 try{
-let r=await fetch("/api/auth/register",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({
+
+let r=await fetch("/api/auth/register",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
 firstName:firstName.value,
 lastName:lastName.value,
 username:username.value,
@@ -60,13 +130,27 @@ email:email.value,
 password:password.value,
 referralCode:referralCode.value,
 gameUid:gameUid.value
-})});
+})
+});
+
 let d=await r.json();
-if(!r.ok)throw Error(d.error||"Signup failed");
-if(d.token)localStorage.setItem("DR_BETTER_TOKEN",d.token);
+
+if(!r.ok)
+throw Error(d.error||"Signup failed");
+
+if(d.token)
+localStorage.setItem("DR_BETTER_TOKEN",d.token);
+
 location.href="index.html";
-}catch(e){alert(e.message)}
+
+}catch(e){
+
+alert(e.message);
+
+}
+
 };
 </script>
+
 </body>
 </html>
