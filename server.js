@@ -61,7 +61,7 @@ async function initDatabase() {
       (game, title, entry_fee, prize_pool, slots, status, starts_at)
     VALUES
       ('BR SURVIVAL', 'BR Survival #1', 15, 220, 20, 'upcoming', NOW() + INTERVAL '30 minutes'),
-      ('PER KILL MATCHES', 'Per Kill Match #1', 10, 350, 48, 'upcoming', NOW() + INTERVAL '30 minutes'),
+      ('PER KILL MATCHES', 'Per Kill Match #1', 11, 0, 48, 'upcoming', NOW() + INTERVAL '30 minutes'),
       ('CLASH SQUAD 1V1', 'Clash Squad 1V1 #1', 40, 55, 2, 'upcoming', NOW() + INTERVAL '30 minutes'),
       ('LONE WOLF 1V1', 'Lone Wolf 1V1 #1', 40, 55, 2, 'upcoming', NOW() + INTERVAL '30 minutes'),
       ('CLASH SQUAD 4V4', 'Clash Squad 4V4 #1', 20, 100, 8, 'upcoming', NOW() + INTERVAL '30 minutes'),
@@ -265,9 +265,7 @@ app.get('/api/auth/me', auth, async (req, res) => {
   res.json({
     user: r.rows[0]
   });
-});
-
-app.get('/api/wallet', auth, async (req, res) => {
+  app.get('/api/wallet', auth, async (req, res) => {
   const r = await pool.query(
     'SELECT balance FROM wallets WHERE user_id=$1',
     [req.user.sub]
@@ -498,8 +496,7 @@ app.post('/api/join', auth, async (req, res) => {
     );
 
     await client.query('COMMIT');
-
-    const nw = await pool.query(
+        const nw = await pool.query(
       'SELECT balance FROM wallets WHERE user_id=$1',
       [req.user.sub]
     );
@@ -602,6 +599,7 @@ app.post(
     }
   }
 );
+
 app.patch(
   '/api/admin/contests/:id/status',
   auth,
@@ -642,8 +640,7 @@ app.patch(
 );
 
 const port = process.env.PORT || 3000;
-
-app.get('/', (_req, res) => {
+  app.get('/', (_req, res) => {
   res.sendFile('/app/public/index.html');
 });
 
