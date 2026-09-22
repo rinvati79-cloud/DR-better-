@@ -655,10 +655,9 @@ try {
   );
 
 } catch (e) {
-  console.error(
-    'Database initialization failed:',
-    e
-  );
+  console.error('=== DR BETTER STARTUP ERROR ===');
+  console.error(e?.stack || e);
+  console.error('=== END STARTUP ERROR ===');
 
   process.exit(1);
 }
