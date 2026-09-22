@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>DR Better - Sign Up</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;background:#061a30;color:#fff;font-family:Arial,sans-serif}
+body{padding-bottom:82px}button,input,textarea{font-family:inherit}button{border:0;cursor:pointer}
+.page{display:none;min-height:calc(100vh - 82px)}.page.active{display:block}
+.top{height:165px;background:#07517f;border-radius:0 0 30px 30px;padding:28px 14px 14px}
+.topbar{display:flex;align-items:center;justify-content:space-between}.profile{display:flex;align-items:center;gap:11px}
+.avatar{width:55px;height:55px;border-radius:50%;background:#2196d3;border:2px solid #42c9ff;display:flex;align-items:center;justify-content:center;font-size:29px}
+.name{font-size:27px;font-weight:bold}.wallet{display:flex;align-items:center;gap:6px}.coin{width:43px;height:43px;border-radius:50%;background:#f4bd25;border:3px solid #ffe47a;color:#fff;font-size:23px;display:flex;align-items:center;justify-content:center}.balance{font-size:18px}
+.bell{width:48px;height:48px;border-radius:50%;background:#fff;color:#18517c;display:flex;align-items:center;justify-content:center;font-size:24px;margin-left:5px}
+.notice{height:74px;margin:17px 14px 0;background:#52677d;border-radius:10px;display:flex;overflow:hidden}.noticeIcon{width:95px;background:#60748b;display:flex;align-items:center;justify-content:center;font-size:38px}.noticeText{padding:8px 15px;font-size:19px;line-height:1.5;overflow:hidden}
+.banner{height:310px;margin:26px 14px 0;border:2px solid #19d1d1;border-radius:16px;overflow:hidden;position:relative;background:linear-gradient(135deg,#d41414,#ffb000 45%,#237c24)}
+.banner:before{content:"WITHDRAWAL";position:absolute;right:5px;top:28px;font-size:35px;font-weight:900;color:#ffe600;text-shadow:3px 3px #9b2100}.banner:after{content:"IN 6 HOURS";position:absolute;right:18px;top:78px;font-size:34px;font-weight:900;color:#fff;text-shadow:3px 3px #12831e}
+.money{position:absolute;left:20px;top:75px;font-size:70px}.clock{position:absolute;right:65px;top:133px;width:105px;height:105px;border-radius:50%;background:#eee;border:7px solid #ccc;color:#222;display:flex;align-items:center;justify-content:center;font-size:44px}.bannerSmall{position:absolute;left:20px;bottom:57px;font-size:20px;font-weight:bold}
+.details{position:absolute;left:23px;bottom:12px;background:#5628ef;color:#fff;padding:12px 20px;border-radius:25px;font-size:17px}.bannerImg{width:100%;height:100%;object-fit:cover;display:block}.gameImg{width:100%;height:137px;object-fit:cover;display:block}.game .art{display:none}
+
+/* Four separate swipeable home banner pages */
+.bannerCarousel{height:310px;margin:26px 14px 0;border:2px solid #19d1d1;border-radius:16px;overflow:hidden;position:relative;background:#111}
+.bannerTrack{height:100%;display:flex;transition:transform .35s ease;will-change:transform;touch-action:pan-y}
+.bannerSlide{min-width:100%;height:100%;position:relative;overflow:hidden}
+.bannerSlide img{width:100%;height:100%;object-fit:cover;display:block}
+.bannerSlide .details{z-index:3}
+.bannerArrow{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:52px;border-radius:18px;background:#0009;color:#fff;font-size:42px;line-height:42px;z-index:4}
+.bannerArrow.left{left:8px}.bannerArrow.right{right:8px}
+.bannerDots{position:absolute;left:0;right:0;bottom:10px;display:flex;justify-content:center;gap:7px;z-index:5}
+.bannerDots .dot{width:9px;height:9px;padding:0;border-radius:50%;background:#fff8;border:1px solid #fff}
+.bannerDots .dot.active{width:24px;border-radius:8px;background:#fff}
+@media(max-width:420px){.bannerCarousel{height:300px}}
+
+h2{text-align:center;font-size:28px;margin:18px 0 22px}.section{padding:0 14px}.matches{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
+.match{height:132px;border-radius:14px;background:#fff;color:#111;font-size:19px;display:flex;align-items:center;justify-content:center;flex-direction:column}.matchIcon{width:64px;height:64px;border-radius:14px;color:#fff;font-size:31px;display:flex;align-items:center;justify-content:center;margin-bottom:7px}.green{background:#35c99b}.cyan{background:#29c7df}.check{background:#2fbd69}
+.title{font-size:24px;font-weight:bold;margin:40px 0 28px}.games{display:grid;grid-template-columns:1fr 1fr;gap:13px}.game{height:178px;border:2px solid #1bd1d1;border-radius:12px;overflow:hidden;position:relative;color:#fff;background:linear-gradient(135deg,#a91616,#e98616)}
+.game:nth-child(2){background:linear-gradient(135deg,#202b3d,#e78c1d)}.game:nth-child(3){background:linear-gradient(135deg,#54210b,#c66b16)}.game:nth-child(4){background:linear-gradient(135deg,#55200b,#dc851b)}.game:nth-child(5){background:linear-gradient(135deg,#57178d,#df83dd)}.game:nth-child(6){background:linear-gradient(135deg,#751d0c,#d87518)}
+.art{height:137px;display:flex;align-items:center;justify-content:center;font-size:58px}.gameName{position:absolute;left:0;right:0;bottom:0;height:40px;background:#0008;padding:10px 6px;text-align:left;font-size:16px}.online{position:absolute;right:8px;bottom:10px}.online:before{content:"";display:inline-block;width:14px;height:14px;border-radius:50%;background:#0cc45b;margin-right:5px}
+.nav{position:fixed;z-index:50;left:0;right:0;bottom:0;height:82px;background:#07517f;border-radius:24px 24px 0 0;display:grid;grid-template-columns:repeat(4,1fr);box-shadow:0 -4px 14px #0007}.nav button{background:transparent;color:#fff;font-size:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}.nav button.active{background:#063b64}.navIcon{font-size:30px;line-height:30px}
+.header{height:76px;background:#07517f;display:flex;align-items:center;gap:15px;padding:0 15px}.header button{width:43px;height:43px;border-radius:50%;background:#fff;color:#07517f;font-size:25px}.headerTitle{font-size:24px;font-weight:bold}
+.card{margin:15px;background:#fff;color:#111;border-radius:16px;padding:20px;box-shadow:0 3px 10px #0004}.card h3{margin-top:0;color:#07517f}.row{display:flex;align-items:center;justify-content:space-between;padding:15px 0;border-bottom:1px solid #ddd}.row:last-child{border:0}
+.btn{width:100%;padding:14px;border-radius:10px;background:#087bc1;color:#fff;font-size:17px;margin-top:12px}.btn.greenBtn{background:#19b96d}.input{width:100%;padding:14px;border:1px solid #ccc;border-radius:10px;margin:8px 0;font-size:16px}.balanceBig{text-align:center;font-size:42px;font-weight:bold;color:#087bc1;margin:10px}.gameList{display:grid;gap:12px}.center{text-align:center}.avatarBig{width:95px;height:95px;border-radius:50%;background:#1689c9;border:4px solid #55d2ff;margin:auto;display:flex;align-items:center;justify-content:center;font-size:50px}.stat{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat div{background:#edf7ff;border-radius:10px;padding:14px;text-align:center;color:#07517f}
+.toast{position:fixed;z-index:100;left:15px;right:15px;bottom:95px;background:#111;color:#fff;padding:14px;border-radius:10px;text-align:center;display:none}
+
+.gameDetailCard{padding:15px}
+.detailImage{width:100%;height:190px;object-fit:cover;border-radius:12px;display:block;margin-bottom:12px}
+.gameDetailCard h2{margin:10px 0 15px;color:#07517f}
+.detailGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.detailGrid div{background:#edf7ff;border-radius:10px;padding:12px;color:#07517f}
+.detailGrid span{display:block;font-size:13px;color:#456}
+.detailGrid b{display:block;margin-top:5px;font-size:17px}
+.rulesBox{margin-top:15px;background:#f7f7f7;border-radius:12px;padding:12px;color:#222}
+.rulesBox h3{margin:0 0 8px;color:#07517f}
+.rulesBox ul{margin:0;padding-left:20px}
+.rulesBox li{margin:7px 0;font-size:14px}
+@media(max-width:420px){.name{font-size:23px}.banner{height:300px}.banner:before{font-size:29px}.banner:after{font-size:30px}.match{height:125px;font-size:17px}.game{height:165px}.art{height:124px}.gameImg{height:124px}}
+
+/* Screenshot-style pages */
+.refPage{background:#4b00c9;min-height:100vh;color:#fff}
+.refHead,.darkHead{height:148px;background:linear-gradient(#07517f,#06385d);border-radius:0 0 30px 30px;display:flex;align-items:center;gap:25px;padding:35px 24px 20px}
+.refHead .back,.darkHead .back{font-size:48px;line-height:1;color:#fff;cursor:pointer}
+.refHead .headTitle,.darkHead .headTitle{font-size:30px;font-weight:700;flex:1;text-align:center;margin-right:45px}
+.refBody{text-align:center;padding:40px 20px 30px}
+.refBody h1{font-size:38px;line-height:1.35;margin:0 0 22px}
+.gift{font-size:120px;line-height:1;margin:10px 0 28px}
+.refText{font-size:22px;line-height:1.45;text-align:left;margin:0 auto 32px;max-width:620px}
+.refCodeBox{border:3px dashed #fff;border-radius:12px;padding:16px 25px;margin:0 auto 45px;max-width:540px}
+.refLabel{font-size:20px;margin-bottom:8px}
+.refCode{height:72px;background:#ddd;color:#111;border-radius:20px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;font-size:24px}
+.shareTitle{font-size:24px;font-weight:700;margin-bottom:22px}
+.shareBtns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.shareBtn{padding:14px 28px;border-radius:28px;color:#fff;font-size:18px}
+.telegram{background:#25a9db}.facebook{background:#1877e9}.whatsapp{background:#18bd13}
+.leaderPage{background:#111526;min-height:100vh;color:#fff}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:60px;padding:50px 38px 35px}
+.tab{background:#1c2137;border-radius:12px;padding:20px 10px;text-align:center;font-size:24px}
+.tab.active{background:#4660ed}
+.lbTable{margin:15px 25px}.lbHeader,.lbRow{display:grid;grid-template-columns:1fr 2fr 1.25fr;align-items:center}
+.lbHeader{background:#4660ed;border-radius:12px;padding:20px 25px;font-size:23px;margin-bottom:12px}
+.lbRow{background:#1c2137;border-radius:12px;padding:18px 25px;margin-bottom:12px;font-size:22px}
+.win{text-align:right}.gold{color:#ffc400;font-size:25px}
+.menuPage{background:#f1f2f4;min-height:100vh;color:#343943}
+.menuHead{height:148px;background:linear-gradient(#07517f,#06385d);border-radius:0 0 30px 30px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:30px;font-weight:700}
+.menuStats{margin:15px 25px 50px;background:#fff;border-radius:14px;display:grid;grid-template-columns:repeat(3,1fr);padding:20px 10px;box-shadow:0 2px 8px #0002}
+.menuStat{text-align:center;border-right:1px solid #ddd;color:#2189d0}.menuStat:last-child{border:0}
+.menuStat b{font-size:30px}.menuStat span{display:block;color:#777;font-size:17px;margin-top:12px}
+.menuList{padding:0 25px}.menuItem{background:#fff;border-radius:13px;margin-bottom:18px;padding:20px 25px;display:flex;align-items:center;gap:20px;font-size:22px;box-shadow:0 2px 7px #0001}.menuItem .mi{font-size:30px;color:#1689d0;width:35px;text-align:center}.menuItem .arrow{margin-left:auto;color:#999;font-size:32px}.switch{margin-left:auto;width:55px;height:30px;background:#d1d5dc;border-radius:20px;padding:3px}.switch:after{content:"";display:block;width:24px;height:24px;background:#fff;border-radius:50%}
+.contestPage{background:#061a30;min-height:100vh;color:#fff}
+.contestTabs{display:grid;grid-template-columns:repeat(3,1fr);background:#061a30;padding:0 20px}.contestTab{text-align:center;padding:18px 5px;font-size:19px}.contestTab.active{border-bottom:3px solid #fff}
+.contests{padding:22px 13px 80px}.contestCard{background:#fff;color:#222;margin-bottom:25px;border-radius:0;overflow:hidden}.contestCard img{width:100%;height:330px;object-fit:cover;display:block}.contestBody{padding:20px 55px}.contestTitle{font-size:25px;font-weight:700;line-height:1.35;margin-bottom:10px}.contestDate{font-size:18px;margin-bottom:25px}.contestStats{display:grid;grid-template-columns:repeat(3,1fr);text-align:center;gap:10px}.contestStats small{display:block;color:#666;font-size:14px;margin-bottom:5px}.contestStats b{font-size:20px}.contestBottom{display:grid;grid-template-columns:repeat(3,1fr);text-align:center;margin-top:25px}.contestBottom small{display:block;color:#666}.spots{margin-top:25px;color:#c33;font-size:17px;display:flex;justify-content:space-between;align-items:center}.joinBtn{background:#62a8f0;color:#fff;padding:13px 24px;border-radius:10px;font-size:18px}
+@media(max-width:520px){
+ .refHead,.darkHead,.menuHead{height:148px}.refHead .headTitle,.darkHead .headTitle{font-size:25px}
+ .refBody h1{font-size:34px}.refText{font-size:19px}.gift{font-size:100px}
+ .tabs{gap:15px;padding:35px 25px 25px}.tab{font-size:18px}
+ .lbTable{margin:15px 25px}.lbHeader,.lbRow{font-size:18px;padding:15px 12px}.lbHeader{font-size:17px}
+ .menuStats{margin-bottom:40px}.menuStat b{font-size:27px}.menuStat span{font-size:15px}.menuItem{font-size:20px}
+ .contestCard img{height:330px}.contestBody{padding:20px 35px}.contestTitle{font-size:23px}
+}
+
+
+/* Full contest flow */
+.flowPage{background:#f3f5f8;color:#18202a;min-height:100vh}
+.flowTop{height:76px;background:#07517f;color:#fff;display:flex;align-items:center;padding:0 14px;gap:12px;position:sticky;top:0;z-index:10}
+.flowTop .back{width:42px;height:42px;border-radius:50%;background:#fff;color:#07517f;display:flex;align-items:center;justify-content:center;font-size:30px}
+.flowTop h1{font-size:22px;margin:0;flex:1}.flowBody{padding:14px 14px 95px}
+.flowTabs{display:grid;grid-template-columns:repeat(3,1fr);background:#07517f;color:#fff}.flowTabs button{background:transparent;color:#fff;padding:15px 5px;font-size:15px}.flowTabs button.active{border-bottom:3px solid #fff}
+.flowCard{background:#fff;border-radius:14px;overflow:hidden;margin-bottom:14px;box-shadow:0 2px 8px #0002}.flowCard img{width:100%;height:190px;object-fit:cover;display:block}.flowPad{padding:16px}
+.flowTitle{font-size:21px;font-weight:700;margin-bottom:7px}.muted{color:#68727e}.flowGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}.flowGrid>div{background:#edf6ff;border-radius:9px;padding:10px;text-align:center}.flowGrid small{display:block;color:#68727e;font-size:11px}.flowGrid b{display:block;margin-top:5px;font-size:15px}.flowBtn{width:100%;border-radius:10px;padding:14px;background:#087bc1;color:#fff;font-size:17px;font-weight:700}.flowBtn.green{background:#18b66a}.flowBtn.gray{background:#6c7680}.flowSection{background:#fff;border-radius:14px;padding:16px;margin-bottom:14px;box-shadow:0 2px 8px #0002}.flowSection h3{margin:0 0 12px;color:#07517f}.prizeRow,.joinRow,.summaryRow{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #e2e5e8}.prizeRow:last-child,.joinRow:last-child,.summaryRow:last-child{border:0}.rank{font-weight:700}.rules li{margin:9px 0;line-height:1.4}.slots{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.slot{padding:13px 3px;border-radius:9px;background:#eef2f5;text-align:center;border:2px solid transparent;font-weight:700}.slot.selected{background:#087bc1;color:#fff;border-color:#07517f}.slot.taken{background:#ddd;color:#999}.joinSummary{background:#07517f;color:#fff;border-radius:14px;padding:16px;margin-bottom:14px}.joinSummary .summaryRow{border-color:#ffffff33}.joinSummary .summaryRow:last-child{border:0}.successBox{text-align:center;padding:30px 15px}.successIcon{font-size:70px}.successBox h2{color:#18a95f;margin:10px 0}.fieldLabel{display:block;font-weight:700;margin:10px 0 5px}.flowInput{width:100%;padding:13px;border:1px solid #cbd2d9;border-radius:9px;font-size:16px}.chip{display:inline-block;padding:7px 10px;background:#edf6ff;color:#07517f;border-radius:20px;margin:3px;font-size:13px}
+@media(max-width:420px){.flowGrid{grid-template-columns:repeat(2,1fr)}.slots{grid-template-columns:repeat(4,1fr)}.flowCard img{height:175px}}
+
+/* Screenshot-style real authentication */
+.authPage{min-height:100vh;background:#061a30;color:#222;display:flex;align-items:flex-start;justify-content:center;padding:34px 18px 90px;overflow:auto}
+.authBox{width:min(620px,100%);max-width:100%;background:#fff;color:#222;border-radius:28px;padding:24px 20px 22px;box-shadow:0 6px 22px #0005;overflow:hidden;contain:layout paint}
+.authBox *{max-width:100%;box-sizing:border-box}.authBox .input,.authBox .btn{display:block}
+.authLogo{display:none}.authSub{font-size:34px;line-height:1.15;text-align:left;color:#5b00e8;font-weight:800;margin:25px 0 52px}
+.authTabs{display:none}
+.authBox .fieldLabel{font-size:18px;color:#202020;margin:0 0 8px;font-weight:700}
+.authBox .input{height:52px;width:100%;margin:0 0 12px;padding:0 20px;border:1px solid #e2e2e2;border-radius:32px;background:#fff;color:#333;font-size:18px;box-shadow:0 5px 12px #00000018}
+.authBox .input:focus{outline:none;border-color:#9b78ff;box-shadow:0 5px 14px #6b00ff22}
+.authBox .btn{height:50px;margin-top:20px;border-radius:30px;background:#5d00f5!important;color:#fff;font-size:21px;font-weight:500;box-shadow:0 5px 10px #0002}
+.authBox .authSwitch{margin:28px 0 22px;text-align:center;font-size:18px;color:#333}
+.authBox .authSwitch button{background:none;color:#c28b1b;font-size:18px;font-weight:700;padding:0}
+.authExtra{text-align:center;color:#333;font-size:17px;line-height:1.5;margin:15px 0}
+.authTerms{text-align:center;font-size:16px;line-height:1.45;margin:26px 15px 0;color:#333}
+.authTerms b{font-weight:700}
+.passwordWrap{position:relative}
+.passwordWrap .input{padding-right:75px}
+.passwordToggle{position:absolute;right:12px;top:0;height:52px;background:none;color:#111;font-size:17px;font-weight:600}
+.googleBtn{width:58px;height:58px;border-radius:50%;background:#fff;border:0;box-shadow:0 4px 15px #0002;font-size:25px;margin:10px auto 0;display:block}
+.authBackLink{text-align:center;margin-top:20px;font-size:17px}
+.authBackLink button{background:none;color:#5d00f5;font-weight:700}
+.authPage~.nav{display:none}
+.authPage:not(.active)~.nav{display:grid}
+@media(max-width:520px){
+.authPage{padding:22px 12px 90px}
+.authBox{width:100%;padding:22px 16px 20px;border-radius:24px}
+.authSub{font-size:32px;margin:2px 0 24px}
+.authBox .input{height:50px}
+.authBox .btn{height:50px}
+}
+</style>
+</head>
+<body>
+<section class="page authPage active">
+  <div class="authBox">
+    <div class="authSub">Welcome to,<br>Sign Up</div>
+<input class="input" id="regFirstName" placeholder="First Name">
+<input class="input" id="regLastName" placeholder="Last Name">
+<input class="input" id="regUsername" autocomplete="username" placeholder="Username">
+<input class="input" id="regMobile" inputmode="tel" autocomplete="tel" placeholder="Mobile Number">
+<input class="input" id="regEmail" type="email" autocomplete="email" placeholder="Email">
+<div class="passwordWrap"><input class="input" id="regPassword" type="password" autocomplete="new-password" placeholder="Password"><button type="button" class="passwordToggle" onclick="togglePassword('regPassword',this)">Show</button></div>
+<input class="input" id="regReferral" placeholder="Referral Code (Optional)">
+<input class="input" id="regGameUid" inputmode="numeric" placeholder="Game UID">
+<div class="authTerms">By Registering, I agree to our<br><b>Terms and Conditions</b> and <b>Privacy policy</b></div>
+<button class="btn" onclick="registerUser()">Sign Up</button>
+<div class="authSwitch">Already have an account? <button type="button" onclick="location.href='login.html'">Login</button></div>
+<div id="toast" style="display:none"></div>
+<script>
+async function registerUser(){const firstName=document.getElementById('regFirstName').value.trim(),lastName=document.getElementById('regLastName').value.trim(),username=document.getElementById('regUsername').value.trim(),mobile=document.getElementById('regMobile').value.trim(),email=document.getElementById('regEmail').value.trim(),password=document.getElementById('regPassword').value,referralCode=document.getElementById('regReferral').value.trim(),gameUid=document.getElementById('regGameUid').value.trim();if(!firstName||!lastName||!username||!mobile||!email||!password){show('Please fill all required fields');return}if(password.length<8){show('Password must be at least 8 characters');return}try{const d=await api('/api/auth/register',{method:'POST',body:JSON.stringify({firstName,lastName,username,mobile,email,password,referralCode,gameUid})});localStorage.setItem('DR_BETTER_TOKEN',d.token);location.href='index.html';}catch(e){show(e.message)}}
+</script>
+  </div>
+</section>
+<script>
+const API_BASE=(localStorage.getItem('DR_BETTER_API') || (location.protocol==='file:' ? '' : location.origin)).replace(/\/$/,'');
+let authToken=localStorage.getItem('DR_BETTER_TOKEN')||'';
+function headers(){return {'Content-Type':'application/json',...(authToken?{'Authorization':'Bearer '+authToken}:{})};}
+async function api(path,options={}){
+ if(!API_BASE) throw new Error('Backend URL is not configured.');
+ let res; try{res=await fetch(API_BASE+path,{...options,headers:{...headers(),...(options.headers||{})}})}catch(e){throw new Error('Backend server is unreachable.');}
+ const data=await res.json().catch(()=>({})); if(!res.ok) throw new Error(data.error||'Server request failed'); return data;
+}
+function togglePassword(id,btn){const i=document.getElementById(id);i.type=i.type==='password'?'text':'password';btn.innerText=i.type==='password'?'Show':'Hide';}
+function show(msg){let t=document.getElementById('toast');t.innerText=msg;t.style.display='block';setTimeout(()=>t.style.display='none',2500)}
+</script>
+</body>
+</html>
