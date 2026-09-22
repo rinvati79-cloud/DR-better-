@@ -1,155 +1,286 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
 <title>DR Better - Sign Up</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+  margin:0;
+  padding:0;
+  background:#061a30;
+  font-family:Arial,sans-serif;
+}
 
 body{
-margin:0;
-background:#061a30;
-font-family:Arial,sans-serif;
-color:#222;
+  min-height:100vh;
 }
 
-.box{
-max-width:600px;
-margin:20px auto;
-background:white;
-border-radius:28px;
-padding:25px 18px;
+/* Main Box */
+.class-box{
+  width:100%;
+  max-width:700px;
+  min-height:100vh;
+  margin:0 auto;
+  background:#fff;
+  border-radius:0 0 45px 45px;
+  padding:55px 30px 35px;
 }
 
+/* Heading */
 h1{
-color:#5b00e8;
-font-size:34px;
-margin:0 0 35px;
+  margin:0 0 35px;
+  color:#6200ee;
+  font-size:42px;
+  font-weight:900;
 }
 
-label{
-display:block;
-font-weight:bold;
-margin:14px 0 6px;
+/* Input Box */
+.input-box{
+  width:100%;
+  height:82px;
+  margin-bottom:22px;
+
+  border:1.5px solid #dedede;
+  border-radius:45px;
+
+  background:#fff;
+
+  display:flex;
+  align-items:center;
+
+  padding:0 25px;
 }
 
-input{
-width:100%;
-height:50px;
-margin:0;
-padding:12px 16px;
-border:1px solid #ddd;
-border-radius:25px;
-font-size:16px;
-outline:none;
+/* Input */
+.input-box input{
+  width:100%;
+  height:100%;
+
+  border:none;
+  outline:none;
+
+  background:transparent;
+
+  font-size:19px;
+  color:#222;
+  font-weight:600;
 }
 
-input:focus{
-border-color:#5b00e8;
+/* Text INSIDE box */
+.input-box input::placeholder{
+  color:#222;
+  opacity:1;
+  font-weight:700;
 }
 
+/* Focus */
+.input-box:focus-within{
+  border-color:#6200ee;
+  box-shadow:0 0 0 2px rgba(98,0,238,.08);
+}
+
+/* Sign Up Button */
 button{
-width:100%;
-height:50px;
-border:0;
-border-radius:25px;
-background:#5b00e8;
-color:white;
-font-size:18px;
-margin-top:20px;
-cursor:pointer;
+  width:100%;
+  height:82px;
+
+  margin-top:8px;
+
+  border:none;
+  border-radius:45px;
+
+  background:#6200ee;
+  color:white;
+
+  font-size:23px;
+  font-weight:700;
+
+  cursor:pointer;
 }
 
-a{
-color:#5b00e8;
-font-weight:bold;
+button:active{
+  transform:scale(.98);
+}
+
+/* Login */
+.login-text{
+  text-align:center;
+  margin-top:25px;
+
+  font-size:19px;
+  font-weight:600;
+
+  color:#222;
+}
+
+.login-text a{
+  color:#6200ee;
+  font-weight:700;
+  text-decoration:underline;
 }
 </style>
 </head>
 
 <body>
 
-<div class="box">
+<div class="class-box">
 
-<h1>Welcome to,<br>Sign Up</h1>
+  <h1>Sign Up</h1>
 
-<form id="registerForm">
+  <form id="registerForm">
 
-<label>First Name</label>
-<input id="firstName" required>
+    <!-- First Name -->
+    <div class="input-box">
+      <input
+        id="firstName"
+        type="text"
+        placeholder="First Name"
+        required>
+    </div>
 
-<label>Last Name</label>
-<input id="lastName" required>
+    <!-- Last Name -->
+    <div class="input-box">
+      <input
+        id="lastName"
+        type="text"
+        placeholder="Last Name"
+        required>
+    </div>
 
-<label>Username</label>
-<input id="username" required>
+    <!-- Username -->
+    <div class="input-box">
+      <input
+        id="username"
+        type="text"
+        placeholder="Username"
+        required>
+    </div>
 
-<label>Mobile Number</label>
-<input id="mobile" required type="tel">
+    <!-- Mobile Number -->
+    <div class="input-box">
+      <input
+        id="mobile"
+        type="tel"
+        placeholder="Mobile Number"
+        required>
+    </div>
 
-<label>Email</label>
-<input id="email" required type="email">
+    <!-- Email -->
+    <div class="input-box">
+      <input
+        id="email"
+        type="email"
+        placeholder="Email"
+        required>
+    </div>
 
-<label>Password</label>
-<input id="password" required type="password">
+    <!-- Password -->
+    <div class="input-box">
+      <input
+        id="password"
+        type="password"
+        placeholder="Password"
+        required>
+    </div>
 
-<label>Referral Code</label>
-<input id="referralCode">
+    <!-- Referral Code -->
+    <div class="input-box">
+      <input
+        id="referralCode"
+        type="text"
+        placeholder="Referral Code">
+    </div>
 
-<label>Game UID</label>
-<input id="gameUid">
+    <!-- Game UID -->
+    <div class="input-box">
+      <input
+        id="gameUid"
+        type="text"
+        placeholder="Game UID">
+    </div>
 
-<button type="submit">Sign Up</button>
+    <!-- Button -->
+    <button type="submit">
+      Sign Up
+    </button>
 
-<p style="text-align:center">
-Already have an account?
-<a href="login.html">Login</a>
-</p>
+    <div class="login-text">
+      Already have an account?
+      <a href="login.html">Login</a>
+    </div>
 
-</form>
+  </form>
+
 </div>
 
+
 <script>
-document.getElementById("registerForm").onsubmit=async e=>{
-e.preventDefault();
 
-try{
+document.getElementById("registerForm").onsubmit = async e => {
 
-let r=await fetch("/api/auth/register",{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-firstName:firstName.value,
-lastName:lastName.value,
-username:username.value,
-mobile:mobile.value,
-email:email.value,
-password:password.value,
-referralCode:referralCode.value,
-gameUid:gameUid.value
-})
-});
+  e.preventDefault();
 
-let d=await r.json();
+  try {
 
-if(!r.ok)
-throw Error(d.error||"Signup failed");
+    let r = await fetch("/api/auth/register", {
+      method:"POST",
 
-if(d.token)
-localStorage.setItem("DR_BETTER_TOKEN",d.token);
+      headers:{
+        "Content-Type":"application/json"
+      },
 
-location.href="index.html";
+      body:JSON.stringify({
 
-}catch(e){
+        firstName:document.getElementById("firstName").value,
 
-alert(e.message);
+        lastName:document.getElementById("lastName").value,
 
-}
+        username:document.getElementById("username").value,
+
+        mobile:document.getElementById("mobile").value,
+
+        email:document.getElementById("email").value,
+
+        password:document.getElementById("password").value,
+
+        referralCode:document.getElementById("referralCode").value,
+
+        gameUid:document.getElementById("gameUid").value
+
+      })
+    });
+
+    let d = await r.json();
+
+    if(!r.ok){
+      throw new Error(d.error || "Signup failed");
+    }
+
+    if(d.token){
+      localStorage.setItem(
+        "DR_BETTER_TOKEN",
+        d.token
+      );
+    }
+
+    location.href = "index.html";
+
+  } catch(e) {
+
+    alert(e.message);
+
+  }
 
 };
+
 </script>
 
 </body>
