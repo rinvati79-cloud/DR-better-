@@ -93,11 +93,26 @@ app.get('/api/wallet/transactions',auth,async(req,res)=>{
   res.json({transactions:r.rows});
 });
 
-app.get('/api/contests',async(req,res)=>{
-  const params=[]; let where='';
-  if(req.query.status){params.push(String(req.query.status));where='WHERE status=$1';}
-  const r=await pool.query(`SELECT c.id,c.game,c.title,c.entry_fee,c.prize_pool,c.slots,c.status,c.starts_at,COUNT(j.id) FILTER (WHERE j.status='joined')::int AS joined_slots FROM contests c LEFT JOIN contest_joins j ON j.contest_id=c.id ${where} GROUP BY c.id ORDER BY c.starts_at ASC`,params);
-  res.json(r.rows);
+app.get('/api/contests', async (req,res)=>{
+  try{
+    const status = String(req.query.status || 'upcoming');
+
+    const r = await pool.query(
+      `SELECT c.id,c.game,c.title,c.entry_fee,c.prize_pool,c.slots,c.status,c.starts_at,
+              COUNT(j.id) AS joined
+       FROM contests c
+       LEFT JOIN contest_joins j ON j.contest_id=c.id
+       WHERE c.status=$1
+       GROUP BY c.id
+       ORDER BY c.starts_at`,
+      [status]
+    );
+
+    res.json(r.rows);
+  }catch(e){
+    console.error(e);
+    res.status(500).json({error:e.message});
+  }
 });
 
 app.get('/api/contests/:id',async(req,res)=>{
