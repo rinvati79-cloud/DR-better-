@@ -21,7 +21,25 @@ async function initDatabase(){
   await pool.query(schema);
   console.log('Database schema is ready.');
 }
+await pool.query(`
+  INSERT INTO contests
+    (game,title,entry_fee,prize_pool,slots,status,starts_at)
+  SELECT
+    'BR SURVIVAL',
+    'BR Survival #1',
+    10,
+    100,
+    48,
+    'upcoming',
+    NOW() + INTERVAL '30 minutes'
+  WHERE NOT EXISTS (
+    SELECT 1 FROM contests
+    WHERE game='BR SURVIVAL'
+      AND status='upcoming'
+  );
+`);
 
+console.log('BR Survival contest ready.');
 function sign(user){ return jwt.sign({sub:String(user.id), username:user.username, isAdmin:Boolean(user.is_admin)}, JWT_SECRET, {expiresIn:'7d'}); }
 function auth(req,res,next){
   const h=req.headers.authorization||'';
