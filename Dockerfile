@@ -8,7 +8,7 @@ RUN npm install --omit=dev
 COPY server.js ./
 COPY schema.sql ./
 
-COPY inde_compact.html ./index.html
+COPY index.html ./
 COPY login.html ./
 COPY signup.html ./
 
