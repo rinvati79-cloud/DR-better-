@@ -6,3066 +6,575 @@
 <title>DR Better</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
-}
-
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{
   margin:0;
   padding:0;
   background:#061a30;
   color:#fff;
-  font-family:Arial,sans-serif;
+  font-family:Arial,sans-serif
 }
-
-body{
-  padding-bottom:75px;
-}
-
-button,input{
-  font-family:inherit;
-}
-
-button{
-  cursor:pointer;
-  border:0;
-}
+body{padding-bottom:82px}
+button,input,textarea{font-family:inherit}
+button{border:0;cursor:pointer}
 
 .page{
   display:none;
-  min-height:100vh;
+  min-height:calc(100vh - 82px)
 }
-
-.page.active{
-  display:block;
-}
-
-/* ================= TOP HEADER ================= */
+.page.active{display:block}
 
 .top{
-  height:125px;
-  padding:18px 12px 10px;
-  background:linear-gradient(135deg,#092d52,#061a30);
-  border-radius:0 0 22px 22px;
+  height:165px;
+  background:#07517f;
+  border-radius:0 0 30px 30px;
+  padding:28px 14px 14px
 }
-
 .topbar{
   display:flex;
   align-items:center;
-  justify-content:space-between;
+  justify-content:space-between
 }
-
 .profile{
   display:flex;
   align-items:center;
-  gap:9px;
+  gap:11px
 }
-
 .avatar{
-  width:44px;
-  height:44px;
+  width:55px;
+  height:55px;
   border-radius:50%;
-  background:#153d62;
+  background:#2196d3;
+  border:2px solid #42c9ff;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:23px;
+  font-size:29px
 }
-
 .name{
-  font-size:21px;
-  font-weight:700;
+  font-size:27px;
+  font-weight:bold
 }
-
 .wallet{
   display:flex;
   align-items:center;
-  gap:7px;
+  gap:6px
 }
-
 .coin{
-  width:36px;
-  height:36px;
+  width:43px;
+  height:43px;
   border-radius:50%;
-  background:#ffd33d;
-  color:#111;
+  background:#f4bd25;
+  border:3px solid #ffe47a;
+  color:#fff;
+  font-size:23px;
   display:flex;
   align-items:center;
-  justify-content:center;
-  font-weight:800;
-  font-size:19px;
+  justify-content:center
 }
-
-.balance{
-  font-size:15px;
-  font-weight:700;
-}
-
+.balance{font-size:18px}
 .bell{
-  width:40px;
-  height:40px;
-  margin-left:5px;
+  width:48px;
+  height:48px;
   border-radius:50%;
-  background:#123a5f;
+  background:#fff;
+  color:#18517c;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:20px;
+  font-size:24px;
+  margin-left:5px
 }
-
-/* ================= NOTICE ================= */
 
 .notice{
-  height:55px;
-  margin:10px 12px 0;
-  border-radius:9px;
-  background:#102f4d;
+  height:74px;
+  margin:17px 14px 0;
+  background:#52677d;
+  border-radius:10px;
   display:flex;
-  overflow:hidden;
+  overflow:hidden
 }
-
 .noticeIcon{
-  width:62px;
+  width:95px;
+  background:#60748b;
   display:flex;
   align-items:center;
   justify-content:center;
-  background:#16446d;
-  font-size:27px;
+  font-size:38px
 }
-
 .noticeText{
-  padding:6px 10px;
-  font-size:13px;
-  line-height:1.35;
-  display:flex;
-  align-items:center;
-}
-
-/* ================= BANNER ================= */
-
-.bannerCarousel{
-  position:relative;
-  height:160px;
-  margin:12px 12px 0;
-  border-radius:12px;
-  overflow:hidden;
-  background:#102f4d;
+  padding:8px 15px;
+  font-size:19px;
+  line-height:1.5;
+  overflow:hidden
 }
 
 .banner{
+  height:310px;
+  margin:26px 14px 0;
+  border:2px solid #19d1d1;
+  border-radius:16px;
+  overflow:hidden;
+  position:relative;
+  background:linear-gradient(135deg,#d41414,#ffb000 45%,#237c24)
+}
+.banner:before{
+  content:"WITHDRAWAL";
+  position:absolute;
+  right:5px;
+  top:28px;
+  font-size:35px;
+  font-weight:900;
+  color:#ffe600;
+  text-shadow:3px 3px #9b2100
+}
+.banner:after{
+  content:"IN 6 HOURS";
+  position:absolute;
+  right:18px;
+  top:78px;
+  font-size:34px;
+  font-weight:900;
+  color:#fff;
+  text-shadow:3px 3px #12831e
+}
+.money{
+  position:absolute;
+  left:20px;
+  top:75px;
+  font-size:70px
+}
+.clock{
+  position:absolute;
+  right:65px;
+  top:133px;
+  width:105px;
+  height:105px;
+  border-radius:50%;
+  background:#eee;
+  border:7px solid #ccc;
+  color:#222;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:44px
+}
+.bannerSmall{
+  position:absolute;
+  left:20px;
+  bottom:57px;
+  font-size:20px;
+  font-weight:bold
+}
+.details{
+  position:absolute;
+  left:23px;
+  bottom:12px;
+  background:#5628ef;
+  color:#fff;
+  padding:12px 20px;
+  border-radius:25px;
+  font-size:17px
+}
+.bannerImg{
   width:100%;
   height:100%;
   object-fit:cover;
-  display:none;
+  display:block
 }
-
-.banner.active{
-  display:block;
+.gameImg{
+  width:100%;
+  height:137px;
+  object-fit:cover;
+  display:block
 }
+.game .art{display:none}
 
+/* Four separate swipeable home banner pages */
+.bannerCarousel{
+  height:310px;
+  margin:26px 14px 0;
+  border:2px solid #19d1d1;
+  border-radius:16px;
+  overflow:hidden;
+  position:relative;
+  background:#111
+}
+.bannerTrack{
+  height:100%;
+  display:flex;
+  transition:transform .35s ease;
+  will-change:transform;
+  touch-action:pan-y
+}
+.bannerSlide{
+  min-width:100%;
+  height:100%;
+  position:relative;
+  overflow:hidden
+}
+.bannerSlide img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block
+}
+.bannerSlide .details{z-index:3}
 .bannerArrow{
   position:absolute;
   top:50%;
   transform:translateY(-50%);
-  width:30px;
-  height:40px;
-  border-radius:8px;
-  background:rgba(0,0,0,.45);
+  width:38px;
+  height:52px;
+  border-radius:18px;
+  background:#0009;
   color:#fff;
-  font-size:30px;
-  line-height:30px;
+  font-size:42px;
+  line-height:42px;
+  z-index:4
 }
-
-.bannerArrow.left{
-  left:7px;
-}
-
-.bannerArrow.right{
-  right:7px;
-}
-
+.bannerArrow.left{left:8px}
+.bannerArrow.right{right:8px}
 .bannerDots{
   position:absolute;
-  left:50%;
-  bottom:6px;
-  transform:translateX(-50%);
-  display:flex;
-  gap:5px;
-}
-
-.bannerDots .dot{
-  width:7px;
-  height:7px;
-  border-radius:10px;
-  background:#aaa;
-}
-
-.bannerDots .dot.active{
-  width:18px;
-  background:#fff;
-}
-
-.details{
-  position:absolute;
-  left:12px;
+  left:0;
+  right:0;
   bottom:10px;
-  padding:7px 13px;
-  border-radius:18px;
-  background:#fff;
-  color:#111;
-  font-size:12px;
-  font-weight:700;
+  display:flex;
+  justify-content:center;
+  gap:7px;
+  z-index:5
+}
+.bannerDots .dot{
+  width:9px;
+  height:9px;
+  padding:0;
+  border-radius:50%;
+  background:#fff8;
+  border:1px solid #fff
+}
+.bannerDots .dot.active{
+  width:24px;
+  border-radius:8px;
+  background:#fff
 }
 
-/* ================= SECTIONS ================= */
-
-.section{
-  padding:0 12px;
+@media(max-width:420px){
+  .bannerCarousel{height:300px}
 }
 
 h2{
-  font-size:21px;
-  margin:13px 0 14px;
+  text-align:center;
+  font-size:28px;
+  margin:18px 0 22px
 }
-
-.title{
-  font-size:19px;
-  margin:22px 0 14px;
-}
-
-/* ================= MY MATCHES ================= */
-
+.section{padding:0 14px}
 .matches{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:7px;
+  grid-template-columns:repeat(3,1fr);
+  gap:11px
+}
+.match{
+  height:132px;
+  border-radius:14px;
+  background:#fff;
+  color:#111;
+  font-size:19px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column
+}
+.matchIcon{
+  width:64px;
+  height:64px;
+  border-radius:14px;
+  color:#fff;
+  font-size:31px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:7px
+}
+.green{background:#35c99b}
+.cyan{background:#29c7df}
+.check{background:#2fbd69}
+
+.title{
+  font-size:24px;
+  font-weight:bold;
+  margin:40px 0 28px
+}
+.games{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:13px
+}
+.game{
+  height:178px;
+  border:2px solid #1bd1d1;
+  border-radius:12px;
+  overflow:hidden;
+  position:relative;
+  color:#fff;
+  background:linear-gradient(135deg,#a91616,#e98616)
+}
+.game:nth-child(2){
+  background:linear-gradient(135deg,#202b3d,#e78c1d)
+}
+.game:nth-child(3){
+  background:linear-gradient(135deg,#54210b,#c66b16)
+}
+.game:nth-child(4){
+  background:linear-gradient(135deg,#55200b,#dc851b)
+}
+.game:nth-child(5){
+  background:linear-gradient(135deg,#57178d,#df83dd)
+}
+.game:nth-child(6){
+  background:linear-gradient(135deg,#751d0c,#d87518)
+}
+.art{
+  height:137px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:58px
+}
+.gameName{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:40px;
+  background:#0008;
+  padding:10px 6px;
+  text-align:left;
+  font-size:16px
+}
+.online{
+  position:absolute;
+  right:8px;
+  bottom:10px
+}
+.online:before{
+  content:"";
+  display:inline-block;
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  background:#0cc45b;
+  margin-right:5px
 }
 
-.match{
-  height:92px;
-  border-radius:10px;
-  background:#102f4d;
+.nav{
+  position:fixed;
+  z-index:50;
+  left:0;
+  right:0;
+  bottom:0;
+  height:82px;
+  background:#07517f;
+  border-radius:24px 24px 0 0;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  box-shadow:0 -4px 14px #0007
+}
+.nav button{
+  background:transparent;
   color:#fff;
+  font-size:16px;
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  font-size:13px;
-  font-weight:700;
+  gap:4px
+}
+.nav button.active{background:#063b64}
+.navIcon{
+  font-size:30px;
+  line-height:30px
 }
 
-.matchIcon{
-  width:42px;
-  height:42px;
+.header{
+  height:76px;
+  background:#07517f;
+  display:flex;
+  align-items:center;
+  gap:15px;
+  padding:0 15px
+}
+.header button{
+  width:43px;
+  height:43px;
+  border-radius:50%;
+  background:#fff;
+  color:#07517f;
+  font-size:25px
+}
+.headerTitle{
+  font-size:24px;
+  font-weight:bold
+}
+
+.card{
+  margin:15px;
+  background:#fff;
+  color:#111;
+  border-radius:16px;
+  padding:20px;
+  box-shadow:0 3px 10px #0004
+}
+.card h3{
+  margin-top:0;
+  color:#07517f
+}
+.row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:15px 0;
+  border-bottom:1px solid #ddd
+}
+.row:last-child{border:0}
+
+.btn{
+  width:100%;
+  padding:14px;
   border-radius:10px;
-  background:#194a73;
+  background:#087bc1;
+  color:#fff;
+  font-size:17px;
+  margin-top:12px
+}
+.btn.greenBtn{background:#19b96d}
+
+.input{
+  width:100%;
+  padding:14px;
+  border:1px solid #ccc;
+  border-radius:10px;
+  margin:8px 0;
+  font-size:16px
+}
+
+.balanceBig{
+  text-align:center;
+  font-size:42px;
+  font-weight:bold;
+  color:#087bc1;
+  margin:10px
+}
+.gameList{
+  display:grid;
+  gap:12px
+}
+.center{text-align:center}
+
+.avatarBig{
+  width:95px;
+  height:95px;
+  border-radius:50%;
+  background:#1689c9;
+  border:4px solid #55d2ff;
+  margin:auto;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:21px;
-  margin-bottom:4px;
+  font-size:50px
 }
 
-/* ================= GAMES ================= */
-
-.games{
+.stat{
   display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:8px;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px
 }
-
-.game{
-  position:relative;
-  height:135px;
+.stat div{
+  background:#edf7ff;
   border-radius:10px;
-  overflow:hidden;
-  background:#102f4d;
-  padding:0;
-  color:#fff;
-}
-
-.gameImg{
-  width:100%;
-  height:105px;
-  object-fit:cover;
-  display:block;
-}
-
-.gameName{
-  height:30px;
-  padding:7px 5px;
-  font-size:12px;
-  font-weight:700;
-  text-align:left;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-
-.online{
-  position:absolute;
-  right:5px;
-  bottom:7px;
-  font-size:11px;
-  background:rgba(0,0,0,.55);
-  padding:3px 5px;
-  border-radius:10px;
-}
-
-.online:before{
-  content:"";
-  display:inline-block;
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:#29e56b;
-  margin-right:3px;
-}
-
-/* ================= COMMON HEADER ================= */
-
-.header{
-  height:62px;
-  padding:0 12px;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  background:#092d52;
-}
-
-.header button{
-  width:40px;
-  height:40px;
-  border-radius:10px;
-  background:#123a5f;
-  color:#fff;
-  font-size:28px;
-}
-
-.headerTitle{
-  font-size:19px;
-  font-weight:700;
-}
-
-/* ================= CARDS ================= */
-
-.card{
-  margin:12px;
-  padding:15px;
-  border-radius:12px;
-  background:#102f4d;
-}
-
-.card h3{
-  margin-top:0;
-}
-
-.row{
-  display:flex;
-  justify-content:space-between;
-  padding:12px 0;
-  border-bottom:1px solid rgba(255,255,255,.08);
-}
-
-/* ================= CONTEST LIST ================= */
-
-.contestHead{
-  padding:15px 12px 5px;
-}
-
-.contestGameTitle{
-  font-size:21px;
-  font-weight:800;
-}
-
-.contestSub{
-  color:#9fb4c9;
-  font-size:13px;
-  margin-top:4px;
-}
-
-.contestList{
-  padding:8px 12px 20px;
-}
-
-.contestCard{
-  background:#102f4d;
-  border:1px solid rgba(255,255,255,.06);
-  border-radius:13px;
-  margin-bottom:10px;
-  padding:13px;
-}
-
-.contestTop{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-}
-
-.contestTitle{
-  font-size:16px;
-  font-weight:800;
-}
-
-.status{
-  padding:4px 8px;
-  border-radius:12px;
-  background:#153f60;
-  color:#65e891;
-  font-size:10px;
-  font-weight:800;
-}
-
-.contestInfo{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:8px;
-  margin-top:12px;
-}
-
-.infoBox{
-  background:#0a2741;
-  border-radius:8px;
-  padding:9px;
-}
-
-.infoLabel{
-  color:#8da7bd;
-  font-size:10px;
-}
-
-.infoValue{
-  margin-top:3px;
-  font-size:14px;
-  font-weight:700;
-}
-
-.contestBottom{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:8px;
-  margin-top:12px;
-}
-
-.entry{
-  font-size:15px;
-  font-weight:800;
-}
-
-.joinBtn{
-  padding:10px 15px;
-  border-radius:9px;
-  background:#1fc56a;
-  color:#061a30;
-  font-weight:800;
-}
-
-.joinBtn:disabled{
-  background:#536474;
-  color:#d4d9dd;
-}
-
-/* ================= EMPTY ================= */
-
-.empty{
-  margin:15px 0;
-  padding:25px 15px;
+  padding:14px;
   text-align:center;
-  background:#102f4d;
-  border-radius:12px;
-  color:#9fb4c9;
+  color:#07517f
 }
 
-/* ================= RESPONSIVE ================= */
-
-@media(max-width:420px){
-
-  .bannerCarousel{
-    height:145px;
-  }
-
-  .game{
-    height:125px;
-  }
-
-  .gameImg{
-    height:96px;
-  }
-
-  .match{
-    height:88px;
-  }
-
-  .name{
-    font-size:20px;
-  }
-
-}
-</style>
-</head>
-
-<body>
-
-<!-- ================= HOME ================= -->
-
-<section id="home" class="page active">
-
-<header class="top">
-
-  <div class="topbar">
-
-    <div class="profile">
-      <div class="avatar">🧑🏻‍💻</div>
-      <div class="name">DR Better</div>
-    </div>
-
-    <div class="wallet"
-         onclick="openPage('wallet')"
-         style="cursor:pointer">
-
-      <div class="coin">₹</div>
-
-      <div class="balance"
-           id="topBalance">0</div>
-
-      <div class="bell"
-           onclick="event.stopPropagation();show('No new notifications')">
-        🔔
-      </div>
-
-    </div>
-
-  </div>
-
-</header>
-
-<div class="notice">
-
-  <div class="noticeIcon">📢</div>
-
-  <div class="noticeText">
-    Welcome to DR Better. Select your game and choose
-    any available upcoming match.
-  </div>
-
-</div>
-
-<!-- ================= BANNER ================= -->
-
-<div class="bannerCarousel">
-
-  <img class="banner active"
-       src="assets/banner1.jpg"
-       alt="DR Better">
-
-  <img class="banner"
-       src="assets/banner2.jpg"
-       alt="DR Better">
-
-  <img class="banner"
-       src="assets/banner3.jpg"
-       alt="DR Better">
-
-  <button class="bannerArrow left"
-          onclick="changeBanner(-1)">‹</button>
-
-  <button class="bannerArrow right"
-          onclick="changeBanner(1)">›</button>
-
-  <div class="bannerDots">
-    <span class="dot active"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-  </div>
-
-  <button class="details"
-          onclick="show('Select a game to view matches')">
-    View Details
-  </button>
-
-</div>
-
-<!-- ================= MY MATCHES ================= -->
-
-<div class="section">
-
-  <h2>My Matches</h2>
-
-  <div class="matches">
-
-    <button class="match"
-            onclick="show('Upcoming matches will appear here')">
-      <div class="matchIcon">🎮</div>
-      Upcoming
-    </button>
-
-    <button class="match"
-            onclick="show('Ongoing matches will appear here')">
-      <div class="matchIcon">🔥</div>
-      Ongoing
-    </button>
-
-    <button class="match"
-            onclick="show('Completed matches will appear here')">
-      <div class="matchIcon">🏆</div>
-      Result
-    </button>
-
-    <button class="match"
-            onclick="openPage('leaderboard')">
-      <div class="matchIcon">🥇</div>
-      Rank
-    </button>
-
-  </div>
-
-  <div class="title">Esports Games</div>
-
-  <!-- GAME CARDS WILL SHOW MULTIPLE MATCHES -->
-  <div class="games">
-
-    <button class="game"
-            onclick="openContests('BR SURVIVAL')">
-
-      <img class="gameImg"
-           src="assets/br_survival.jpg"
-           alt="BR Survival">
-
-      <div class="gameName">
-        BR SURVIVAL
-      </div>
-
-      <div class="online">
-        <span id="count-br">—</span>
-      </div>
-
-    </button>
-
-
-    <button class="game"
-            onclick="openContests('PER KILL MATCHES')">
-
-      <img class="gameImg"
-           src="assets/per_kill.jpg"
-           alt="Per Kill Matches">
-
-      <div class="gameName">
-        PER KILL MATCHES
-      </div>
-
-      <div class="online">
-        <span id="count-perkill">—</span>
-      </div>
-
-    </button>
-
-
-    <button class="game"
-            onclick="openContests('CLASH SQUAD 1V1')">
-
-      <img class="gameImg"
-           src="assets/clash_1v1.jpg"
-           alt="Clash Squad 1V1">
-
-      <div class="gameName">
-        CLASH SQUAD 1V1
-      </div>
-
-      <div class="online">
-        <span id="count-clash1">—</span>
-      </div>
-
-    </button>
-
-
-    <button class="game"
-            onclick="openContests('LONE WOLF 1V1')">
-
-      <img class="gameImg"
-           src="assets/lone_wolf_1v1.jpg"
-           alt="Lone Wolf 1V1">
-
-      <div class="gameName">
-        LONE WOLF 1V1
-      </div>
-
-      <div class="online">
-        <span id="count-lone1">—</span>
-      </div>
-
-    </button>
-
-
-    <button class="game"
-            onclick="openContests('CLASH SQUAD 4V4')">
-
-      <img class="gameImg"
-           src="assets/clash_4v4.jpg"
-           alt="Clash Squad 4V4">
-
-      <div class="gameName">
-        CLASH SQUAD 4V4
-      </div>
-
-      <div class="online">
-        <span id="count-clash4">—</span>
-      </div>
-
-    </button>
-
-
-    <button class="game"
-            onclick="openContests('LONE WOLF 2V2')">
-
-      <img class="gameImg"
-           src="assets/lone_wolf_2v2.jpg"
-           alt="Lone Wolf 2V2">
-
-      <div class="gameName">
-        LONE WOLF 2V2
-      </div>
-
-      <div class="online">
-        <span id="count-lone2">—</span>
-      </div>
-
-    </button>
-
-  </div>
-
-</div>
-
-</section>
- <!-- ================= CONTEST LIST PAGE ================= -->
-
-<section id="contestList" class="page">
-
-  <div class="header">
-
-    <button onclick="goHome()">‹</button>
-
-    <div class="headerTitle">
-      Matches
-    </div>
-
-  </div>
-
-
-  <div class="contestHead">
-
-    <div id="contestGameTitle"
-         class="contestGameTitle">
-      Available Matches
-    </div>
-
-    <div class="contestSub">
-      नीचे सभी upcoming matches दिखाई देंगे
-    </div>
-
-  </div>
-
-
-  <!-- MATCH FILTER -->
-
-  <div class="contestTabs">
-
-    <button class="contestTab active"
-            onclick="loadContestStatus('upcoming',this)">
-      Upcoming
-    </button>
-
-    <button class="contestTab"
-            onclick="loadContestStatus('ongoing',this)">
-      Ongoing
-    </button>
-
-    <button class="contestTab"
-            onclick="loadContestStatus('resulted',this)">
-      Result
-    </button>
-
-  </div>
-
-
-  <!-- MULTIPLE MATCH CARDS -->
-
-  <div id="contestListBox"
-       class="contestList">
-
-    <div class="empty">
-      Matches loading...
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- ================= CONTEST DETAILS ================= -->
-
-<section id="contestDetails" class="page">
-
-  <div class="header">
-
-    <button onclick="openPage('contestList')">
-      ‹
-    </button>
-
-    <div class="headerTitle">
-      Match Details
-    </div>
-
-  </div>
-
-
-  <div class="card">
-
-    <h3 id="detailTitle">
-      Match
-    </h3>
-
-
-    <div class="contestInfo">
-
-      <div class="infoBox">
-        <div class="infoLabel">
-          GAME
-        </div>
-
-        <div class="infoValue"
-             id="detailGame">
-          —
-        </div>
-      </div>
-
-
-      <div class="infoBox">
-        <div class="infoLabel">
-          START TIME
-        </div>
-
-        <div class="infoValue"
-             id="detailTime">
-          —
-        </div>
-      </div>
-
-
-      <div class="infoBox">
-        <div class="infoLabel">
-          ENTRY FEE
-        </div>
-
-        <div class="infoValue"
-             id="detailFee">
-          ₹0
-        </div>
-      </div>
-
-
-      <div class="infoBox">
-        <div class="infoLabel">
-          PRIZE POOL
-        </div>
-
-        <div class="infoValue"
-             id="detailPrize">
-          ₹0
-        </div>
-      </div>
-
-
-      <div class="infoBox">
-        <div class="infoLabel">
-          TOTAL SLOTS
-        </div>
-
-        <div class="infoValue"
-             id="detailSlots">
-          0
-        </div>
-      </div>
-
-
-      <div class="infoBox">
-        <div class="infoLabel">
-          AVAILABLE
-        </div>
-
-        <div class="infoValue"
-             id="detailAvailable">
-          0
-        </div>
-      </div>
-
-    </div>
-
-
-    <div style="margin-top:15px">
-
-      <div class="infoLabel">
-        STATUS
-      </div>
-
-      <div class="infoValue"
-           id="detailStatus">
-        Upcoming
-      </div>
-
-    </div>
-
-
-    <button id="detailJoinBtn"
-            class="joinBtn"
-            style="width:100%;margin-top:16px"
-            onclick="openSlotSelection()">
-
-      JOIN MATCH
-
-    </button>
-
-  </div>
-
-</section>
-
-
-<!-- ================= SLOT SELECTION ================= -->
-
-<section id="slotSelection" class="page">
-
-  <div class="header">
-
-    <button onclick="openPage('contestDetails')">
-      ‹
-    </button>
-
-    <div class="headerTitle">
-      Select Team
-    </div>
-
-  </div>
-
-
-  <div class="card">
-
-    <h3 id="slotMatchTitle">
-      Select Your Team
-    </h3>
-
-    <p style="color:#9fb4c9;font-size:13px">
-      Available slot में से कोई एक slot चुनें।
-    </p>
-
-
-    <div id="slotGrid"
-         style="
-           display:grid;
-           grid-template-columns:repeat(3,1fr);
-           gap:8px;
-           margin-top:15px;
-         ">
-
-      Loading...
-
-    </div>
-
-
-    <div style="
-      margin-top:18px;
-      padding:12px;
-      background:#0a2741;
-      border-radius:10px;
-    ">
-
-      <div style="
-        display:flex;
-        justify-content:space-between;
-        margin-bottom:7px;
-      ">
-
-        <span>
-          Entry Fee
-        </span>
-
-        <b id="joinFee">
-          ₹0
-        </b>
-
-      </div>
-
-
-      <div style="
-        display:flex;
-        justify-content:space-between;
-      ">
-
-        <span>
-          Total Payable
-        </span>
-
-        <b id="totalPayable">
-          ₹0
-        </b>
-
-      </div>
-
-    </div>
-
-
-    <button class="joinBtn"
-            style="
-              width:100%;
-              margin-top:14px;
-            "
-            onclick="openJoinForm()">
-
-      CONTINUE
-
-    </button>
-
-  </div>
-
-</section>
-
-
-<!-- ================= JOIN FORM ================= -->
-
-<section id="joinForm" class="page">
-
-  <div class="header">
-
-    <button onclick="openPage('slotSelection')">
-      ‹
-    </button>
-
-    <div class="headerTitle">
-      Join Match
-    </div>
-
-  </div>
-
-
-  <div class="card">
-
-    <h3>
-      Player Details
-    </h3>
-
-
-    <div style="margin-top:15px">
-
-      <label style="
-        display:block;
-        font-size:12px;
-        color:#9fb4c9;
-        margin-bottom:5px;
-      ">
-        In-Game Name
-      </label>
-
-      <input id="ignInput"
-             type="text"
-             placeholder="Enter In-Game Name"
-             style="
-               width:100%;
-               height:48px;
-               border:0;
-               outline:0;
-               border-radius:9px;
-               padding:0 12px;
-               background:#f4f6f8;
-               color:#111;
-             ">
-
-    </div>
-
-
-    <div style="margin-top:12px">
-
-      <label style="
-        display:block;
-        font-size:12px;
-        color:#9fb4c9;
-        margin-bottom:5px;
-      ">
-        Game UID
-      </label>
-
-      <input id="uidInput"
-             type="text"
-             placeholder="Enter Game UID"
-             style="
-               width:100%;
-               height:48px;
-               border:0;
-               outline:0;
-               border-radius:9px;
-               padding:0 12px;
-               background:#f4f6f8;
-               color:#111;
-             ">
-
-    </div>
-
-
-    <div style="
-      margin-top:15px;
-      padding:12px;
-      background:#0a2741;
-      border-radius:9px;
-    ">
-
-      <div style="
-        display:flex;
-        justify-content:space-between;
-      ">
-
-        <span>
-          Selected Team
-        </span>
-
-        <b id="selectedSlotText">
-          —
-        </b>
-
-      </div>
-
-    </div>
-
-
-    <button class="joinBtn"
-            style="
-              width:100%;
-              margin-top:15px;
-            "
-            onclick="confirmJoin()">
-
-      CONFIRM & JOIN
-
-    </button>
-
-  </div>
-
-</section>
-
-
-<!-- ================= JOIN CONFIRM ================= -->
-
-<section id="joinConfirm" class="page">
-
-  <div class="header">
-
-    <button onclick="goHome()">
-      ‹
-    </button>
-
-    <div class="headerTitle">
-      Match Joined
-    </div>
-
-  </div>
-
-
-  <div class="card"
-       style="text-align:center">
-
-    <div style="
-      width:70px;
-      height:70px;
-      margin:10px auto 15px;
-      border-radius:50%;
-      background:#1fc56a;
-      color:#061a30;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:35px;
-      font-weight:900;
-    ">
-      ✓
-    </div>
-
-
-    <h3>
-      Match Joined Successfully
-    </h3>
-
-
-    <p id="confirmText"
-       style="color:#9fb4c9">
-      —
-    </p>
-
-
-    <div style="
-      margin-top:15px;
-      padding:12px;
-      background:#0a2741;
-      border-radius:9px;
-      display:flex;
-      justify-content:space-between;
-    ">
-
-      <span>
-        Entry Fee
-      </span>
-
-      <b id="confirmFee">
-        ₹0
-      </b>
-
-    </div>
-
-
-    <button class="joinBtn"
-            style="
-              width:100%;
-              margin-top:15px;
-            "
-            onclick="goHome()">
-
-      GO TO HOME
-
-    </button>
-
-  </div>
-
-</section>
-
-
-<!-- ================= WALLET ================= -->
-
-<section id="wallet" class="page">
-
-  <div class="header">
-
-    <button onclick="goHome()">
-      ‹
-    </button>
-
-    <div class="headerTitle">
-      Wallet
-    </div>
-
-  </div>
-
-
-  <div class="card">
-
-    <div style="
-      color:#9fb4c9;
-      font-size:13px;
-    ">
-      Available Balance
-    </div>
-
-    <div style="
-      font-size:32px;
-      font-weight:800;
-      margin-top:5px;
-    ">
-      ₹<span id="walletBalance">0</span>
-    </div>
-
-  </div>
-
-
-  <div class="card">
-
-    <h3>
-      Wallet
-    </h3>
-
-    <button class="joinBtn"
-            style="
-              width:100%;
-              margin-top:5px;
-            "
-            onclick="show('Add Money setup will be connected with payment API')">
-
-      ADD MONEY
-
-    </button>
-
-    <button class="joinBtn"
-            style="
-              width:100%;
-              margin-top:10px;
-              background:#214764;
-              color:#fff;
-            "
-            onclick="show('Withdrawal section')">
-
-      WITHDRAW
-
-    </button>
-
-  </div>
-
-</section>
-
-
-<!-- ================= LEADERBOARD ================= -->
-
-<section id="leaderboard" class="page">
-
-  <div class="header">
-
-    <button onclick="goHome()">
-      ‹
-    </button>
-
-    <div class="headerTitle">
-      Leaderboard
-    </div>
-
-  </div>
-
-
-  <div class="card">
-
-    <h3>
-      🏆 Top Players
-    </h3>
-
-    <div class="row">
-      🥇 Player One
-      <b>2500</b>
-    </div>
-
-    <div class="row">
-      🥈 Player Two
-      <b>2180</b>
-    </div>
-
-    <div class="row">
-      🥉 Player Three
-      <b>1940</b>
-    </div>
-
-    <div class="row">
-      4️⃣ DR Player
-      <b>1750</b>
-    </div>
-
-  </div>
-
-</section>
- <!-- ================= REFERRAL ================= -->
-
-<section id="earn" class="page">
-
-  <div class="header">
-
-    <button onclick="goHome()">
-      ‹
-    </button>
-
-    <div class="headerTitle">
-      Refer & Earn
-    </div>
-
-  </div>
-
-
-  <div class="card"
-       style="text-align:center">
-
-    <div style="
-      font-size:55px;
-      margin:10px 0;
-    ">
-      🎁
-    </div>
-
-    <h2 style="margin:5px 0 10px">
-      Refer your friend
-    </h2>
-
-    <p style="
-      color:#9fb4c9;
-      font-size:13px;
-      line-height:1.5;
-    ">
-      अपने दोस्तों को DR Better पर invite करें
-      और referral benefits प्राप्त करें।
-    </p>
-
-
-    <div style="
-      margin-top:18px;
-      background:#0a2741;
-      padding:14px;
-      border-radius:10px;
-      text-align:left;
-    ">
-
-      <div style="
-        color:#9fb4c9;
-        font-size:11px;
-      ">
-        Your Referral Code
-      </div>
-
-      <div style="
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-        margin-top:6px;
-      ">
-
-        <b id="earnReferralCode">
-          DRBETTER
-        </b>
-
-        <button onclick="copyReferral()"
-                style="
-                  background:#16446d;
-                  color:#fff;
-                  padding:7px 10px;
-                  border-radius:7px;
-                ">
-          COPY
-        </button>
-
-      </div>
-
-    </div>
-
-
-    <button class="joinBtn"
-            style="
-              width:100%;
-              margin-top:15px;
-            "
-            onclick="shareApp('WhatsApp')">
-
-      SHARE REFERRAL
-
-    </button>
-
-  </div>
-
-</section>
-
-
-<!-- ================= PROFILE ================= -->
-
-<section id="profile" class="page">
-
-  <div class="header">
-
-    <button onclick="goHome()">
-      ‹
-    </button>
-
-    <div class="headerTitle">
-      Profile
-    </div>
-
-  </div>
-
-
-  <div class="card">
-
-    <div style="
-      display:flex;
-      align-items:center;
-      gap:12px;
-    ">
-
-      <div class="avatar">
-        🧑🏻‍💻
-      </div>
-
-      <div>
-
-        <div id="profileName"
-             style="
-               font-size:19px;
-               font-weight:800;
-             ">
-          User
-        </div>
-
-        <div id="profileUsername"
-             style="
-               color:#9fb4c9;
-               font-size:13px;
-               margin-top:3px;
-             ">
-          @user
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div style="
-      margin-top:18px;
-      background:#0a2741;
-      padding:12px;
-      border-radius:9px;
-    ">
-
-      <div style="
-        color:#9fb4c9;
-        font-size:11px;
-      ">
-        Game UID
-      </div>
-
-      <div id="profileUid2"
-           style="
-             margin-top:4px;
-             font-weight:700;
-           ">
-        —
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <div class="card">
-
-    <button class="joinBtn"
-            style="
-              width:100%;
-            "
-            onclick="openPage('wallet')">
-
-      WALLET
-
-    </button>
-
-
-    <button class="joinBtn"
-            style="
-              width:100%;
-              margin-top:10px;
-              background:#214764;
-              color:#fff;
-            "
-            onclick="openPage('earn')">
-
-      REFER & EARN
-
-    </button>
-
-
-    <button class="joinBtn"
-            style="
-              width:100%;
-              margin-top:10px;
-              background:#c33;
-              color:#fff;
-            "
-            onclick="logoutUser()">
-
-      LOGOUT
-
-    </button>
-
-  </div>
-
-</section>
-
-
-<!-- ================= MENU ================= -->
-
-<section id="menu" class="page">
-
-  <div class="header">
-
-    <button onclick="goHome()">
-      ‹
-    </button>
-
-    <div class="headerTitle">
-      Menu
-    </div>
-
-  </div>
-
-
-  <div class="card">
-
-    <div style="
-      display:flex;
-      align-items:center;
-      gap:12px;
-      margin-bottom:18px;
-    ">
-
-      <div class="avatar">
-        🧑🏻‍💻
-      </div>
-
-      <div>
-
-        <div id="menuUsername"
-             style="
-               font-weight:800;
-               font-size:18px;
-             ">
-          User
-        </div>
-
-        <div id="profileUid"
-             style="
-               color:#9fb4c9;
-               font-size:12px;
-               margin-top:3px;
-             ">
-          Game UID: —
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <button class="joinBtn"
-            style="
-              width:100%;
-            "
-            onclick="openPage('profile')">
-
-      MY PROFILE
-
-    </button>
-
-
-    <button class="joinBtn"
-            style="
-              width:100%;
-              margin-top:10px;
-            "
-            onclick="openPage('wallet')">
-
-      WALLET
-
-    </button>
-
-
-    <button class="joinBtn"
-            style="
-              width:100%;
-              margin-top:10px;
-            "
-            onclick="openPage('earn')">
-
-      REFER & EARN
-
-    </button>
-
-
-    <button class="joinBtn"
-            style="
-              width:100%;
-              margin-top:10px;
-              background:#214764;
-              color:#fff;
-            "
-            onclick="show('Help & Support')">
-
-      HELP & SUPPORT
-
-    </button>
-
-  </div>
-
-</section>
-
-
-<!-- ================= TOAST ================= -->
-
-<div id="toast"
-     style="
-       display:none;
-       position:fixed;
-       left:50%;
-       bottom:85px;
-       transform:translateX(-50%);
-       z-index:9999;
-       max-width:90%;
-       padding:11px 16px;
-       border-radius:9px;
-       background:#fff;
-       color:#111;
-       font-size:13px;
-       font-weight:700;
-       box-shadow:0 5px 20px rgba(0,0,0,.35);
-     ">
-</div>
-
-
-<!-- ================= BOTTOM NAV ================= -->
-
-<nav class="nav"
-     style="
-       position:fixed;
-       left:0;
-       right:0;
-       bottom:0;
-       height:68px;
-       z-index:5000;
-       display:grid;
-       grid-template-columns:repeat(4,1fr);
-       background:#092d52;
-       border-top:1px solid rgba(255,255,255,.08);
-     ">
-
-  <button id="nHome"
-          onclick="nav('home','nHome')"
-          class="active"
-          style="
-            background:none;
-            color:#fff;
-            font-size:11px;
-          ">
-    🏠<br>Home
-  </button>
-
-
-  <button id="nMatches"
-          onclick="openMyMatches()"
-          style="
-            background:none;
-            color:#fff;
-            font-size:11px;
-          ">
-    🎮<br>Matches
-  </button>
-
-
-  <button id="nWallet"
-          onclick="nav('wallet','nWallet')"
-          style="
-            background:none;
-            color:#fff;
-            font-size:11px;
-          ">
-    ₹<br>Wallet
-  </button>
-
-
-  <button id="nMenu"
-          onclick="nav('menu','nMenu')"
-          style="
-            background:none;
-            color:#fff;
-            font-size:11px;
-          ">
-    ☰<br>Menu
-  </button>
-
-</nav>
-
-
-<script>
-
-/* ================= GLOBAL VARIABLES ================= */
-
-let authToken =
-  localStorage.getItem('DR_BETTER_TOKEN') || '';
-
-let currentUser = null;
-
-let balance = 0;
-
-let currentContestId = null;
-
-let currentContest = '';
-
-let selectedSlot = 0;
-
-let selectedGame = '';
-
-let selectedStatus = 'upcoming';
-
-let contestData = null;
-
-
-/* ================= API ================= */
-
-async function api(url, options={}){
-
-  const headers = {
-    'Content-Type':'application/json',
-    ...(options.headers || {})
-  };
-
-  if(authToken){
-    headers.Authorization =
-      'Bearer ' + authToken;
-  }
-
-  const response =
-    await fetch(url,{
-      ...options,
-      headers
-    });
-
-  let data = {};
-
-  try{
-    data = await response.json();
-  }catch(e){}
-
-  if(!response.ok){
-
-    throw new Error(
-      data.error ||
-      data.message ||
-      'Something went wrong'
-    );
-
-  }
-
-  return data;
-}
-
-
-/* ================= PAGE ================= */
-
-function openPage(id){
-
-  document
-    .querySelectorAll('.page')
-    .forEach(x =>
-      x.classList.remove('active')
-    );
-
-  const el =
-    document.getElementById(id);
-
-  if(el){
-    el.classList.add('active');
-  }
-
-  window.scrollTo(0,0);
-}
-
-
-function nav(id,btn){
-
-  openPage(id);
-
-  document
-    .querySelectorAll('.nav button')
-    .forEach(x =>
-      x.classList.remove('active')
-    );
-
-  const b =
-    document.getElementById(btn);
-
-  if(b){
-    b.classList.add('active');
-  }
-
-}
-
-
-function goHome(){
-
-  nav('home','nHome');
-
-}
-
-
-/* ================= TOAST ================= */
-
-function show(msg){
-
-  const toast =
-    document.getElementById('toast');
-
-  if(!toast)return;
-
-  toast.innerText = msg;
-
-  toast.style.display = 'block';
-
-  clearTimeout(window.__toastTimer);
-
-  window.__toastTimer =
-    setTimeout(()=>{
-      toast.style.display='none';
-    },2200);
-
-}
-
-
-/* ================= BALANCE ================= */
-
-function updateBalance(){
-
-  const top =
-    document.getElementById('topBalance');
-
-  const wallet =
-    document.getElementById('walletBalance');
-
-  if(top){
-    top.innerText =
-      Number(balance || 0).toFixed(2);
-  }
-
-  if(wallet){
-    wallet.innerText =
-      Number(balance || 0).toFixed(2);
-  }
-
-}
-
-
-/* ================= BANNER ================= */
-
-let bannerIndex = 0;
-
-function changeBanner(step){
-
-  const banners =
-    document.querySelectorAll('.banner');
-
-  const dots =
-    document.querySelectorAll(
-      '.bannerDots .dot'
-    );
-
-  if(!banners.length)return;
-
-  banners[bannerIndex]
-    .classList.remove('active');
-
-  if(dots[bannerIndex]){
-    dots[bannerIndex]
-      .classList.remove('active');
-  }
-
-  bannerIndex =
-    (bannerIndex + step + banners.length)
-    % banners.length;
-
-  banners[bannerIndex]
-    .classList.add('active');
-
-  if(dots[bannerIndex]){
-    dots[bannerIndex]
-      .classList.add('active');
-  }
-
-}
-
-
-setInterval(()=>{
-  changeBanner(1);
-},5000);
-
-
-/* ================= OPEN GAME ================= */
-
-async function openContests(game){
-
-  selectedGame = game;
-
-  selectedStatus = 'upcoming';
-
-  document.getElementById(
-    'contestGameTitle'
-  ).innerText = game;
-
-  openPage('contestList');
-
-  await loadContestStatus(
-    'upcoming',
-    document.querySelector(
-      '.contestTab'
-    )
-  );
-
-}
-
-
-/* ================= CONTEST STATUS ================= */
-
-async function loadContestStatus(
-  status,
-  button
-){
-
-  selectedStatus = status;
-
-  document
-    .querySelectorAll('.contestTab')
-    .forEach(x =>
-      x.classList.remove('active')
-    );
-
-  if(button){
-    button.classList.add('active');
-  }
-
-  const box =
-    document.getElementById(
-      'contestListBox'
-    );
-
-  box.innerHTML =
-    '<div class="empty">Matches loading...</div>';
-
-  try{
-
-    const data =
-      await api(
-        '/api/contests?status=' +
-        encodeURIComponent(status)
-      );
-
-    let rows =
-      Array.isArray(data)
-        ? data
-        : (data.contests || []);
-
-    if(selectedGame){
-
-      rows =
-        rows.filter(x =>
-          String(x.game || '')
-            .toUpperCase() ===
-          String(selectedGame)
-            .toUpperCase()
-        );
-
-    }
-
-    renderContestCards(rows);
-
-  }catch(e){
-
-    box.innerHTML =
-      '<div class="empty">' +
-      escapeHtml(e.message) +
-      '</div>';
-
-  }
-
-}
-
-
-/* ================= RENDER MANY CONTESTS ================= */
-
-function renderContestCards(rows){
-
-  const box =
-    document.getElementById(
-      'contestListBox'
-    );
-
-  if(!rows.length){
-
-    box.innerHTML =
-      '<div class="empty">' +
-      'इस game में अभी कोई match उपलब्ध नहीं है।' +
-      '</div>';
-
-    return;
-  }
-
-
-  box.innerHTML =
-    rows.map(renderContestCard)
-      .join('');
-
-}
-
-
-function renderContestCard(c){
-
-  const id =
-    Number(c.id);
-
-  const title =
-    escapeHtml(
-      c.title || 'DR Better Match'
-    );
-
-  const game =
-    escapeHtml(
-      c.game || selectedGame
-    );
-
-  const fee =
-    Number(c.entry_fee || 0);
-
-  const prize =
-    Number(c.prize_pool || 0);
-
-  const slots =
-    Number(c.slots || 0);
-
-  const joined =
-    Number(c.joined_slots || 0);
-
-  const available =
-    Math.max(
-      0,
-      slots - joined
-    );
-
-  const time =
-    formatDateTime(c.starts_at);
-
-  const full =
-    available <= 0;
-
-  return `
-    <div class="contestCard">
-
-      <div class="contestTop">
-
-        <div>
-
-          <div class="contestTitle">
-            ${title}
-          </div>
-
-          <div style="
-            color:#9fb4c9;
-            font-size:11px;
-            margin-top:4px;
-          ">
-            ${game}
-          </div>
-
-        </div>
-
-        <div class="status">
-          ${String(
-            c.status || 'upcoming'
-          ).toUpperCase()}
-        </div>
-
-      </div>
-
-
-      <div class="contestInfo">
-
-        <div class="infoBox">
-          <div class="infoLabel">
-            START TIME
-          </div>
-
-          <div class="infoValue">
-            ${time}
-          </div>
-        </div>
-
-
-        <div class="infoBox">
-          <div class="infoLabel">
-            PRIZE POOL
-          </div>
-
-          <div class="infoValue">
-            ₹${prize}
-          </div>
-        </div>
-
-
-        <div class="infoBox">
-          <div class="infoLabel">
-            SLOTS
-          </div>
-
-          <div class="infoValue">
-            ${joined}/${slots}
-          </div>
-        </div>
-
-
-        <div class="infoBox">
-          <div class="infoLabel">
-            AVAILABLE
-          </div>
-
-          <div class="infoValue">
-            ${available}
-          </div>
-        </div>
-
-      </div>
-
-
-      <div class="contestBottom">
-
-        <div class="entry">
-          Entry ₹${fee}
-        </div>
-
-        <button
-          class="joinBtn"
-          ${full ? 'disabled' : ''}
-          onclick="openContestDetails(${id})">
-
-          ${full ? 'FULL' : 'JOIN MATCH'}
-
-        </button>
-
-      </div>
-
-    </div>
-  `;
-
-}
-
-
-/* ================= DATE ================= */
-
-function formatDateTime(value){
-
-  if(!value){
-    return 'Time not set';
-  }
-
-  const d =
-    new Date(value);
-
-  if(Number.isNaN(d.getTime())){
-    return String(value);
-  }
-
-  return d.toLocaleString(
-    'en-IN',
-    {
-      day:'2-digit',
-      month:'short',
-      hour:'2-digit',
-      minute:'2-digit'
-    }
-  );
-
-}
-
-
-/* ================= ESCAPE ================= */
-
-function escapeHtml(value){
-
-  return String(value ?? '')
-    .replace(/&/g,'&amp;')
-    .replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;')
-    .replace(/'/g,'&#039;');
-
-}
-
-</script>
-<style>
-.contestTabs{
-  display:flex;
-  gap:8px;
-  padding:8px 0;
-  overflow-x:auto;
-}
-.contestTab{
-  border:0;
-  border-radius:20px;
-  padding:8px 14px;
-  background:#102b47;
+.toast{
+  position:fixed;
+  z-index:100;
+  left:15px;
+  right:15px;
+  bottom:95px;
+  background:#111;
   color:#fff;
-  font-weight:700;
-  white-space:nowrap;
-}
-.contestTab.active{
-  background:#1d8cff;
-}
-
-.slotGrid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:8px;
-  margin-top:12px;
-}
-.slot{
-  min-height:42px;
-  border:1px solid #234563;
-  border-radius:8px;
-  background:#0c2239;
-  color:#fff;
-  font-weight:700;
-}
-.slot.selected{
-  background:#1687ff;
-  border-color:#1687ff;
-}
-.slot.taken{
-  background:#303943;
-  color:#888;
-  border-color:#444;
-}
-
-.formInput{
-  width:100%;
-  height:46px;
-  border:1px solid #ccd6df;
-  border-radius:8px;
-  padding:0 12px;
-  margin-bottom:10px;
-  font-size:15px;
-  outline:none;
-}
-.primaryBtn{
-  width:100%;
-  min-height:46px;
-  border:0;
-  border-radius:9px;
-  background:#1687ff;
-  color:#fff;
-  font-size:16px;
-  font-weight:700;
-}
-.secondaryBtn{
-  width:100%;
-  min-height:44px;
-  border:1px solid #1687ff;
-  border-radius:9px;
-  background:transparent;
-  color:#1687ff;
-  font-weight:700;
-}
-.muted{
-  color:#8fa4b8;
-  font-size:13px;
-}
-.emptyBox{
-  padding:25px 10px;
+  padding:14px;
+  border-radius:10px;
   text-align:center;
-  color:#9db0c1;
+  display:none
 }
-</style>
-
-<script>
-/* =========================
-   CONTEST DETAILS
-========================= */
-
-async function openContestDetails(id){
-  currentContestId = id;
-
-  try{
-    const data = await api('/api/contests/' + encodeURIComponent(id));
-
-    if(!data || !data.contest){
-      showToast('Match details नहीं मिले');
-      return;
-    }
-
-    contestData = data.contest;
-
-    const c = contestData;
-
-    const title = document.getElementById('detailsTitle');
-    const body = document.getElementById('detailsBody');
-
-    if(title){
-      title.textContent = c.title || 'Match Details';
-    }
-
-    if(body){
-      body.innerHTML = `
-        <div class="contestCard">
-          <div class="contestTop">
-            <div>
-              <div class="contestTitle">${escapeHtml(c.title || 'Match')}</div>
-              <div class="muted">${escapeHtml(c.game || '')}</div>
-            </div>
-            <div class="statusBadge">${escapeHtml(c.status || 'upcoming')}</div>
-          </div>
-
-          <div class="contestStats">
-            <div>
-              <span>Entry</span>
-              <b>₹${Number(c.entry_fee || 0).toFixed(0)}</b>
-            </div>
-
-            <div>
-              <span>Prize</span>
-              <b>₹${Number(c.prize_pool || 0).toFixed(0)}</b>
-            </div>
-
-            <div>
-              <span>Slots</span>
-              <b>${Number(c.slots || 0)}</b>
-            </div>
-          </div>
-
-          <div class="muted">
-            Start:
-            ${formatDateTime(c.starts_at)}
-          </div>
-
-          <br>
-
-          ${
-            String(c.status).toLowerCase() === 'upcoming'
-            ? `<button class="primaryBtn" onclick="openSlotSelection('${String(c.id).replace(/'/g,"\\'")}')">
-                 JOIN MATCH
-               </button>`
-            : `<button class="secondaryBtn" disabled>
-                 ${escapeHtml(c.status || 'Not Available')}
-               </button>`
-          }
-        </div>
-      `;
-    }
-
-    showPage('contestDetails');
-
-  }catch(err){
-    console.error(err);
-    showToast(err.message || 'Details load नहीं हुए');
-  }
-}
-
-
-/* =========================
-   SLOT SELECTION
-========================= */
-
-async function openSlotSelection(){
-  if(!currentContestId){
-    showToast('Match select करें');
-    return;
-  }
-
-  try{
-    const data = await api(
-      '/api/contests/' +
-      encodeURIComponent(currentContestId) +
-      '/joinings'
-    );
-
-    const taken = new Set();
-
-    if(Array.isArray(data)){
-      data.forEach(x => {
-        if(x.slot !== undefined && x.slot !== null){
-          taken.add(Number(x.slot));
-        }
-      });
-    }
-
-    if(Array.isArray(data.joinings)){
-      data.joinings.forEach(x => {
-        if(x.slot !== undefined && x.slot !== null){
-          taken.add(Number(x.slot));
-        }
-      });
-    }
-
-    selectedSlot = null;
-
-    const c = contestData || {};
-
-    const totalSlots = Math.max(
-      1,
-      Number(c.slots || 0)
-    );
-
-    const grid = document.getElementById('slotGrid');
-
-    if(grid){
-      let html = '';
-
-      for(let i = 1; i <= totalSlots; i++){
-        const isTaken = taken.has(i);
-
-        html += `
-          <button
-            class="slot ${isTaken ? 'taken' : ''}"
-            ${isTaken ? 'disabled' : ''}
-            onclick="selectSlot(${i},this)">
-            ${i}
-          </button>
-        `;
-      }
-
-      grid.innerHTML = html;
-    }
-
-    showPage('slotSelection');
-
-  }catch(err){
-    console.error(err);
-    showToast(err.message || 'Slots load नहीं हुए');
-  }
-}
-
-
-function selectSlot(slot,button){
-  if(button.disabled) return;
-
-  selectedSlot = Number(slot);
-
-  document.querySelectorAll('.slot').forEach(el=>{
-    el.classList.remove('selected');
-  });
-
-  button.classList.add('selected');
-
-  const btn = document.getElementById('continueSlotBtn');
-
-  if(btn){
-    btn.disabled = false;
-    btn.style.opacity = '1';
-  }
-}
-
-
-/* =========================
-   JOIN FORM
-========================= */
-
-function openJoinForm(){
-  if(!selectedSlot){
-    showToast('पहले slot select करें');
-    return;
-  }
-
-  const slotText = document.getElementById('selectedSlotText');
-
-  if(slotText){
-    slotText.textContent = 'Selected Slot: ' + selectedSlot;
-  }
-
-  showPage('joinForm');
-}
-
-
-/* =========================
-   JOIN CONFIRMATION
-========================= */
-
-async function confirmJoin(){
-  if(!currentContestId){
-    showToast('Match select नहीं है');
-    return;
-  }
-
-  if(!selectedSlot){
-    showToast('Slot select करें');
-    return;
-  }
-
-  const ignEl = document.getElementById('joinIgn');
-  const uidEl = document.getElementById('joinUid');
-
-  const ign = ignEl ? ignEl.value.trim() : '';
-  const uid = uidEl ? uidEl.value.trim() : '';
-
-  if(!ign){
-    showToast('In-Game Name डालें');
-    return;
-  }
-
-  if(!uid){
-    showToast('UID डालें');
-    return;
-  }
-
-  const c = contestData || {};
-  const fee = Number(c.entry_fee || 0);
-
-  try{
-    const result = await api('/api/join',{
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json'
-      },
-      body:JSON.stringify({
-        contestId:currentContestId,
-        slot:selectedSlot,
-        ign:ign,
-        uid:uid,
-        fee:fee
-      })
-    });
-
-    if(result && result.message){
-      showToast(result.message);
-    }else{
-      showToast('Match join हो गया');
-    }
-
-    await refreshWallet();
-
-    const confirmBox =
-      document.getElementById('joinConfirmDetails');
-
-    if(confirmBox){
-      confirmBox.innerHTML = `
-        <div class="contestCard">
-          <h3>Match Joined</h3>
-          <p>Match: ${escapeHtml(c.title || '')}</p>
-          <p>Slot: <b>${selectedSlot}</b></p>
-          <p>IGN: <b>${escapeHtml(ign)}</b></p>
-          <p>UID: <b>${escapeHtml(uid)}</b></p>
-        </div>
-      `;
-    }
-
-    showPage('joinConfirmation');
-
-  }catch(err){
-    console.error(err);
-    showToast(err.message || 'Join नहीं हो पाया');
-  }
-}
-
-
-/* =========================
-   MY MATCHES
-========================= */
-
-async function openMyMatches(){
-  try{
-    const data = await api('/api/my-joinings');
-
-    const box = document.getElementById('myMatchesList');
-
-    if(!box) return;
-
-    const list =
-      Array.isArray(data)
-      ? data
-      : (Array.isArray(data.joinings) ? data.joinings : []);
-
-    if(!list.length){
-      box.innerHTML = `
-        <div class="emptyBox">
-          अभी कोई joined match नहीं है।
-        </div>
-      `;
-    }else{
-      box.innerHTML = list.map(j => `
-        <div class="contestCard">
-          <div class="contestTitle">
-            ${escapeHtml(j.title || j.contest_title || 'Match')}
-          </div>
-
-          <div class="muted">
-            Slot: ${escapeHtml(String(j.slot || '-'))}
-          </div>
-
-          <div class="muted">
-            IGN: ${escapeHtml(j.ign || '')}
-          </div>
-
-          <div class="muted">
-            UID: ${escapeHtml(j.uid || '')}
-          </div>
-
-          <div class="muted">
-            Status: ${escapeHtml(j.status || 'joined')}
-          </div>
-        </div>
-      `).join('');
-    }
-
-    showPage('myMatches');
-
-  }catch(err){
-    console.error(err);
-    showToast(err.message || 'Matches load नहीं हुए');
-  }
-}
-
-
-/* =========================
-   REFERRAL
-========================= */
-
-function copyReferral(){
-  const el = document.getElementById('referralCode');
-
-  if(!el){
-    showToast('Referral code नहीं मिला');
-    return;
-  }
-
-  const value = el.value || el.textContent || '';
-
-  if(!value){
-    showToast('Referral code नहीं है');
-    return;
-  }
-
-  navigator.clipboard.writeText(value)
-    .then(()=>{
-      showToast('Referral code copy हो गया');
-    })
-    .catch(()=>{
-      showToast('Copy नहीं हुआ');
-    });
-}
-
-
-function shareApp(){
-  const text = 'DR Better App Join करें';
-
-  if(navigator.share){
-    navigator.share({
-      title:'DR Better',
-      text:text,
-      url:window.location.href
-    }).catch(()=>{});
-  }else{
-    navigator.clipboard.writeText(window.location.href)
-      .then(()=>showToast('App link copy हो गया'))
-      .catch(()=>showToast('Share नहीं हुआ'));
-  }
-}
-
-
-/* =========================
-   AUTH / WALLET
-========================= */
-
-async function refreshWallet(){
-  try{
-    const data = await api('/api/wallet');
-
-    const balance =
-      Number(
-        data.balance ??
-        data.wallet ??
-        data.amount ??
-        0
-      );
-
-    updateBalance(balance);
-
-    return data;
-
-  }catch(err){
-    console.error(err);
-  }
-}
-
-
-async function afterAuth(user){
-  currentUser = user || null;
-
-  if(currentUser){
-    const name =
-      currentUser.name ||
-      currentUser.username ||
-      currentUser.email ||
-      'User';
-
-    document.querySelectorAll('.userName').forEach(el=>{
-      el.textContent = name;
-    });
-  }
-
-  await refreshWallet();
-
-  showPage('home');
-}
-
-
-async function logoutUser(){
-  try{
-    localStorage.removeItem('token');
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('user');
-
-    currentUser = null;
-
-    showToast('Logout हो गया');
-
-    setTimeout(()=>{
-      location.reload();
-    },500);
-
-  }catch(err){
-    console.error(err);
-    location.reload();
-  }
-}
-
-
-/* =========================
-   AUTH INIT
-========================= */
-
-async function initAuth(){
-  const token =
-    localStorage.getItem('token') ||
-    localStorage.getItem('authToken');
-
-  if(!token){
-    return;
-  }
-
-  try{
-    const data = await api('/api/auth/me');
-
-    const user =
-      data.user ||
-      data;
-
-    await afterAuth(user);
-
-  }catch(err){
-    console.error(err);
-
-    localStorage.removeItem('token');
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('user');
-  }
-}
-
-
-/* =========================
-   PAGE INIT
-========================= */
-
-document.addEventListener('DOMContentLoaded',async ()=>{
-  try{
-    updateBalance(0);
-    startBannerSlider();
-    await initAuth();
-  }catch(err){
-    console.error(err);
-  }
-});
- </script>
- <script>
-/* =========================
-   LOGIN
-========================= */
-
-async function loginUser(){
-  const emailEl = document.getElementById('loginEmail');
-  const passwordEl = document.getElementById('loginPassword');
-
-  const email = emailEl ? emailEl.value.trim() : '';
-  const password = passwordEl ? passwordEl.value : '';
-
-  if(!email || !password){
-    showToast('Email और Password डालें');
-    return;
-  }
-
-  try{
-    const data = await api('/api/auth/login',{
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json'
-      },
-      body:JSON.stringify({
-        email,
-        password
-      })
-    });
-
-    if(data.token){
-      localStorage.setItem('token',data.token);
-    }
-
-    if(data.user){
-      localStorage.setItem(
-        'user',
-        JSON.stringify(data.user)
-      );
-    }
-
-    await afterAuth(data.user || data);
-
-  }catch(err){
-    console.error(err);
-    showToast(err.message || 'Login failed');
-  }
-}
-
-
-/* =========================
-   REGISTER
-========================= */
-
-async function registerUser(){
-  const nameEl =
-    document.getElementById('registerName');
-
-  const emailEl =
-    document.getElementById('registerEmail');
-
-  const passwordEl =
-    document.getElementById('registerPassword');
-
-  const name =
-    nameEl ? nameEl.value.trim() : '';
-
-  const email =
-    emailEl ? emailEl.value.trim() : '';
-
-  const password =
-    passwordEl ? passwordEl.value : '';
-
-  if(!name){
-    showToast('Name डालें');
-    return;
-  }
-
-  if(!email){
-    showToast('Email डालें');
-    return;
-  }
-
-  if(!password){
-    showToast('Password डालें');
-    return;
-  }
-
-  try{
-    const data = await api('/api/auth/register',{
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json'
-      },
-      body:JSON.stringify({
-        name,
-        email,
-        password
-      })
-    });
-
-    if(data.token){
-      localStorage.setItem('token',data.token);
-    }
-
-    if(data.user){
-      localStorage.setItem(
-        'user',
-        JSON.stringify(data.user)
-      );
-    }
-
-    showToast('Account बन गया');
-
-    await afterAuth(data.user || data);
-
-  }catch(err){
-    console.error(err);
-    showToast(err.message || 'Registration failed');
-  }
-}
-
-
-/* =========================
-   HOME GAME COUNTS
-========================= */
-
-async function loadHomeGameCounts(){
-  const games = [
-    'BR SURVIVAL',
-    'PER KILL MATCHES',
-    'CLASH SQUAD 1V1',
-    'LONE WOLF 1V1',
-    'CLASH SQUAD 4V4',
-    'LONE WOLF 2V2'
-  ];
-
-  for(const game of games){
-    try{
-      const data = await api(
-        '/api/contests?game=' +
-        encodeURIComponent(game) +
-        '&status=upcoming'
-      );
-
-      const list =
-        Array.isArray(data)
-        ? data
-        : (Array.isArray(data.contests)
-          ? data.contests
-          : []);
-
-      const count =
-        document.querySelector(
-          '[data-game-count="' +
-          CSS.escape(game) +
-          '"]'
-        );
-
-      if(count){
-        count.textContent =
-          list.length + ' Matches';
-      }
-
-    }catch(err){
-      console.error(
-        'Game count error:',
-        game,
-        err
-      );
-    }
-  }
-}
-
-
-/* =========================
-   AUTO REFRESH CONTESTS
-========================= */
-
-let contestRefreshTimer = null;
-
-function startContestAutoRefresh(){
-  if(contestRefreshTimer){
-    clearInterval(contestRefreshTimer);
-  }
-
-  contestRefreshTimer = setInterval(async ()=>{
-    try{
-      if(
-        currentGame &&
-        document.getElementById('contestList')
-      ){
-        await loadContestStatus(currentGame);
-      }
-
-      await loadHomeGameCounts();
-
-    }catch(err){
-      console.error(err);
-    }
-  },30000);
-}
-
-
-/* =========================
-   START APP
-========================= */
-
-document.addEventListener('DOMContentLoaded',async ()=>{
-  try{
-    startContestAutoRefresh();
-    await loadHomeGameCounts();
-  }catch(err){
-    console.error(err);
-  }
-});
-</script>
-
-</body>
-</html>
+      <p class="refText">Invite your friends on App using your Referral Code to Earn 0 Coins in bonusWallet When they join First Paid match, with minimum entry fee of 0. Your friends also get 0 Coins in bonusWallet as Register Bonus!</p>
+    <div class="refCodeBox">
+      <div class="refLabel">Your referral code</div>
+      <div class="refCode">
+        <span id="earnReferralCode">soulrapper</span>
+        <span onclick="copyReferral()" style="cursor:pointer;font-size:28px">▢</span>
+      </div>
+    </div>
+    <div class="shareTitle">Share your referral code via</div>
+    <div class="shareBtns">
+      <button class="shareBtn telegram" onclick="shareApp('Telegram')">➤ Telegram</button>
+      <button class="shareBtn facebook" onclick="shareApp('Facebook')">f Facebook</button>
+      <button class="shareBtn whatsapp" onclick="shareApp('WhatsApp')">◉ WhatsApp</button>
+    </div>
+  </div>
+</section>
+
+<section id="leaderboard" class="page"><div class="header"><button onclick="goHome()">‹</button><div class="headerTitle">Leaderboard</div></div><div class="card"><h3>🏆 Top Players</h3><div class="row">🥇 Player One <b>2500</b></div><div class="row">🥈 Player Two <b>2180</b></div><div class="row">🥉 Player Three <b>1940</b></div><div class="row">4️⃣ DR Player <b>1750</b></div></div></section>
+
+<section id="menu" class="page"><div class="header"><div class="headerTitle">Menu</div></div><div class="card"><div class="row">👤 <span>Signed in as</span> <b id="menuUsername">Guest</b></div><div class="row" onclick="openPage('profile')">👤 <b>Profile</b> ›</div><div class="row" onclick="openPage('wallet')">💰 <b>Wallet</b> ›</div><div class="row" onclick="openPage('history')">📜 <b>Transaction History</b> ›</div><div class="row" onclick="openPage('notifications')">🔔 <b>Notifications</b> ›</div><div class="row" onclick="openPage('settings')">⚙️ <b>Settings</b> ›</div><div class="row" onclick="openPage('support')">❓ <b>Help & Support</b> ›</div><button class="btn logoutBtn" onclick="logoutUser()">Logout</button></div></section>
+
+<section id="profile" class="page"><div class="header"><button onclick="openPage('menu')">‹</button><div class="headerTitle">Profile</div></div><div class="card center"><div class="avatarBig">🧑🏻‍💻</div><h2 id="profileUsername">DR Better Player</h2><p id="profileUid">Player ID: —</p><div class="stat"><div><b>24</b><br>Matches</div><div><b>18</b><br>Wins</div><div><b>75%</b><br>Win Rate</div></div></div><div class="card"><div class="row">Name <b id="profileName">—</b></div><div class="row">Player ID <b id="profileUid2">—</b></div><div class="row">Mobile <b>••••••1234</b></div></div></section>
+
+<section id="wallet" class="page"><div class="header"><button onclick="openPage('menu')">‹</button><div class="headerTitle">Wallet</div></div><div class="card center"><p>Available Balance</p><div class="balanceBig">₹ <span class="walletBalance">0</span></div><button class="btn greenBtn" onclick="openPage('addmoney')">＋ Add Money</button><button class="btn" onclick="openPage('withdraw')">💸 Withdraw</button></div><div class="card"><div class="row">Bonus Balance <b>₹0</b></div><div class="row">Winning Balance <b>₹3</b></div></div></section>
+
+<section id="addmoney" class="page"><div class="header"><button onclick="openPage('wallet')">‹</button><div class="headerTitle">Add Money</div></div><div class="card"><h3>💰 Add Money</h3><input class="input" id="addAmount" type="number" placeholder="Enter amount"><button class="btn greenBtn" onclick="addMoney()">Add Money</button></div><div class="card"><h3>Quick Amount</h3><button class="btn" onclick="quickAdd(10)">₹10</button><button class="btn" onclick="quickAdd(50)">₹50</button><button class="btn" onclick="quickAdd(100)">₹100</button></div></section>
+
+<section id="withdraw" class="page"><div class="header"><button onclick="goHome()">‹</button><div class="headerTitle">Withdraw</div></div><div class="card"><h3>💸 Withdraw Money</h3><p>Available Balance: ₹<span class="walletBalance">0</span></p><input class="input" id="withdrawAmount" type="number" placeholder="Amount"><input class="input" id="upi" type="text" placeholder="UPI ID"><button class="btn greenBtn" onclick="withdraw()">Submit Withdrawal</button></div><div class="card"><p>Withdrawal Time: <b>10 AM - 11 PM</b></p><p>Minimum Withdrawal: <b>₹10</b></p></div></section>
+
+<section id="ongoing" class="page"><div class="header"><button onclick="goHome()">‹</button><div class="headerTitle">Ongoing Matches</div></div><div class="card"><h3>🔴 Live Match</h3><div class="row">BR Survival <b>LIVE</b></div><button class="btn" onclick="match('BR Survival Live')">View Match</button></div></section>
+
+<section id="upcoming" class="page"><div class="header"><button onclick="goHome()">‹</button><div class="headerTitle">Upcoming Matches</div></div><div class="card"><h3>📅 Upcoming</h3><div class="row">Clash Squad 1V1 <b>8:00 PM</b></div><button class="btn" onclick="match('Clash Squad 1V1')">Join</button></div><div class="card"><div class="row">Lone Wolf 2V2 <b>9:00 PM</b></div><button class="btn" onclick="match('Lone Wolf 2V2')">Join</button></div></section>
+
+<section id="completed" class="page"><div class="header"><button onclick="goHome()">‹</button><div class="headerTitle">Completed Matches</div></div><div class="card"><div class="row">BR Survival <b>Completed ✓</b></div><div class="row">Result <b>Winner</b></div></div><div class="card"><div class="row">Clash Squad <b>Completed ✓</b></div><div class="row">Result <b>Winner</b></div></div></section>
+
+<section id="matchdetail" class="page">
+<div class="header"><button onclick="goHome()">‹</button><div class="headerTitle">Match Details</div></div>
+<div class="card gameDetailCard">
+  <img id="detailImage" class="detailImage" src="assets/br_survival.jpg" alt="Game">
+  <h2 id="selectedGame">Game</h2>
+  <div class="detailGrid">
+    <div><span>💰 Entry Fee</span><b id="detailEntry">₹5</b></div>
+    <div><span>🏆 Prize Pool</span><b id="detailPrize">₹100</b></div>
+    <div><span>👥 Total Slots</span><b id="detailSlots">50</b></div>
+    <div><span>🎮 Mode</span><b id="detailMode">Survival</b></div>
+    <div><span>📅 Date</span><b id="detailDate">Today</b></div>
+    <div><span>🕐 Match Time</span><b id="detailTime">8:00 PM</b></div>
+  </div>
+  <div class="rulesBox">
+    <h3>📋 Match Rules</h3>
+    <ul id="detailRules">
+      <li>Room ID और Password match शुरू होने से पहले दिया जाएगा।</li>
+      <li>गलत या banned settings का इस्तेमाल न करें।</li>
+      <li>Match में समय पर join करना जरूरी है।</li>
+      <li>Result के लिए screenshot/proof मांगा जा सकता है।</li>
+    </ul>
+  </div>
+  <button class="btn greenBtn" onclick="joinNow()">Join Match</button>
+</div>
+</section>
+
+<section id="notifications" class="page"><div class="header"><button onclick="goHome()">‹</button><div class="headerTitle">Notifications</div></div><div class="card"><div class="row">📢 New tournament available <small>Now</small></div><div class="row">🎁 Daily reward available <small>Today</small></div><div class="row">💰 Withdrawal information updated <small>Today</small></div><div class="row">🎮 New game added <small>Yesterday</small></div></div></section>
+
+<section id="history" class="page"><div class="header"><button onclick="openPage('menu')">‹</button><div class="headerTitle">History</div></div><div class="card"><h3>Transaction History</h3><div class="row">Opening Balance <b>₹3</b></div><div class="row">Daily Reward <b>+₹0</b></div><div class="row">Withdrawal <b>₹0</b></div></div></section>
+
+<section id="settings" class="page"><div class="header"><button onclick="openPage('menu')">‹</button><div class="headerTitle">Settings</div></div><div class="card"><div class="row">🔔 Notifications <input type="checkbox" checked></div><div class="row">🔊 Sound <input type="checkbox" checked></div><div class="row" onclick="show('Language: English')">🌐 Language <b>English ›</b></div><div class="row" onclick="show('Privacy Policy opened')">🔒 Privacy Policy ›</div><div class="row" onclick="show('Terms & Conditions opened')">📄 Terms & Conditions ›</div></div></section>
+
+<section id="support" class="page"><div class="header"><button onclick="openPage('menu')">‹</button><div class="headerTitle">Help & Support</div></div><div class="card"><h3>❓ How can we help?</h3><input class="input" placeholder="Your name"><input class="input" placeholder="Your email"><textarea class="input" rows="5" placeholder="Write your problem"></textarea><button class="btn greenBtn" onclick="show('Support request submitted')">Submit</button></div></section>
