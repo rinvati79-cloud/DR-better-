@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>DR Better</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;background:#061a30;color:#fff;font-family:Arial,sans-serif}
+body{padding-bottom:82px}button,input,textarea{font-family:inherit}button{border:0;cursor:pointer}
+.page{display:none;min-height:calc(100vh - 82px)}.page.active{display:block}
+.top{height:165px;background:#07517f;border-radius:0 0 30px 30px;padding:28px 14px 14px}
+.topbar{display:flex;align-items:center;justify-content:space-between}.profile{display:flex;align-items:center;gap:11px}
+.avatar{width:55px;height:55px;border-radius:50%;background:#2196d3;border:2px solid #42c9ff;display:flex;align-items:center;justify-content:center;font-size:29px}
+.name{font-size:27px;font-weight:bold}.wallet{display:flex;align-items:center;gap:6px}.coin{width:43px;height:43px;border-radius:50%;background:#f4bd25;border:3px solid #ffe47a;color:#fff;font-size:23px;display:flex;align-items:center;justify-content:center}.balance{font-size:18px}
+.bell{width:48px;height:48px;border-radius:50%;background:#fff;color:#18517c;display:flex;align-items:center;justify-content:center;font-size:24px;margin-left:5px}
+.notice{height:74px;margin:17px 14px 0;background:#52677d;border-radius:10px;display:flex;overflow:hidden}.noticeIcon{width:95px;background:#60748b;display:flex;align-items:center;justify-content:center;font-size:38px}.noticeText{padding:8px 15px;font-size:19px;line-height:1.5;overflow:hidden}
+.banner{height:310px;margin:26px 14px 0;border:2px solid #19d1d1;border-radius:16px;overflow:hidden;position:relative;background:linear-gradient(135deg,#d41414,#ffb000 45%,#237c24)}
+.banner:before{content:"WITHDRAWAL";position:absolute;right:5px;top:28px;font-size:35px;font-weight:900;color:#ffe600;text-shadow:3px 3px #9b2100}.banner:after{content:"IN 6 HOURS";position:absolute;right:18px;top:78px;font-size:34px;font-weight:900;color:#fff;text-shadow:3px 3px #12831e}
+.money{position:absolute;left:20px;top:75px;font-size:70px}.clock{position:absolute;right:65px;top:133px;width:105px;height:105px;border-radius:50%;background:#eee;border:7px solid #ccc;color:#222;display:flex;align-items:center;justify-content:center;font-size:44px}.bannerSmall{position:absolute;left:20px;bottom:57px;font-size:20px;font-weight:bold}
+.details{position:absolute;left:23px;bottom:12px;background:#5628ef;color:#fff;padding:12px 20px;border-radius:25px;font-size:17px}.bannerImg{width:100%;height:100%;object-fit:cover;display:block}.gameImg{width:100%;height:137px;object-fit:cover;display:block}.game .art{display:none}
+
+/* Four separate swipeable home banner pages */
+.bannerCarousel{height:310px;margin:26px 14px 0;border:2px solid #19d1d1;border-radius:16px;overflow:hidden;position:relative;background:#111}
+.bannerTrack{height:100%;display:flex;transition:transform .35s ease;will-change:transform;touch-action:pan-y}
+.bannerSlide{min-width:100%;height:100%;position:relative;overflow:hidden}
+.bannerSlide img{width:100%;height:100%;object-fit:cover;display:block}
+.bannerSlide .details{z-index:3}
+.bannerArrow{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:52px;border-radius:18px;background:#0009;color:#fff;font-size:42px;line-height:42px;z-index:4}
+.bannerArrow.left{left:8px}.bannerArrow.right{right:8px}
+.bannerDots{position:absolute;left:0;right:0;bottom:10px;display:flex;justify-content:center;gap:7px;z-index:5}
+.bannerDots .dot{width:9px;height:9px;padding:0;border-radius:50%;background:#fff8;border:1px solid #fff}
+.bannerDots .dot.active{width:24px;border-radius:8px;background:#fff}
+@media(max-width:420px){.bannerCarousel{height:300px}}
+
+h2{text-align:center;font-size:28px;margin:18px 0 22px}.section{padding:0 14px}.matches{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
+.match{height:132px;border-radius:14px;background:#fff;color:#111;font-size:19px;display:flex;align-items:center;justify-content:center;flex-direction:column}.matchIcon{width:64px;height:64px;border-radius:14px;color:#fff;font-size:31px;display:flex;align-items:center;justify-content:center;margin-bottom:7px}.green{background:#35c99b}.cyan{background:#29c7df}.check{background:#2fbd69}
+.title{font-size:24px;font-weight:bold;margin:40px 0 28px}.games{display:grid;grid-template-columns:1fr 1fr;gap:13px}.game{height:178px;border:2px solid #1bd1d1;border-radius:12px;overflow:hidden;position:relative;color:#fff;background:linear-gradient(135deg,#a91616,#e98616)}
+.game:nth-child(2){background:linear-gradient(135deg,#202b3d,#e78c1d)}.game:nth-child(3){background:linear-gradient(135deg,#54210b,#c66b16)}.game:nth-child(4){background:linear-gradient(135deg,#55200b,#dc851b)}.game:nth-child(5){background:linear-gradient(135deg,#57178d,#df83dd)}.game:nth-child(6){background:linear-gradient(135deg,#751d0c,#d87518)}
+.art{height:137px;display:flex;align-items:center;justify-content:center;font-size:58px}.gameName{position:absolute;left:0;right:0;bottom:0;height:40px;background:#0008;padding:10px 6px;text-align:left;font-size:16px}.online{position:absolute;right:8px;bottom:10px}.online:before{content:"";display:inline-block;width:14px;height:14px;border-radius:50%;background:#0cc45b;margin-right:5px}
+.nav{position:fixed;z-index:50;left:0;right:0;bottom:0;height:82px;background:#07517f;border-radius:24px 24px 0 0;display:grid;grid-template-columns:repeat(4,1fr);box-shadow:0 -4px 14px #0007}.nav button{background:transparent;color:#fff;font-size:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}.nav button.active{background:#063b64}.navIcon{font-size:30px;line-height:30px}
+.header{height:76px;background:#07517f;display:flex;align-items:center;gap:15px;padding:0 15px}.header button{width:43px;height:43px;border-radius:50%;background:#fff;color:#07517f;font-size:25px}.headerTitle{font-size:24px;font-weight:bold}
+.card{margin:15px;background:#fff;color:#111;border-radius:16px;padding:20px;box-shadow:0 3px 10px #0004}.card h3{margin-top:0;color:#07517f}.row{display:flex;align-items:center;justify-content:space-between;padding:15px 0;border-bottom:1px solid #ddd}.row:last-child{border:0}
+.btn{width:100%;padding:14px;border-radius:10px;background:#087bc1;color:#fff;font-size:17px;margin-top:12px}.btn.greenBtn{background:#19b96d}.input{width:100%;padding:14px;border:1px solid #ccc;border-radius:10px;margin:8px 0;font-size:16px}.balanceBig{text-align:center;font-size:42px;font-weight:bold;color:#087bc1;margin:10px}.gameList{display:grid;gap:12px}.center{text-align:center}.avatarBig{width:95px;height:95px;border-radius:50%;background:#1689c9;border:4px solid #55d2ff;margin:auto;display:flex;align-items:center;justify-content:center;font-size:50px}.stat{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat div{background:#edf7ff;border-radius:10px;padding:14px;text-align:center;color:#07517f}
+.toast{position:fixed;z-index:100;left:15px;right:15px;bottom:95px;background:#111;color:#fff;padding:14px;border-radius:10px;text-align:center;display:none}
+
+.gameDetailCard{padding:15px}
+.detailImage{width:100%;height:190px;object-fit:cover;border-radius:12px;display:block;margin-bottom:12px}
+.gameDetailCard h2{margin:10px 0 15px;color:#07517f}
+.detailGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.detailGrid div{background:#edf7ff;border-radius:10px;padding:12px;color:#07517f}
+.detailGrid span{display:block;font-size:13px;color:#456}
+.detailGrid b{display:block;margin-top:5px;font-size:17px}
+.rulesBox{margin-top:15px;background:#f7f7f7;border-radius:12px;padding:12px;color:#222}
+.rulesBox h3{margin:0 0 8px;color:#07517f}
+.rulesBox ul{margin:0;padding-left:20px}
+.rulesBox li{margin:7px 0;font-size:14px}
+@media(max-width:420px){.name{font-size:23px}.banner{height:300px}.banner:before{font-size:29px}.banner:after{font-size:30px}.match{height:125px;font-size:17px}.game{height:165px}.art{height:124px}.gameImg{height:124px}}
+
+/* Screenshot-style pages */
+.refPage{background:#4b00c9;min-height:100vh;color:#fff}
+.refHead,.darkHead{height:148px;background:linear-gradient(#07517f,#06385d);border-radius:0 0 30px 30px;display:flex;align-items:center;gap:25px;padding:35px 24px 20px}
+.refHead .back,.darkHead .back{font-size:48px;line-height:1;color:#fff;cursor:pointer}
+.refHead .headTitle,.darkHead .headTitle{font-size:30px;font-weight:700;flex:1;text-align:center;margin-right:45px}
+.refBody{text-align:center;padding:40px 20px 30px}
+.refBody h1{font-size:38px;line-height:1.35;margin:0 0 22px}
+.gift{font-size:120px;line-height:1;margin:10px 0 28px}
+.refText{font-size:22px;line-height:1.45;text-align:left;margin:0 auto 32px;max-width:620px}
+.refCodeBox{border:3px dashed #fff;border-radius:12px;padding:16px 25px;margin:0 auto 45px;max-width:540px}
+.refLabel{font-size:20px;margin-bottom:8px}
+.refCode{height:72px;background:#ddd;color:#111;border-radius:20px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;font-size:24px}
+.shareTitle{font-size:24px;font-weight:700;margin-bottom:22px}
+.shareBtns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.shareBtn{padding:14px 28px;border-radius:28px;color:#fff;font-size:18px}
+.telegram{background:#25a9db}.facebook{background:#1877e9}.whatsapp{background:#18bd13}
+.leaderPage{background:#111526;min-height:100vh;color:#fff}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:60px;padding:50px 38px 35px}
+.tab{background:#1c2137;border-radius:12px;padding:20px 10px;text-align:center;font-size:24px}
+.tab.active{background:#4660ed}
+.lbTable{margin:15px 25px}.lbHeader,.lbRow{display:grid;grid-template-columns:1fr 2fr 1.25fr;align-items:center}
+.lbHeader{background:#4660ed;border-radius:12px;padding:20px 25px;font-size:23px;margin-bottom:12px}
+.lbRow{background:#1c2137;border-radius:12px;padding:18px 25px;margin-bottom:12px;font-size:22px}
+.win{text-align:right}.gold{color:#ffc400;font-size:25px}
+.menuPage{background:#f1f2f4;min-height:100vh;color:#343943}
+.menuHead{height:125px;background:linear-gradient(#07517f,#06385d);border-radius:0 0 24px 24px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:26px;font-weight:700}
+.menuStats{margin:12px 20px 35px;background:#fff;border-radius:12px;display:grid;grid-template-columns:repeat(3,1fr);padding:14px 8px;box-shadow:0 2px 8px #0002}
+.menuStat{text-align:center;border-right:1px solid #ddd;color:#2189d0}.menuStat:last-child{border:0}
+.menuStat b{font-size:25px}.menuStat span{display:block;color:#777;font-size:14px;margin-top:8px}
+.menuList{padding:0 20px}.menuItem{background:#fff;border-radius:11px;margin-bottom:13px;padding:15px 18px;display:flex;align-items:center;gap:15px;font-size:19px;box-shadow:0 2px 7px #0001}.menuItem .mi{font-size:26px;color:#1689d0;width:31px;text-align:center}.menuItem .arrow{margin-left:auto;color:#999;font-size:27px}.switch{margin-left:auto;width:50px;height:28px;background:#d1d5dc;border-radius:20px;padding:3px}.switch:after{content:"";display:block;width:22px;height:22px;background:#fff;border-radius:50%}
+.contestPage{background:#061a30;min-height:100vh;color:#fff}
+.contestTabs{display:grid;grid-template-columns:repeat(3,1fr);background:#061a30;padding:0 20px}.contestTab{text-align:center;padding:18px 5px;font-size:19px}.contestTab.active{border-bottom:3px solid #fff}
+.contests{padding:22px 13px 80px}.contestCard{background:#fff;color:#222;margin-bottom:25px;border-radius:0;overflow:hidden}.contestCard img{width:100%;height:330px;object-fit:cover;display:block}.contestBody{padding:20px 55px}.contestTitle{font-size:25px;font-weight:700;line-height:1.35;margin-bottom:10px}.contestDate{font-size:18px;margin-bottom:25px}.contestStats{display:grid;grid-template-columns:repeat(3,1fr);text-align:center;gap:10px}.contestStats small{display:block;color:#666;font-size:14px;margin-bottom:5px}.contestStats b{font-size:20px}.contestBottom{display:grid;grid-template-columns:repeat(3,1fr);text-align:center;margin-top:25px}.contestBottom small{display:block;color:#666}.spots{margin-top:25px;color:#c33;font-size:17px;display:flex;justify-content:space-between;align-items:center}.joinBtn{background:#62a8f0;color:#fff;padding:13px 24px;border-radius:10px;font-size:18px}
+@media(max-width:520px){
+ .refHead,.darkHead{height:148px}.menuHead{height:125px}.refHead .headTitle,.darkHead .headTitle{font-size:25px}
+ .refBody h1{font-size:34px}.refText{font-size:19px}.gift{font-size:100px}
+ .tabs{gap:15px;padding:35px 25px 25px}.tab{font-size:18px}
+ .lbTable{margin:15px 25px}.lbHeader,.lbRow{font-size:18px;padding:15px 12px}.lbHeader{font-size:17px}
+ .menuStats{margin-bottom:30px}.menuStat b{font-size:24px}.menuStat span{font-size:14px}.menuItem{font-size:18px;padding:14px 16px}
+ .contestCard img{height:330px}.contestBody{padding:20px 35px}.contestTitle{font-size:23px}
+}
+
+.matchQuickDetails{margin-top:16px;background:#f6f8fb;border:1px solid #e4e8ee;border-radius:12px;padding:12px}.matchQuickDetails b{font-size:14px;color:#07517f}.matchQuickDetails .qdGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px 12px;margin-top:9px}.matchQuickDetails .qdItem{font-size:13px;color:#444}.matchQuickDetails .qdItem strong{display:block;color:#777;font-size:11px;text-transform:uppercase;margin-bottom:2px}.rulesMini{margin-top:11px;font-size:12px;line-height:1.5;color:#555}.rulesMini b{color:#07517f}
+
+
+/* Full contest flow */
+.flowPage{background:#f3f5f8;color:#18202a;min-height:100vh}
+.flowTop{height:76px;background:#07517f;color:#fff;display:flex;align-items:center;padding:0 14px;gap:12px;position:sticky;top:0;z-index:10}
+.flowTop .back{width:42px;height:42px;border-radius:50%;background:#fff;color:#07517f;display:flex;align-items:center;justify-content:center;font-size:30px}
+.flowTop h1{font-size:22px;margin:0;flex:1}.flowBody{padding:14px 14px 95px}
+.flowTabs{display:grid;grid-template-columns:repeat(3,1fr);background:#07517f;color:#fff}.flowTabs button{background:transparent;color:#fff;padding:15px 5px;font-size:15px}.flowTabs button.active{border-bottom:3px solid #fff}
+.flowCard{background:#fff;border-radius:14px;overflow:hidden;margin-bottom:14px;box-shadow:0 2px 8px #0002}.flowCard img{width:100%;height:190px;object-fit:cover;display:block}.flowPad{padding:16px}
+.flowTitle{font-size:21px;font-weight:700;margin-bottom:7px}.muted{color:#68727e}.flowGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}.flowGrid>div{background:#edf6ff;border-radius:9px;padding:10px;text-align:center}.flowGrid small{display:block;color:#68727e;font-size:11px}.flowGrid b{display:block;margin-top:5px;font-size:15px}.flowBtn{width:100%;border-radius:10px;padding:14px;background:#087bc1;color:#fff;font-size:17px;font-weight:700}.flowBtn.green{background:#18b66a}.flowBtn.gray{background:#6c7680}.flowSection{background:#fff;border-radius:14px;padding:16px;margin-bottom:14px;box-shadow:0 2px 8px #0002}.flowSection h3{margin:0 0 12px;color:#07517f}.prizeRow,.joinRow,.summaryRow{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #e2e5e8}.prizeRow:last-child,.joinRow:last-child,.summaryRow:last-child{border:0}.rank{font-weight:700}.rules li{margin:9px 0;line-height:1.4}.slots{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.slot{padding:13px 3px;border-radius:9px;background:#eef2f5;text-align:center;border:2px solid transparent;font-weight:700}.slot.selected{background:#087bc1;color:#fff;border-color:#07517f}.slot.taken{background:#ddd;color:#999}.joinSummary{background:#07517f;color:#fff;border-radius:14px;padding:16px;margin-bottom:14px}.joinSummary .summaryRow{border-color:#ffffff33}.joinSummary .summaryRow:last-child{border:0}.successBox{text-align:center;padding:30px 15px}.successIcon{font-size:70px}.successBox h2{color:#18a95f;margin:10px 0}.fieldLabel{display:block;font-weight:700;margin:10px 0 5px}.flowInput{width:100%;padding:13px;border:1px solid #cbd2d9;border-radius:9px;font-size:16px}.chip{display:inline-block;padding:7px 10px;background:#edf6ff;color:#07517f;border-radius:20px;margin:3px;font-size:13px}
+/* Contest details: compact mobile layout inspired by the reference video */
+.detailPage{background:#f5f5f5;color:#20242a;min-height:100vh;padding-bottom:88px}
+.detailTop{height:66px;background:#07517f;color:#fff;border-radius:0 0 22px 22px;display:flex;align-items:center;padding:0 14px;gap:10px;position:sticky;top:0;z-index:20;box-shadow:0 2px 8px #0003}
+.detailTop .back{width:42px;height:42px;border-radius:50%;background:transparent;color:#fff;font-size:34px;line-height:34px}
+.detailTop h1{font-size:20px;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.detailBody{padding:14px 18px 18px}
+.timeLeft{background:#fff;border-radius:8px;padding:12px;text-align:center;font-size:16px;box-shadow:0 1px 5px #0001;margin-bottom:14px}
+.detailMatchTitle{font-size:16px;font-weight:800;color:#31a6cf;margin:4px 0 14px;line-height:1.35}
+.detailChips{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+.detailChip{background:#fff;border:1px solid #c9c9c9;min-height:45px;padding:10px 7px;text-align:center;font-size:14px;box-shadow:0 1px 3px #0001}
+.detailSchedule{background:#fff;border:1px solid #c9c9c9;padding:11px 8px;text-align:center;font-size:15px;margin:8px 4px 18px}
+.detailLink{display:block;border:0;background:transparent;color:#31a6cf;font-size:16px;font-weight:800;text-align:left;padding:0;margin:18px 0 10px}
+.detailPrizeBox{background:#fff;border:1px solid #d3d3d3;min-height:46px;padding:8px;margin-bottom:20px}
+.detailPrizeBox .prizeMini{display:flex;justify-content:space-between;padding:8px 4px;border-bottom:1px solid #eee;font-size:14px}
+.detailPrizeBox .prizeMini:last-child{border-bottom:0}
+.detailAbout{color:#31a6cf;font-size:16px;font-weight:800;margin:22px 0 10px}
+.detailRules{background:#e9e7fb;padding:14px 12px 16px;margin-bottom:18px}
+.detailRules h3{text-align:center;font-size:19px;margin:0;padding-bottom:15px;border-bottom:4px solid #77718f;color:#151515}
+.detailRules ul{margin:16px 0 0;padding-left:24px}
+.detailRules li{margin:9px 0;font-size:13px;font-weight:600;line-height:1.45}
+.detailActions{display:grid;gap:14px}
+.detailActions .flowBtn{border-radius:8px;padding:14px;font-size:16px}
+.detailActions .joinMain{background:#7de500;color:#111}
+@media(max-width:420px){.detailBody{padding-left:18px;padding-right:18px}.detailChips{grid-template-columns:repeat(3,1fr)}.detailChip{font-size:13px;padding:9px 4px}}
+@media(max-width:420px){.flowGrid{grid-template-columns:repeat(2,1fr)}.slots{grid-template-columns:repeat(4,1fr)}.flowCard img{height:175px}}
+
+/* Screenshot-style real authentication */
+.authPage{min-height:100vh;background:#061a30;color:#222;display:flex;align-items:flex-start;justify-content:center;padding:34px 18px 90px;overflow:auto}
+.authBox{width:min(620px,100%);max-width:100%;background:#fff;color:#222;border-radius:28px;padding:24px 20px 22px;box-shadow:0 6px 22px #0005;overflow:hidden;contain:layout paint}
+.authBox *{max-width:100%;box-sizing:border-box}.authBox .input,.authBox .btn{display:block}
+.authLogo{display:none}.authSub{font-size:34px;line-height:1.15;text-align:left;color:#5b00e8;font-weight:800;margin:25px 0 52px}
+.authTabs{display:none}
+.authBox .fieldLabel{font-size:18px;color:#202020;margin:0 0 8px;font-weight:700}
+.authBox .input{height:52px;width:100%;margin:0 0 12px;padding:0 20px;border:1px solid #e2e2e2;border-radius:32px;background:#fff;color:#333;font-size:18px;box-shadow:0 5px 12px #00000018}
+.authBox .input:focus{outline:none;border-color:#9b78ff;box-shadow:0 5px 14px #6b00ff22}
+.authBox .btn{height:50px;margin-top:20px;border-radius:30px;background:#5d00f5!important;color:#fff;font-size:21px;font-weight:500;box-shadow:0 5px 10px #0002}
+.authBox .authSwitch{margin:28px 0 22px;text-align:center;font-size:18px;color:#333}
+.authBox .authSwitch button{background:none;color:#c28b1b;font-size:18px;font-weight:700;padding:0}
+.authExtra{text-align:center;color:#333;font-size:17px;line-height:1.5;margin:15px 0}
+.authTerms{text-align:center;font-size:16px;line-height:1.45;margin:26px 15px 0;color:#333}
+.authTerms b{font-weight:700}
+.passwordWrap{position:relative}
+.passwordWrap .input{padding-right:75px}
+.passwordToggle{position:absolute;right:12px;top:0;height:52px;background:none;color:#111;font-size:17px;font-weight:600}
+.googleBtn{width:58px;height:58px;border-radius:50%;background:#fff;border:0;box-shadow:0 4px 15px #0002;font-size:25px;margin:10px auto 0;display:block}
+.authBackLink{text-align:center;margin-top:20px;font-size:17px}
+.authBackLink button{background:none;color:#5d00f5;font-weight:700}
+.authPage~.nav{display:none}
+.authPage:not(.active)~.nav{display:grid}
+@media(max-width:520px){
+.authPage{padding:22px 12px 90px}
+.authBox{width:100%;padding:22px 16px 20px;border-radius:24px}
+.authSub{font-size:32px;margin:2px 0 24px}
+.authBox .input{height:50px}
+.authBox .btn{height:50px}
+}
+
+/* ===== COMPACT HOME SCREEN ===== */
+.top{height:125px;padding:18px 12px 10px;border-radius:0 0 22px 22px}
+.avatar{width:44px;height:44px;font-size:23px}
+.name{font-size:21px}
+.coin{width:36px;height:36px;font-size:19px}
+.balance{font-size:15px}
+.bell{width:40px;height:40px;font-size:20px}
+.notice{height:55px;margin:10px 12px 0;border-radius:9px}
+.noticeIcon{width:62px;font-size:27px}
+.noticeText{padding:6px 10px;font-size:13px;line-height:1.35}
+.bannerCarousel{height:160px;margin:12px 12px 0;border-radius:12px}
+.bannerArrow{width:30px;height:40px;font-size:30px;line-height:30px}
+.bannerDots{bottom:6px;gap:5px}
+.bannerDots .dot{width:7px;height:7px}
+.bannerDots .dot.active{width:18px}
+.details{left:12px;bottom:10px;padding:7px 13px;border-radius:18px;font-size:12px}
+h2{font-size:21px;margin:13px 0 14px}
+.section{padding:0 12px}
+.matches{gap:7px}
+.match{height:92px;border-radius:10px;font-size:13px}
+.matchIcon{width:42px;height:42px;border-radius:10px;font-size:21px;margin-bottom:4px}
+.title{font-size:19px;margin:22px 0 14px}
+.games{gap:8px}
+.game{height:135px;border-radius:10px}
+.gameImg{height:105px}
+.gameName{height:30px;padding:7px 5px;font-size:12px}
+.online{right:5px;bottom:7px;font-size:11px}
+.online:before{width:8px;height:8px;margin-right:3px}
+@media(max-width:420px){
+  .bannerCarousel{height:145px}
+  .game{height:125px}
+  .gameImg{height:96px}
+  .match{height:88px}
+  .name{font-size:20px}
+}
+/* Keep sign-up/login content completely inside its box */
+.authBox{width:min(520px,100%);overflow:hidden}
+.authBox .input,.authBox .btn{width:100%;max-width:100%}
+.authBox .passwordWrap{width:100%;max-width:100%}
+
+
+/* Final Contest Details layout - first reference screenshot style */
+.detailPage{background:#f4f4f4;color:#222;min-height:100vh;padding-bottom:90px}
+.detailTop{height:76px;background:#07517f;border-radius:0 0 28px 28px;display:flex;align-items:center;gap:14px;padding:0 18px;position:sticky;top:0;z-index:20;box-shadow:0 3px 10px #0003}
+.detailTop .back{width:40px;height:40px;padding:0;background:transparent;color:#fff;font-size:40px;line-height:40px}
+.detailTop h1{margin:0;color:#fff;font-size:22px;font-weight:700}
+.detailBody{padding:28px 29px 100px}
+.detailMatchTitle{margin:0 0 28px;color:#27a8d2;font-size:19px;font-weight:800;line-height:1.35}
+.detailChips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 13px;margin-bottom:16px}
+.detailChip{min-height:74px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #cfcfcf;box-shadow:0 1px 4px #0002;padding:10px 8px;color:#222;text-align:center;font-size:16px;line-height:1.25}
+.detailChip b{margin-left:5px;font-weight:700}
+.detailSchedule{margin:4px 6px 28px;min-height:61px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #cfcfcf;box-shadow:0 1px 4px #0002;padding:10px;text-align:center;font-size:16px}
+.detailSchedule b{margin-left:7px}
+.detailPrizePreview{position:relative;background:transparent;border:0;min-height:0;padding:32px 0 0;margin:0 0 10px}
+.detailPrizePreview:before{content:"Prize Details";position:absolute;left:0;top:0;color:#27a8d2;font-size:19px;font-weight:800}
+.detailPrizePreview .prizeMini{display:flex;justify-content:flex-start;align-items:center;gap:6px;padding:4px 0;border:0;font-size:16px;font-weight:700;color:#222}
+.detailPrizePreview .prizeMini span{font-weight:700}
+.detailPrizePreview .prizeMini b{font-weight:700;color:#222}
+.detailPrizePreview .detailLink{margin:14px 0 0;padding:0;color:#27a8d2;font-size:17px;font-weight:800}
+.detailAbout{margin:34px 0 12px;color:#27a8d2;font-size:19px;font-weight:800}
+.detailRules{background:#e9e7fb;padding:18px 18px 20px;margin:0 0 18px;border-radius:0}
+.detailRules h3{margin:0;padding:0 0 16px;border-bottom:5px solid #77718f;text-align:center;color:#151515;font-size:20px}
+.detailRules ul{margin:17px 0 0;padding-left:24px}
+.detailRules li{margin:12px 0;color:#202020;font-size:14px;font-weight:600;line-height:1.5}
+.detailActions{display:grid;gap:12px}
+.detailActions .flowBtn{width:100%;border-radius:8px;padding:14px}
+@media(max-width:520px){
+  .detailBody{padding-left:29px;padding-right:29px}
+  .detailChips{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+  .detailChip{font-size:14px;min-height:74px;padding:9px 4px}
+  .detailSchedule{font-size:15px}
+  .detailMatchTitle{font-size:18px}
+}
+
+
+/* Admin Result Panel */
+.adminPage{background:#f3f5f8;color:#18202a;min-height:100vh;padding-bottom:95px}.adminTop{height:66px;background:#07517f;color:#fff;display:flex;align-items:center;padding:0 14px;gap:10px;position:sticky;top:0;z-index:20}.adminTop .back{width:42px;height:42px;border-radius:50%;background:#fff;color:#07517f;font-size:30px}.adminTop h1{font-size:20px;margin:0}.adminPad{padding:14px}.adminCard{background:#fff;border-radius:14px;padding:14px;margin-bottom:14px;box-shadow:0 2px 8px #0002}.adminCard h3{margin:0 0 12px;color:#07517f}.adminSelect,.adminInput{width:100%;padding:12px;border:1px solid #cbd2d9;border-radius:9px;font-size:15px;background:#fff}.adminPrizeGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.adminPrizeGrid .adminPrize{display:grid;grid-template-columns:58px 1fr;gap:6px;align-items:center}.adminPrize label{font-weight:700;font-size:13px}.adminActions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.adminTableWrap{overflow-x:auto}.adminTable{width:100%;border-collapse:collapse;min-width:650px}.adminTable th{background:#07517f;color:#fff;padding:9px 6px;font-size:12px;text-align:left}.adminTable td{padding:7px 5px;border-bottom:1px solid #e5e7eb;font-size:12px;vertical-align:middle}.adminTable input{width:70px;padding:8px;border:1px solid #cbd2d9;border-radius:7px}.adminPlayer{font-weight:700}.adminSub{font-size:11px;color:#68727e;margin-top:2px}.adminStatus{font-weight:700;padding:8px;border-radius:8px;background:#edf6ff;color:#07517f;margin-bottom:10px}.adminPublish{background:#18b66a!important}.adminHint{font-size:12px;color:#68727e;line-height:1.45;margin:8px 0 0}.adminDanger{color:#b42318;font-size:12px;margin-top:8px}
+</style>
+</head><body>
+<section id="home" class="page">
+<header class="top"><div class="topbar"><div class="profile"><div class="avatar">🧑🏻‍💻</div><div class="name">DR Better</div></div><div class="wallet" onclick="openPage('wallet')" style="cursor:pointer"><div class="coin">₹</div><div class="balance" id="topBalance">0</div><div class="bell" onclick="event.stopPropagation();openPage('notifications')">🔔</div></div></div></header>
+<div class="notice"><div class="noticeIcon">📢</div><div class="noticeText">Horse (Ghoda) Ban 🚫 Per KILL And Survival Dono Mode me Horse (Ghoda) Ban hai Agar Koi use Karega...</div></div>
+<div class="bannerCarousel" id="homeBannerCarousel">
+  <div class="bannerTrack" id="bannerTrack">
+    <div class="bannerSlide"><img src="assets/banner.jpg" alt="Banner 1"><button class="details" onclick="openPage('withdraw')">More details</button></div>
+    <div class="bannerSlide"><img src="assets/br_survival.jpg" alt="BR Survival"><button class="details" onclick="openContests('BR SURVIVAL')">More details</button></div>
+    <div class="bannerSlide"><img src="assets/per_kill.jpg" alt="Per Kill"><button class="details" onclick="openContests('PER KILL MATCHES')">More details</button></div>
+    <div class="bannerSlide"><img src="assets/clash_1v1.jpg" alt="Clash Squad 1V1"><button class="details" onclick="openContests('CLASH SQUAD 1V1')">More details</button></div>
+  </div>
+  <button class="bannerArrow left" onclick="bannerMove(-1)" aria-label="Previous">‹</button>
+  <button class="bannerArrow right" onclick="bannerMove(1)" aria-label="Next">›</button>
+  <div class="bannerDots" id="bannerDots"><button class="dot active" onclick="bannerGo(0)"></button><button class="dot" onclick="bannerGo(1)"></button><button class="dot" onclick="bannerGo(2)"></button><button class="dot" onclick="bannerGo(3)"></button></div>
+</div>
+<h2>My Matches</h2><div class="section"><div class="matches">
+<button class="match" onclick="openPage('ongoing')"><div class="matchIcon green">🔄</div>Ongoing</button>
+<button class="match" onclick="openPage('upcoming')"><div class="matchIcon cyan">▣</div>Upcoming</button>
+<button class="match" onclick="openPage('completed')"><div class="matchIcon check">✓</div>Completed</button>
+</div>
+<div class="title">Esports Games</div><div class="games">
+<button class="game" onclick="openContests('BR SURVIVAL')"><img class="gameImg" src="assets/br_survival.jpg" alt="DR Better game"><div class="gameName">BR SURVIVAL</div><div class="online">29</div></button>
+<button class="game" onclick="openContests('PER KILL MATCHES')"><img class="gameImg" src="assets/per_kill.jpg" alt="DR Better game"><div class="gameName">PER KILL MATCHES</div><div class="online">22</div></button>
+<button class="game" onclick="openContests('CLASH SQUAD 1V1')"><img class="gameImg" src="assets/clash_1v1.jpg" alt="DR Better game"><div class="gameName">CLASH SQUAD 1V1</div><div class="online">28</div></button>
+<button class="game" onclick="openContests('LONE WOLF 1V1')"><img class="gameImg" src="assets/lone_wolf_1v1.jpg" alt="DR Better game"><div class="gameName">LONE WOLF 1V1</div><div class="online">84</div></button>
+<button class="game" onclick="openContests('CLASH SQUAD 4V4')"><img class="gameImg" src="assets/clash_4v4.jpg" alt="DR Better game"><div class="gameName">CLASH SQUAD 4V4</div><div class="online">41</div></button>
+<button class="game" onclick="openContests('LONE WOLF 2V2')"><img class="gameImg" src="assets/lone_wolf_2v2.jpg" alt="DR Better game"><div class="gameName">LONE WOLF 2V2</div><div class="online">35</div></button>
+</div></div></section>
+
+<section id="earn" class="page refPage">
+  <div class="refHead">
+    <div class="back" onclick="goHome()">‹</div>
+    <div class="headTitle">Refer &amp; Earn</div>
+  </div>
+  <div class="refBody">
+    <h1>Refer your friend and<br>Earn</h1>
+    <div class="gift">🎁</div>
+    <p class="refText">Invite your friends on App using your Referral Code to Earn 0 Coins in bonusWallet When they join First Paid match, with minimum entry fee of 0. Your friends also get 0 Coins in bonusWallet as Register Bonus!</p>
+    <div class="refCodeBox">
+      <div class="refLabel">Your referral code</div>
+      <div class="refCode">
+        <span id="earnReferralCode">soulrapper</span>
+        <span onclick="copyReferral()" style="cursor:pointer;font-size:28px">▢</span>
+      </div>
+    </div>
+    <div class="shareTitle">Share your referral code via</div>
+    <div class="shareBtns">
+      <button class="shareBtn telegram" onclick="shareApp('Telegram')">➤ Telegram</button>
+      <button class="shareBtn facebook" onclick="shareApp('Facebook')">f Facebook</button>
+      <button class="shareBtn whatsapp" onclick="shareApp('WhatsApp')">◉ WhatsApp</button>
+    </div>
+  </div>
+</section>
+
+<section id="leaderboard" class="page"><div class="header"><button onclick="goHome()">‹</button><div class="headerTitle">Leaderboard</div></div><div class="card"><h3>🏆 Top Players</h3><div class="row">🥇 Player One <b>2500</b></div><div class="row">🥈 Player Two <b>2180</b></div><div class="row">🥉 Player Three <b>1940</b></div><div class="row">4️⃣ DR Player <b>1750</b></div></div></section>
+
+<section id="menu" class="page"><div class="header"><div class="headerTitle">Menu</div></div><div class="card"><div class="row">👤 <span>Signed in as</span> <b id="menuUsername">Guest</b></div><div class="row" onclick="openPage('profile')">👤 <b>Profile</b> ›</div><div class="row" onclick="openPage('wallet')">💰 <b>Wallet</b> ›</div><div class="row" onclick="openPage('history')">📜 <b>Transaction History</b> ›</div><div class="row" onclick="openPage('notifications')">🔔 <b>Notifications</b> ›</div><div class="row" onclick="openPage('settings')">⚙️ <b>Settings</b> ›</div><div class="row" onclick="openPage('support')">❓ <b>Help & Support</b> ›</div><button class="btn logoutBtn" onclick="logoutUser()">Logout</button></div></section>
+
+<section id="profile" class="page"><div class="header"><button onclick="openPage('menu')">‹</button><div class="headerTitle">Profile</div></div><div class="card center"><div class="avatarBig">🧑🏻‍💻</div><h2 id="profileUsername">DR Better Player</h2><p id="profileUid">Player ID: —</p><div class="stat"><div><b>24</b><br>Matches</div><div><b>18</b><br>Wins</div><div><b>75%</b><br>Win Rate</div></div></div><div class="card"><div class="row">Name <b id="profileName">—</b></div><div class="row">Player ID <b id="profileUid2">—</b></div><div class="row">Mobile <b>••••••1234</b></div></div></section>
+
+<section id="wallet" class="page"><div class="header"><button onclick="openPage('menu')">‹</button><div class="headerTitle">Wallet</div></div><div class="card center"><p>Available Balance</p><div class="balanceBig">₹ <span class="walletBalance">0</span></div><button class="btn greenBtn" onclick="openPage('addmoney')">＋ Add Money</button><button class="btn" onclick="openPage('withdraw')">💸 Withdraw</button></div><div class="card"><div class="row">Bonus Balance <b>₹0</b></div><div class="row">Winning Balance <b>₹3</b></div></div></section>
+
+<section id="addmoney" class="page"><div class="header"><button onclick="openPage('wallet')">‹</button><div class="headerTitle">Add Money</div></div><div class="card"><h3>💰 Add Money</h3><input class="input" id="addAmount" type="number" placeholder="Enter amount"><button class="btn greenBtn" onclick="addMoney()">Add Money</button></div><div class="card"><h3>Quick Amount</h3><button class="btn" onclick="quickAdd(10)">₹10</button><button class="btn" onclick="quickAdd(50)">₹50</button><button class="btn" onclick="quickAdd(100)">₹100</button></div></section>
+
+<section id="withdraw" class="page"><div class="header"><button onclick="goHome()">‹</button><div class="headerTitle">Withdraw</div></div><div class="card"><h3>💸 Withdraw Money</h3><p>Available Balance: ₹<span class="walletBalance">0</span></p><input class="input" id="withdrawAmount" type="number" placeholder="Amount"><input class="input" id="upi" type="text" placeholder="UPI ID"><button class="btn greenBtn" onclick="withdraw()">Submit Withdrawal</button></div><div class="card"><p>Withdrawal Time: <b>10 AM - 11 PM</b></p><p>Minimum Withdrawal: <b>₹10</b></p></div></section>
+
+<section id="ongoing" class="page"><div class="header"><button onclick="goHome()">‹</button><div class="headerTitle">Ongoing Matches</div></div><div class="card"><h3>🔴 Live Match</h3><div class="row">BR Survival <b>LIVE</b></div><button class="btn" onclick="match('BR Survival Live')">View Match</button></div></section>
+
+<section id="upcoming" class="page"><div class="header"><button onclick="goHome()">‹</button><div class="headerTitle">Upcoming Matches</div></div><div class="card"><h3>📅 Upcoming</h3><div class="row">Clash Squad 1V1 <b>8:00 PM</b></div><button class="btn" onclick="match('Clash Squad 1V1')">Join</button></div><div class="card"><div class="row">Lone Wolf 2V2 <b>9:00 PM</b></div><button class="btn" onclick="match('Lone Wolf 2V2')">Join</button></div></section>
+
+<section id="completed" class="page"><div class="header"><button onclick="goHome()">‹</button><div class="headerTitle">Completed Matches</div></div><div class="card"><div class="row">BR Survival <b>Completed ✓</b></div><div class="row">Result <b>Winner</b></div></div><div class="card"><div class="row">Clash Squad <b>Completed ✓</b></div><div class="row">Result <b>Winner</b></div></div></section>
+
+<section id="matchdetail" class="page">
+<div class="header"><button onclick="goHome()">‹</button><div class="headerTitle">Match Details</div></div>
+<div class="card gameDetailCard">
+  <img id="detailImage" class="detailImage" src="assets/br_survival.jpg" alt="Game">
+  <h2 id="selectedGame">Game</h2>
+  <div class="detailGrid">
+    <div><span>💰 Entry Fee</span><b id="detailEntry">₹5</b></div>
+    <div><span>🏆 Prize Pool</span><b id="detailPrize">₹100</b></div>
+    <div><span>👥 Total Slots</span><b id="detailSlots">50</b></div>
+    <div><span>🎮 Mode</span><b id="detailMode">Survival</b></div>
+    <div><span>📅 Date</span><b id="detailDate">Today</b></div>
+    <div><span>🕐 Match Time</span><b id="detailTime">8:00 PM</b></div>
+  </div>
+  <div class="rulesBox">
+    <h3>📋 Match Rules</h3>
+    <ul id="detailRules">
+      <li>Room ID और Password match शुरू होने से पहले दिया जाएगा।</li>
+      <li>गलत या banned settings का इस्तेमाल न करें।</li>
+      <li>Match में समय पर join करना जरूरी है।</li>
+      <li>Result के लिए screenshot/proof मांगा जा सकता है।</li>
+    </ul>
+  </div>
+  <button class="btn greenBtn" onclick="joinNow()">Join Match</button>
+</div>
+</section>
+
+<section id="notifications" class="page"><div class="header"><button onclick="goHome()">‹</button><div class="headerTitle">Notifications</div></div><div class="card"><div class="row">📢 New tournament available <small>Now</small></div><div class="row">🎁 Daily reward available <small>Today</small></div><div class="row">💰 Withdrawal information updated <small>Today</small></div><div class="row">🎮 New game added <small>Yesterday</small></div></div></section>
+
+<section id="history" class="page"><div class="header"><button onclick="openPage('menu')">‹</button><div class="headerTitle">History</div></div><div class="card"><h3>Transaction History</h3><div class="row">Opening Balance <b>₹3</b></div><div class="row">Daily Reward <b>+₹0</b></div><div class="row">Withdrawal <b>₹0</b></div></div></section>
+
+<section id="settings" class="page"><div class="header"><button onclick="openPage('menu')">‹</button><div class="headerTitle">Settings</div></div><div class="card"><div class="row">🔔 Notifications <input type="checkbox" checked></div><div class="row">🔊 Sound <input type="checkbox" checked></div><div class="row" onclick="show('Language: English')">🌐 Language <b>English ›</b></div><div class="row" onclick="show('Privacy Policy opened')">🔒 Privacy Policy ›</div><div class="row" onclick="show('Terms & Conditions opened')">📄 Terms & Conditions ›</div></div></section>
+
+<section id="support" class="page"><div class="header"><button onclick="openPage('menu')">‹</button><div class="headerTitle">Help & Support</div></div><div class="card"><h3>❓ How can we help?</h3><input class="input" placeholder="Your name"><input class="input" placeholder="Your email"><textarea class="input" rows="5" placeholder="Write your problem"></textarea><button class="btn greenBtn" onclick="show('Support request submitted')">Submit</button></div></section>
+
+
+<section id="refer" class="page refPage">
+  <div class="refHead"><div class="back" onclick="goHome()">‹</div><div class="headTitle">Refer &amp; Earn</div></div>
+  <div class="refBody">
+    <h1>Refer your friend and<br>Earn</h1>
+    <div class="gift">🎁</div>
+    <p class="refText">Invite your friends on App using your Referral Code to Earn 0 Coins in bonusWallet When they join First Paid match, with minimum entry fee of 0. Your friends also get 0 Coins in bonusWallet as Register Bonus!</p>
+    <div class="refCodeBox"><div class="refLabel">Your referral code</div><div class="refCode"><span>soulrapper</span><span onclick="copyReferral()" style="cursor:pointer">▢</span></div></div>
+    <div class="shareTitle">Share your referral code via</div>
+    <div class="shareBtns"><button class="shareBtn telegram" onclick="shareApp('Telegram')">➤ Telegram</button><button class="shareBtn facebook" onclick="shareApp('Facebook')">f Facebook</button><button class="shareBtn whatsapp" onclick="shareApp('WhatsApp')">◉ WhatsApp</button></div>
+  </div>
+</section>
+
+<section id="realLeaderboard" class="page leaderPage">
+  <div class="darkHead"><div class="back" onclick="goHome()">‹</div><div class="headTitle">Leaderboard</div></div>
+  <div class="tabs"><button class="tab active" onclick="lbTab(this)">Weekly</button><button class="tab" onclick="lbTab(this)">Monthly</button><button class="tab" onclick="lbTab(this)">Fulltime</button></div>
+  <div class="lbTable">
+    <div class="lbHeader"><span>Position</span><span>Player Name</span><span class="win">Winning</span></div>
+    <div class="lbRow"><span>1</span><span>royal_nikhil</span><span class="win"><span class="gold">●</span> 2838</span></div>
+    <div class="lbRow"><span>2</span><span>rabajit12</span><span class="win"><span class="gold">●</span> 2415</span></div>
+    <div class="lbRow"><span>3</span><span>_sad_</span><span class="win"><span class="gold">●</span> 2200</span></div>
+    <div class="lbRow"><span>4</span><span>not_maxxa</span><span class="win"><span class="gold">●</span> 1845</span></div>
+    <div class="lbRow"><span>5</span><span>legenddd</span><span class="win"><span class="gold">●</span> 1630</span></div>
+    <div class="lbRow"><span>6</span><span>akash222</span><span class="win"><span class="gold">●</span> 1510</span></div>
+    <div class="lbRow"><span>7</span><span>sharma_ji_210</span><span class="win"><span class="gold">●</span> 1425</span></div>
+    <div class="lbRow"><span>8</span><span>norix20</span><span class="win"><span class="gold">●</span> 1420</span></div>
+    <div class="lbRow"><span>9</span><span>adigamerrrr</span><span class="win"><span class="gold">●</span> 1400</span></div>
+    <div class="lbRow"><span>10</span><span>ferozz</span><span class="win"><span class="gold">●</span> 1360</span></div>
+  </div>
+</section>
+
+<section id="realMenu" class="page menuPage">
+  <div class="menuHead">Menu</div>
+  <div class="menuStats"><div class="menuStat"><b>2</b><span>Matches Played</span></div><div class="menuStat"><b>0</b><span>Total Kills</span></div><div class="menuStat"><b>🪙 0</b><span>Total Earning</span></div></div>
+  <div class="menuList">
+    <div class="menuItem" onclick="openPage('profile')"><span class="mi">👤</span>My Profile<span class="arrow">›</span></div>
+    <div class="menuItem" onclick="openPage('wallet')"><span class="mi">▣</span>My Wallet<span class="arrow">›</span></div>
+    <div class="menuItem" onclick="openPage('history')"><span class="mi">▥</span>My Statistics<span class="arrow">›</span></div>
+    <div class="menuItem" onclick="openPage('realLeaderboard')"><span class="mi">🏆</span>Top Players<span class="arrow">›</span></div>
+    <div class="menuItem" onclick="openPage('notifications')"><span class="mi">🔔</span>Notifications<span class="arrow">›</span></div>
+    <div class="menuItem" onclick="openPage('support')"><span class="mi">🎧</span>Contact Us<span class="arrow">›</span></div>
+    <div class="menuItem" onclick="show('Importance Notice toggled')"><span class="mi">🔔</span>Importance Notice<span class="switch"></span></div>
+    <div class="menuItem" onclick="show('FAQ opened')"><span class="mi">?</span>FAQ<span class="arrow">›</span></div>
+    <div class="menuItem" onclick="show('About Us opened')"><span class="mi">ℹ</span>About Us<span class="arrow">›</span></div>
+    <div class="menuItem" onclick="show('Privacy Policy opened')"><span class="mi">🔒</span>Privacy Policy<span class="arrow">›</span></div>
+    <div class="menuItem" onclick="show('Terms & Conditions opened')"><span class="mi">🛡</span>Terms &amp; Conditions<span class="arrow">›</span></div>
+    <div id="adminMenuItem" class="menuItem" style="display:none" onclick="openAdminResults()"><span class="mi">🛠</span>Admin Result Panel<span class="arrow">›</span></div><div class="menuItem" onclick="logoutUser()"><span class="mi">⏻</span>Logout<span class="arrow">›</span></div>
+  </div>
+</section>
+
+<section id="brcontests" class="page contestPage">
+  <div class="darkHead"><div class="back" onclick="goHome()">‹</div><div class="headTitle">BR SURVIVAL Contests</div></div>
+  <div class="contestTabs"><div class="contestTab">Ongoing</div><div class="contestTab active">Upcoming</div><div class="contestTab">Resulted</div></div>
+  <div class="contests">
+    <div class="contestCard"><img src="assets/br_survival.jpg"><div class="contestBody"><div class="contestTitle">Top - 10 Prize 🏆 SOLO SURVIVAL 🚨<br>Ghoda Ban ⚠️ #174895</div><div class="contestDate">Time : 20/09/2026 at 03:00 PM</div><div class="contestStats"><div><small>PRIZE POOL</small><b>🪙 300</b></div><div><small>PER KILL</small><b>🪙 0</b></div><div><small>ENTRY FEE</small><b>🪙 16</b></div></div><div class="contestBottom"><div><small>TYPE</small><b>Solo</b></div><div><small>ENTRY PER PLAYER</small><b>16</b></div><div><small>MAP</small><b>Bermuda</b></div></div><div class="spots"><span>Only 0 Spot Left &nbsp; 20/20</span><button class="joinBtn" onclick="show('Joining Full')">Joining Full</button></div></div></div>
+    <div class="contestCard"><img src="assets/br_survival.jpg"><div class="contestBody"><div class="contestTitle">Top - 9 Prize 🏆 SOLO SURVIVAL 🚨<br>Ghoda Ban ⚠️ #174896</div><div class="contestDate">Time : 20/09/2026 at 04:00 PM</div><div class="contestStats"><div><small>PRIZE POOL</small><b>🪙 270</b></div><div><small>PER KILL</small><b>🪙 0</b></div><div><small>ENTRY FEE</small><b>🪙 16</b></div></div><div class="contestBottom"><div><small>TYPE</small><b>Solo</b></div><div><small>ENTRY PER PLAYER</small><b>16</b></div><div><small>MAP</small><b>Bermuda</b></div></div><div class="spots"><span>Only 0 Spot Left &nbsp; 20/20</span><button class="joinBtn" onclick="show('Joining Full')">Joining Full</button></div></div></div>
+  </div>
+</section>
+
+
+<section id="contestList" class="page flowPage">
+  <div class="flowTop"><button class="back" onclick="goHome()">‹</button><h1 id="contestListTitle">Contests</h1></div>
+  <div class="flowTabs"><button class="active" onclick="contestTab(this,'up')">Upcoming</button><button onclick="contestTab(this,'live')">Ongoing</button><button onclick="contestTab(this,'result')">Resulted</button></div>
+  <div id="contestCards" class="flowBody"></div>
+</section>
+
+<section id="contestDetails" class="page detailPage">
+  <div class="detailTop">
+    <button class="back" onclick="openPage('contestList')">‹</button>
+    <h1 id="detailHeaderTitle">Contest Details</h1>
+  </div>
+
+  <div class="detailBody">
+    <img id="cdImage" class="detailImage" src="assets/br_survival.jpg" alt="Contest banner">
+    <div id="cdTitle" class="detailMatchTitle"></div>
+
+    <div class="detailChips">
+      <div class="detailChip">Team: <b id="cdTeam">—</b></div>
+      <div class="detailChip">Mode: <b id="cdMode">—</b></div>
+      <div class="detailChip">Map: <b id="cdMap">—</b></div>
+      <div class="detailChip">Match Type: <b id="cdMatchType">—</b></div>
+      <div class="detailChip">Entry Fee: <b id="cdFee">—</b></div>
+      <div class="detailChip">Per Kill: <b id="cdKill">—</b></div>
+      <div class="detailChip">Slots: <b id="cdSlots">—</b></div>
+    </div>
+
+    <div class="detailSchedule">
+      Match Schedule: <b id="cdDate">—</b>
+    </div>
+
+    <div id="detailPrizePreview" class="detailPrizePreview" style="display:none"></div>
+
+    <div class="detailAbout">About this Match</div>
+
+    <div class="detailRules">
+      <h3>Rules and Regulations</h3>
+      <ul id="detailRulesList"></ul>
+    </div>
+
+    <div class="detailActions">
+      <button class="flowBtn" onclick="openPage('joiningsPage')">VIEW ALL JOININGS</button>
+      <button class="flowBtn joinMain" onclick="openSlotSelection()">Join Match</button>
+    </div>
+  </div>
+</section>
+
+<section id="prizeDetails" class="page flowPage">
+  <div class="flowTop"><button class="back" onclick="openPage('contestDetails')">‹</button><h1>Prize Details</h1></div>
+  <div class="flowBody"><div class="flowSection"><h3 id="prizeHeading">Prize Breakup</h3><div id="prizeRows"></div></div><button class="flowBtn green" onclick="openSlotSelection()">Continue to Join</button></div>
+</section>
+
+<section id="rulesPage" class="page flowPage">
+  <div class="flowTop"><button class="back" onclick="openPage('contestDetails')">‹</button><h1>Rules & Regulations</h1></div>
+  <div class="flowBody"><div class="flowSection"><h3>📋 Contest Rules</h3><ul class="rules" id="rulesList"></ul></div><div class="flowSection"><h3>🚫 Ban Items</h3><p><span class="chip">Horse (Ghoda)</span><span class="chip">Hack / Mod</span><span class="chip">Team-up</span><span class="chip">Abusive Play</span></p></div><button class="flowBtn green" onclick="openSlotSelection()">I Agree & Continue</button></div>
+</section>
+
+<section id="joiningsPage" class="page flowPage">
+  <div class="flowTop"><button class="back" onclick="openPage('contestDetails')">‹</button><h1>All Joinings</h1></div>
+  <div class="flowBody"><div class="flowSection"><h3 id="joiningsHeading">Joined Players</h3><div id="joiningsRows"></div></div></div>
+</section>
+
+<section id="slotSelection" class="page flowPage">
+  <div class="flowTop"><button class="back" onclick="openPage('contestDetails')">‹</button><h1>Team / Slot Selection</h1></div>
+  <div class="flowBody">
+    <div class="flowSection"><h3>Select Your Slot</h3><p class="muted">Blue = selected, grey = already joined.</p><div id="slotGrid" class="slots"></div></div>
+    <div class="flowSection"><label class="fieldLabel">In-Game Name</label><input id="ignInput" class="flowInput" placeholder="Enter your Free Fire name"><label class="fieldLabel">Game UID</label><input id="uidInput" class="flowInput" placeholder="Enter Game UID"></div>
+    <div class="joinSummary"><div class="summaryRow"><span>Current Balance</span><b>₹<span class="walletBalance">0</span></b></div><div class="summaryRow"><span>Entry Fee</span><b id="joinFee">₹0</b></div><div class="summaryRow"><span>Total Payable</span><b id="totalPayable">₹0</b></div></div>
+    <button class="flowBtn green" onclick="confirmJoin()">Join Now</button>
+  </div>
+</section>
+
+<section id="joinConfirm" class="page flowPage">
+  <div class="flowTop"><button class="back" onclick="openPage('home')">‹</button><h1>Join Confirmation</h1></div>
+  <div class="flowBody"><div class="flowSection successBox"><div class="successIcon">✅</div><h2>Contest Joined Successfully</h2><p id="confirmText"></p><div class="summaryRow"><span>Entry Fee</span><b id="confirmFee"></b></div><div class="summaryRow"><span>Remaining Balance</span><b>₹<span class="walletBalance">0</span></b></div><button class="flowBtn" onclick="openPage('joiningsPage')">View My Joining</button><button class="flowBtn gray" onclick="goHome()">Go to Home</button></div></div>
+</section>
+<nav class="nav"><button id="nEarn" onclick="nav('earn','nEarn')"><div class="navIcon">🎁</div>Earn</button><button id="nLeader" onclick="nav('realLeaderboard','nLeader')"><div class="navIcon">🏆</div>Leaderboard</button><button id="nHome" class="active" onclick="nav('home','nHome')"><div class="navIcon">⌂</div>Home</button><button id="nMenu" onclick="nav('realMenu','nMenu')"><div class="navIcon">•••</div>Menu</button></nav>
+<div id="toast" class="toast"></div>
+
+<section id="adminResults" class="page adminPage">
+  <div class="adminTop"><button class="back" onclick="openPage('realMenu')">‹</button><h1>Admin • Match Result</h1></div>
+  <div class="adminPad">
+    <div class="adminCard">
+      <h3>1. Match Select करें</h3>
+      <select id="adminContestSelect" class="adminSelect" onchange="loadAdminResult()"><option value="">Loading matches...</option></select>
+      <div id="adminResultStatus" class="adminStatus" style="margin-top:10px">Match select करें</div>
+    </div>
+    <div id="adminPrizeCard" class="adminCard" style="display:none">
+      <h3>2. इस Match का Prize Breakup</h3>
+      <div id="adminPrizeGrid" class="adminPrizeGrid"></div>
+      <button class="flowBtn" style="margin-top:10px" onclick="saveAdminPrizes()">Save Prize Breakup</button>
+      <p class="adminHint">Prize total इसी match के prize pool के बराबर होना चाहिए। Per Kill match में prize breakup की जरूरत नहीं है।</p>
+    </div>
+    <div id="adminPlayersCard" class="adminCard" style="display:none">
+      <h3>3. सभी Players का Result</h3>
+      <div class="adminActions">
+        <button class="flowBtn" onclick="autoRankAdminResults()">Auto Rank</button>
+        <button class="flowBtn adminPublish" onclick="publishAdminResults()">Publish Result</button>
+      </div>
+      <p class="adminHint">Kills और Score भरें, फिर Auto Rank दबाएँ। Rank score के आधार पर ऊपर से नीचे बनेगा; बराबरी में kills का उपयोग होगा। Per Kill match में prize = Kills × ₹9.</p>
+      <div id="adminPlayersTable" class="adminTableWrap" style="margin-top:12px"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+let balance=0,selected="";
+
+// Home banner: 4 separate swipeable pages
+let bannerIndex=0, bannerTimer=null, bannerStartX=0, bannerDragging=false;
+function bannerRender(){
+  const track=document.getElementById('bannerTrack'); if(!track)return;
+  track.style.transform='translateX(-'+(bannerIndex*100)+'%)';
+  document.querySelectorAll('#bannerDots .dot').forEach((d,i)=>d.classList.toggle('active',i===bannerIndex));
+}
+function bannerGo(i){bannerIndex=(i+4)%4;bannerRender();bannerRestart()}
+function bannerMove(dir){bannerGo(bannerIndex+dir)}
+function bannerRestart(){clearInterval(bannerTimer);bannerTimer=setInterval(()=>bannerMove(1),5000)}
+function bannerTouchStart(e){bannerDragging=true;bannerStartX=e.touches[0].clientX}
+function bannerTouchEnd(e){if(!bannerDragging)return;bannerDragging=false;const dx=e.changedTouches[0].clientX-bannerStartX;if(Math.abs(dx)>45)bannerMove(dx<0?1:-1)}
+document.addEventListener('DOMContentLoaded',()=>{const c=document.getElementById('homeBannerCarousel');if(c){c.addEventListener('touchstart',bannerTouchStart,{passive:true});c.addEventListener('touchend',bannerTouchEnd,{passive:true});bannerRestart()}});
+
+const API_BASE=(localStorage.getItem('DR_BETTER_API') || (location.protocol==='file:' ? '' : location.origin)).replace(/\/$/,'');
+let authToken=localStorage.getItem('DR_BETTER_TOKEN')||'';
+let currentUser=null;
+function apiHeaders(){return {'Content-Type':'application/json',...(authToken?{'Authorization':'Bearer '+authToken}:{})};}
+async function api(path,options={}){
+  if(!API_BASE) throw new Error('Backend URL is not configured. Open the app from the deployed backend URL or set DR_BETTER_API.');
+  let res;
+  try{res=await fetch(API_BASE+path,{...options,headers:{...apiHeaders(),...(options.headers||{})}})}
+  catch(e){throw new Error('Backend server is unreachable. Real database mode requires the backend to be running.');}
+  const data=await res.json().catch(()=>({}));
+  if(!res.ok) throw new Error(data.error||'Server request failed');
+  return data;
+}
+function showAuthError(e){show(e?.message||'Server request failed')}
+function showAuthMode(mode){
+  const loginForm=document.getElementById('loginForm');
+  const registerForm=document.getElementById('registerForm');
+  if(loginForm) loginForm.style.display=mode==='login'?'block':'none';
+  if(registerForm) registerForm.style.display=mode==='register'?'block':'none';
+  const h=document.getElementById('authHeading');
+  if(h) h.innerHTML=mode==='login'?'Welcome to,<br>Login':'Welcome to,<br>Sign Up';
+}
+function togglePassword(id,btn){
+  const input=document.getElementById(id); input.type=input.type==='password'?'text':'password'; btn.innerText=input.type==='password'?'Show':'Hide';
+}
+async function loginUser(){
+  const username=document.getElementById('loginUsername').value.trim(),password=document.getElementById('loginPassword').value;
+  if(!username||!password){show('Username and password required');return}
+  try{const d=await api('/api/auth/login',{method:'POST',body:JSON.stringify({username,password})});authToken=d.token;localStorage.setItem('DR_BETTER_TOKEN',authToken);currentUser=d.user;await afterAuth();goHome();show('Login successful');}catch(e){showAuthError(e)}
+}
+async function registerUser(){
+  const firstName=document.getElementById('regFirstName').value.trim();
+  const lastName=document.getElementById('regLastName').value.trim();
+  const username=document.getElementById('regUsername').value.trim();
+  const mobile=document.getElementById('regMobile').value.trim();
+  const email=document.getElementById('regEmail').value.trim();
+  const password=document.getElementById('regPassword').value;
+  const referralCode=document.getElementById('regReferral').value.trim();
+  const gameUid=document.getElementById('regGameUid').value.trim();
+  if(!firstName||!lastName||!username||!mobile||!email||!password){show('Please fill all required fields');return}
+  if(password.length<8){show('Password must be at least 8 characters');return}
+  try{
+    const d=await api('/api/auth/register',{method:'POST',body:JSON.stringify({firstName,lastName,username,mobile,email,password,referralCode,gameUid})});
+    authToken=d.token;localStorage.setItem('DR_BETTER_TOKEN',authToken);currentUser=d.user;await afterAuth();goHome();show('Account created successfully');
+  }catch(e){showAuthError(e)}
+}
+async function afterAuth(){
+  document.getElementById('menuUsername').innerText=currentUser?.username||'User';
+  document.getElementById('profileUsername').innerText=currentUser?.username||'User';
+  document.getElementById('profileName').innerText=currentUser?.username||'User';
+  document.getElementById('profileUid').innerText='Game UID: '+(currentUser?.game_uid||'—');
+  document.getElementById('profileUid2').innerText=currentUser?.game_uid||'—';
+  await refreshWallet();
+  const adminItem=document.getElementById('adminMenuItem');
+  if(adminItem) adminItem.style.display=currentUser?.is_admin?'flex':'none';
+}
+async function refreshWallet(){try{const d=await api('/api/wallet');balance=Number(d.balance);updateBalance();}catch(e){showAuthError(e)}}
+function logoutUser(){authToken='';currentUser=null;localStorage.removeItem('DR_BETTER_TOKEN');window.location.href='login.html'}
+function openPage(id){
+  if(!authToken){window.location.href='login.html';return}
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));const el=document.getElementById(id);if(el)el.classList.add('active');window.scrollTo(0,0);
+}
+function nav(id,btn){
+  openPage(id);
+  document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));
+  const b=document.getElementById(btn);
+  if(b) b.classList.add('active');
+}
+function goHome(){nav('home','nHome')}
+function show(msg){
+  const t=document.getElementById('toast');
+  if(!t){console.warn(msg);return;}
+  t.innerText=msg;t.style.display='block';
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer=setTimeout(()=>{if(t)t.style.display='none'},2200);
+}
+
+function updateBalance(){
+  const top=document.getElementById('topBalance'); if(top) top.innerText=Number(balance).toFixed(0);
+  const earnBox=document.getElementById('earnBalance'); if(earnBox) earnBox.innerText=Number(balance).toFixed(0);
+  document.querySelectorAll('.walletBalance').forEach(x=>x.innerText=Number(balance).toFixed(0));
+}
+function earn(){show('Daily reward will be credited by the backend after task validation.')}
+function quickAdd(n){const el=document.getElementById('addAmount');if(el)el.value=n}
+function addMoney(){show('Real payment is not connected yet. Add-money will be enabled after payment gateway setup.')}
+function withdraw(){show('Withdrawal will be enabled after backend KYC/payment setup.')}
+
+const gameDetails={
+"BR SURVIVAL":{img:"assets/br_survival.jpg",entry:"₹5",prize:"₹100",slots:"50",mode:"Battle Royale",date:"Today",time:"8:00 PM"},
+"PER KILL MATCHES":{img:"assets/per_kill.jpg",entry:"₹11",prize:"",kill:"₹9",slots:"48",mode:"Per Kill",date:"Today",time:"8:30 PM"},
+"CLASH SQUAD 1V1":{img:"assets/clash_1v1.jpg",entry:"₹5",prize:"₹100",slots:"32",mode:"1V1",date:"Today",time:"9:00 PM"},
+"LONE WOLF 1V1":{img:"assets/lone_wolf_1v1.jpg",entry:"₹5",prize:"₹100",slots:"32",mode:"1V1",date:"Today",time:"9:30 PM"},
+"CLASH SQUAD 4V4":{img:"assets/clash_4v4.jpg",entry:"₹20",prize:"₹300",slots:"32",mode:"4V4",date:"Tomorrow",time:"8:00 PM"},
+"LONE WOLF 2V2":{img:"assets/lone_wolf_2v2.jpg",entry:"₹10",prize:"₹200",slots:"32",mode:"2V2",date:"Tomorrow",time:"9:00 PM"}
+};
+function match(game){
+  selected=game;
+  const d=gameDetails[game]||gameDetails["BR SURVIVAL"];
+  document.getElementById("selectedGame").innerText=game;
+  document.getElementById("detailImage").src=d.img;
+  document.getElementById("detailEntry").innerText=d.entry;
+  document.getElementById("detailPrize").innerText=d.prize;
+  document.getElementById("detailSlots").innerText=d.slots;
+  document.getElementById("detailMode").innerText=d.mode;
+  document.getElementById("detailDate").innerText=d.date;
+  document.getElementById("detailTime").innerText=d.time;
+  openPage("matchdetail");
+}
+function joinNow(){
+  show(selected+" match selected. Select a real contest slot to continue.");
+}
+
+function copyReferral(){if(navigator.clipboard){navigator.clipboard.writeText("soulrapper")}show("Referral code copied")}
+function shareApp(name){show("Referral code shared via "+name)}
+function lbTab(el){document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));el.classList.add("active");show(el.innerText+" leaderboard")}
+
+
+const contestData={
+ "BR SURVIVAL":{img:"assets/br_survival.jpg",title:"BR Survival M1",date:"20/09/2026 at 03:00 PM",prize:180,kill:0,fee:11,type:"Solo",map:"Bermuda",slots:20,mode:"BR Survival"},
+ "PER KILL MATCHES":{img:"assets/per_kill.jpg",title:"Per Kill Match M1",date:"20/09/2026 at 04:00 PM",prize:0,kill:9,fee:11,type:"Solo",map:"Bermuda",slots:48,mode:"Per Kill"},
+ "CLASH SQUAD 1V1":{img:"assets/clash_1v1.jpg",title:"Clash Squad 1V1 M1",date:"20/09/2026 at 05:00 PM",prize:45,kill:0,fee:30,type:"1V1",map:"Random",slots:2,mode:"Clash Squad"},
+ "LONE WOLF 1V1":{img:"assets/lone_wolf_1v1.jpg",title:"Lone Wolf 1V1 M1",date:"20/09/2026 at 06:00 PM",prize:30,kill:0,fee:20,type:"1V1",map:"Random",slots:2,mode:"Lone Wolf"},
+ "CLASH SQUAD 4V4":{img:"assets/clash_4v4.jpg",title:"Clash Squad 4V4 M1",date:"20/09/2026 at 07:00 PM",prize:268,kill:0,fee:40,type:"4V4",map:"Random",slots:8,mode:"Clash Squad"},
+ "LONE WOLF 2V2":{img:"assets/lone_wolf_2v2.jpg",title:"Lone Wolf 2V2 M1",date:"20/09/2026 at 08:00 PM",prize:80,kill:0,fee:26,type:"2V2",map:"Random",slots:4,mode:"Lone Wolf"}
+};
+let currentContest="BR SURVIVAL", currentContestId=174874, currentContestEntryFee=0, selectedSlot=0;
+let contestListRefreshTimer=null;
+function openContests(game){
+ clearInterval(contestListRefreshTimer);
+ currentContest=contestData[game]?game:"BR SURVIVAL";
+ const d=contestData[currentContest];
+ const title=document.getElementById("contestListTitle");
+ if(title) title.innerText=currentContest+" Contests";
+ openPage("contestList");
+ renderContestCards(d);
+ contestListRefreshTimer=setInterval(()=>renderContestCards(d),30000);
+}
+async function renderContestCards(d){
+ const box=document.getElementById("contestCards"); box.innerHTML='<p class="muted">Loading real contests...</p>';
+ try{
+  const rows=await api('/api/contests?status=upcoming');
+  const filtered=rows.filter(x=>x.game===currentContest);
+  if(!filtered.length){box.innerHTML='<p class="muted">No upcoming contests available.</p>';return;}
+  box.innerHTML='<div class="muted" style="margin-bottom:10px">Upcoming Matches: '+filtered.length+'</div>'+filtered.map(c=>{const left=Math.max(0,c.slots-Number(c.joined_slots||0));return `<div class="flowCard"><img src="${d.img}"><div class="flowPad"><div class="flowTitle">${escapeHtml(c.title)}</div><div class="muted">Time : ${new Date(c.starts_at).toLocaleString()}</div><div class="flowGrid"><div><small>PRIZE POOL</small><b>🪙 ${Number(c.prize_pool)||0}</b></div><div><small>PER KILL</small><b>🪙 ${d.kill}</b></div><div><small>ENTRY FEE</small><b>🪙 ${c.entry_fee}</b></div><div><small>TYPE</small><b>${d.type}</b></div><div><small>MAP</small><b>${d.map}</b></div><div><small>SLOTS</small><b>${c.slots}</b></div></div><div class="matchQuickDetails"><b>Match Details</b><div class="qdGrid"><div class="qdItem"><strong>Match Type</strong>${d.type}</div><div class="qdItem"><strong>Map</strong>${d.map}</div><div class="qdItem"><strong>Total Slots</strong>${c.slots}</div><div class="qdItem"><strong>Available</strong>${left}/${c.slots}</div><div class="qdItem"><strong>Entry Fee</strong>🪙 ${c.entry_fee}</div><div class="qdItem"><strong>Per Kill</strong>🪙 ${d.kill}</div></div><div class="rulesMini"><b>Rules:</b> Room ID/Password match se pehle diya jayega. Hack/mod/script allowed nahi. Sahi Game ID/Name se join karein aur time par room join karein.</div></div><button class="flowBtn" onclick="openContestDetails(${c.id})">View Full Match Details</button></div></div>`}).join('');
+ }catch(e){box.innerHTML='<p class="muted">'+escapeHtml(e.message)+'</p>';}
+}
+function escapeHtml(v){return String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
+let detailCountdownTimer=null;
+function startDetailCountdown(iso){
+  clearInterval(detailCountdownTimer);
+  const target=new Date(iso).getTime();
+  const tick=()=>{
+    const el=document.getElementById('cdTimeLeft'); if(!el)return;
+    let ms=target-Date.now();
+    if(ms<=0){el.innerText='Match has started'; clearInterval(detailCountdownTimer); return;}
+    const total=Math.floor(ms/1000), days=Math.floor(total/86400), hrs=Math.floor((total%86400)/3600), mins=Math.floor((total%3600)/60), secs=total%60;
+    el.innerText='Time Left: '+days+'d '+hrs+'h '+mins+'m '+secs+'s';
+  };
+  tick(); detailCountdownTimer=setInterval(tick,1000);
+}
+async function openContestDetails(id){
+ const d=contestData[currentContest]||contestData["BR SURVIVAL"];
+ currentContestId=id; selectedSlot=0;
+ try{
+  const c=await api('/api/contests/'+id);
+  currentContestEntryFee=Number(c.entry_fee)||0;
+  const setText=(id,value)=>{const el=document.getElementById(id);if(el)el.innerText=value;};
+  setText('detailHeaderTitle','Contest Details #'+c.id);
+  const detailImg=document.getElementById('cdImage');
+  if(detailImg) detailImg.src=d.img || 'assets/br_survival.jpg';
+  setText('cdTitle',c.title||d.title);
+  setText('cdDate',c.starts_at?new Date(c.starts_at).toLocaleString():'—');
+  setText('cdTeam',d.type||'Solo');
+  setText('cdMode',d.mode||d.type||'—');
+  setText('cdMap',d.map||'—');
+  setText('cdMatchType','Paid');
+  setText('cdFee','🪙 '+currentContestEntryFee);
+  setText('cdKill','🪙 '+(Number(d.kill)||0));
+  setText('cdSlots',c.slots);
+  if(c.starts_at) startDetailCountdown(c.starts_at);
+  const full={...d,prize:Number(c.prize_pool)||0,fee:currentContestEntryFee,slots:Number(c.slots)||Number(d.slots)||0};
+  const prizeBox=document.getElementById('detailPrizePreview');
+  const isPerKill=currentContest==='PER KILL MATCHES';
+  if(prizeBox){
+    if(isPerKill){
+      prizeBox.style.display='none';
+      prizeBox.innerHTML='';
+    }else{
+      prizeBox.style.display='block';
+      const pd=await api('/api/contests/'+id+'/prizes');
+      const preview=(pd.prizes||[]).map(x=>'<div class=\"prizeMini\"><span>'+x.rank+(x.rank===1?'st':x.rank===2?'nd':x.rank===3?'rd':'th')+' Prize</span><b>🪙 '+Number(x.prize)+'</b></div>');
+      prizeBox.innerHTML=preview.join('')+'<button class=\"detailLink\" style=\"margin:8px 0 0\" onclick=\"openPage(\'prizeDetails\')\">View full prize breakup ›</button>';
+      await renderPrize(full);    }
+  }
+  renderRules(d);
+  const rulesTarget=document.getElementById('detailRulesList');
+  const rulesSource=document.getElementById('rulesList');
+  if(rulesTarget&&rulesSource) rulesTarget.innerHTML=rulesSource.innerHTML;
+  await renderJoinings(full);
+  openPage('contestDetails');
+ }catch(e){show(e.message||'Unable to load match details')}
+}
+async function renderPrize(d){
+ if(currentContest==='PER KILL MATCHES'){document.getElementById("prizeRows").innerHTML='<p class="muted">Per Kill: 🪙 9</p>';return;}
+ try{
+   const pd=await api('/api/contests/'+currentContestId+'/prizes');
+   document.getElementById("prizeRows").innerHTML=(pd.prizes||[]).map(x=>`<div class="prizeRow"><span class="rank">${x.rank}${x.rank==1?'st':x.rank==2?'nd':x.rank==3?'rd':'th'} Prize</span><b>🪙 ${Number(x.prize)}</b></div>`).join("");
+ }catch(e){document.getElementById("prizeRows").innerHTML='<p class="muted">'+escapeHtml(e.message)+'</p>';}
+}
+function renderRules(d){
+ document.getElementById("rulesList").innerHTML=[
+ "Match शुरू होने से पहले room ID और password दिया जाएगा.",
+ "समय पर room में join करना जरूरी है.",
+ "Hack, mod, script या unfair advantage पूरी तरह प्रतिबंधित है.",
+ "Horse (Ghoda) Per Kill और Survival mode में banned है.",
+ "Team-up केवल उसी format में करें जहाँ allowed हो.",
+ "गलत Game ID/Name देने पर joining प्रभावित हो सकती है.",
+ "Result verification के लिए screenshot/proof मांगा जा सकता है.",
+ "Admin का verified result final माना जाएगा."
+ ].map(x=>"<li>"+x+"</li>").join("");
+}
+async function renderJoinings(d){
+ try{const rows=await api('/api/contests/'+currentContestId+'/joinings'); document.getElementById("joiningsRows").innerHTML=rows.length?rows.map(x=>`<div class="joinRow"><span>Team ${x.slot}</span><b>${escapeHtml(x.ign)}</b><span>${escapeHtml(x.status)}</span></div>`).join(''):'<p class="muted">No players joined yet.</p>'; document.getElementById("joiningsHeading").innerText="Joined Players • "+rows.length+"/"+d.slots;}catch(e){document.getElementById("joiningsRows").innerHTML='<p class="muted">'+escapeHtml(e.message)+'</p>';}
+}
+async function openSlotSelection(){
+ const d=contestData[currentContest]||contestData["BR SURVIVAL"];
+ selectedSlot=0;
+ const grid=document.getElementById("slotGrid");
+ if(grid) grid.innerHTML='Loading...';
+ try{
+   const c=await api('/api/contests/'+currentContestId);
+   currentContestEntryFee=Number(c.entry_fee)||0;
+   const feeEl=document.getElementById("joinFee"); if(feeEl) feeEl.innerText="₹"+currentContestEntryFee;
+   const totalEl=document.getElementById("totalPayable"); if(totalEl) totalEl.innerText="₹"+currentContestEntryFee;
+   const rows=await api('/api/contests/'+currentContestId+'/joinings');
+   const taken=new Set(rows.map(x=>Number(x.slot)));
+   if(!grid) throw new Error('Slot area is missing');
+   grid.innerHTML='';
+   for(let i=1;i<=Number(c.slots);i++){
+     const used=taken.has(i);
+     grid.innerHTML+=`<button class="slot ${used?'taken':''}" ${used?'disabled':''} onclick="selectSlot(${i},this)">Team ${i}</button>`;
+   }
+   openPage("slotSelection");
+ }catch(e){show(e.message||'Unable to load slots')}
+}
+function selectSlot(n,el){document.querySelectorAll(".slot").forEach(x=>x.classList.remove("selected"));el.classList.add("selected");selectedSlot=n}
+async function confirmJoin(){
+ const d=contestData[currentContest]||contestData["BR SURVIVAL"];
+ const ignEl=document.getElementById('ignInput'), uidEl=document.getElementById('uidInput');
+ const ign=ignEl?ignEl.value.trim():'';
+ const uid=uidEl?uidEl.value.trim():'';
+ if(!selectedSlot){show('Please select a team/slot');return}
+ if(!ign){show('Enter In-Game Name');return}
+ if(!uid){show('Enter Game UID');return}
+ try{
+   const r=await api('/api/join',{method:'POST',body:JSON.stringify({contestId:currentContestId,slot:selectedSlot,ign,uid,fee:Number(currentContestEntryFee||d.fee||0)})});
+   balance=Number(r.balance);updateBalance();
+   const textEl=document.getElementById('confirmText'); if(textEl) textEl.innerText=currentContest+' • Team '+selectedSlot+' • '+ign;
+   const feeEl=document.getElementById('confirmFee'); if(feeEl) feeEl.innerText='₹'+Number(currentContestEntryFee||d.fee||0);
+   openPage('joinConfirm');
+ }catch(e){show(e.message||'Unable to join match')}
+}
+function contestTab(el,type){document.querySelectorAll('.contestTabs .contestTab').forEach(x=>x.classList.remove('active'));el.classList.add('active');show(type==='up'?'Upcoming contests':type==='live'?'Ongoing contests':'Resulted contests')}
+
+let adminContestData=null;
+async function openAdminResults(){
+  if(!currentUser?.is_admin){show('Admin access required');return}
+  openPage('adminResults');
+  await loadAdminContests();
+}
+async function loadAdminContests(){
+  const sel=document.getElementById('adminContestSelect');
+  if(!sel)return;
+  sel.innerHTML='<option value="">Loading matches...</option>';
+  try{
+    const rows=await api('/api/admin/contests');
+    sel.innerHTML='<option value="">Select a match</option>'+rows.map(c=>`<option value="${c.id}">${escapeHtml(c.title)} • ${c.game} • ${c.status}</option>`).join('');
+  }catch(e){sel.innerHTML='<option value="">'+escapeHtml(e.message)+'</option>';}
+}
+async function loadAdminResult(){
+  const id=document.getElementById('adminContestSelect')?.value;
+  const status=document.getElementById('adminResultStatus');
+  const prizeCard=document.getElementById('adminPrizeCard'), playersCard=document.getElementById('adminPlayersCard');
+  if(!id){prizeCard.style.display='none';playersCard.style.display='none';status.innerText='Match select करें';return}
+  try{
+    const d=await api('/api/admin/results/'+id); adminContestData=d;
+    status.innerText=d.contest.title+' • '+d.contest.game+' • '+d.contest.status+' • Players: '+d.players.length+'/'+d.contest.slots;
+    prizeCard.style.display=d.contest.game==='PER KILL MATCHES'?'none':'block';
+    playersCard.style.display='block';
+    renderAdminPrizes(d.prizes,d.contest);
+    renderAdminPlayers(d.players,d.contest);
+  }catch(e){status.innerText=e.message;prizeCard.style.display='none';playersCard.style.display='none';}
+}
+function renderAdminPrizes(prizes,contest){
+  const box=document.getElementById('adminPrizeGrid'); if(!box)return;
+  const count=contest.game==='BR SURVIVAL'?Math.min(9,Number(contest.slots)):Math.min(5,Number(contest.slots));
+  const map=new Map((prizes||[]).map(x=>[Number(x.rank),Number(x.prize)]));
+  box.innerHTML=Array.from({length:count},(_,i)=>{const r=i+1;return `<div class="adminPrize"><label>${r}${r===1?'st':r===2?'nd':r===3?'rd':'th'}</label><input class="adminInput" data-prize-rank="${r}" type="number" min="0" step="1" value="${map.get(r)??0}"></div>`}).join('');
+}
+function renderAdminPlayers(players,contest){
+  const box=document.getElementById('adminPlayersTable');
+  if(!players.length){box.innerHTML='<p class="muted">इस match में अभी कोई player join नहीं हुआ।</p>';return}
+  box.innerHTML=`<table class="adminTable"><thead><tr><th>#</th><th>Player</th><th>Rank</th><th>Kills</th><th>Score</th><th>Prize</th></tr></thead><tbody>${players.map((p,i)=>`<tr data-join-id="${p.join_id}"><td>${i+1}</td><td><div class="adminPlayer">${escapeHtml(p.ign)}</div><div class="adminSub">Team ${p.slot} • ${escapeHtml(p.username)}</div></td><td><input class="adminRank" type="number" min="1" step="1" value="${p.rank??i+1}"></td><td><input class="adminKills" type="number" min="0" step="1" value="${p.kills??0}"></td><td><input class="adminScore" type="number" min="0" step="1" value="${p.score??0}"></td><td class="adminPrizeValue">${p.prize==null?'—':'₹'+Number(p.prize)}</td></tr>`).join('')}</tbody></table>`;
+  if(contest.status==='resulted') document.querySelectorAll('#adminPlayersTable input,#adminPrizeGrid input').forEach(x=>x.disabled=true);
+  updateAdminPrizePreview();
+}
+
+document.addEventListener('input',e=>{
+  if(e.target.matches('#adminPlayersTable .adminRank,#adminPlayersTable .adminKills,#adminPlayersTable .adminScore')) updateAdminPrizePreview();
+});
+function updateAdminPrizePreview(){
+  if(!adminContestData)return;
+  const contest=adminContestData.contest;
+  const prizeMap=new Map((adminContestData.prizes||[]).map(x=>[Number(x.rank),Number(x.prize)]));
+  document.querySelectorAll('#adminPlayersTable tbody tr').forEach(tr=>{
+    const rank=Number(tr.querySelector('.adminRank')?.value||0);
+    const kills=Number(tr.querySelector('.adminKills')?.value||0);
+    const prize=contest.game==='PER KILL MATCHES' ? kills*9 : (prizeMap.get(rank)||0);
+    const cell=tr.querySelector('.adminPrizeValue');
+    if(cell) cell.textContent='₹'+Number(prize);
+  });
+}
+
+function autoRankAdminResults(){
+  const rows=[...document.querySelectorAll('#adminPlayersTable tbody tr')];
+  rows.sort((a,b)=>{
+    const as=Number(a.querySelector('.adminScore')?.value||0),bs=Number(b.querySelector('.adminScore')?.value||0);
+    if(bs!==as)return bs-as;
+    const ak=Number(a.querySelector('.adminKills')?.value||0),bk=Number(b.querySelector('.adminKills')?.value||0);
+    return bk-ak;
+  });
+  const tbody=document.querySelector('#adminPlayersTable tbody');
+  rows.forEach((tr,i)=>{tr.querySelector('.adminRank').value=i+1;tbody.appendChild(tr)});
+  updateAdminPrizePreview();
+  show('Rank automatically set');
+}
+async function saveAdminPrizes(){
+  if(!adminContestData)return;
+  const prizes=[...document.querySelectorAll('[data-prize-rank]')].map(x=>({rank:Number(x.dataset.prizeRank),prize:Number(x.value||0)}));
+  try{await api('/api/admin/results/'+adminContestData.contest.id+'/prizes',{method:'POST',body:JSON.stringify({prizes})});show('Prize breakup saved');await loadAdminResult();}catch(e){show(e.message)}
+}
+async function publishAdminResults(){
+  if(!adminContestData)return;
+  if(adminContestData.contest.status==='resulted'){show('Result already published');return}
+  const rows=[...document.querySelectorAll('#adminPlayersTable tbody tr')].map(tr=>({joinId:tr.dataset.joinId,rank:Number(tr.querySelector('.adminRank').value||0),kills:Number(tr.querySelector('.adminKills').value||0),score:Number(tr.querySelector('.adminScore').value||0)}));
+  if(!rows.length){show('No players found');return}
+  if(!confirm('Result publish करना है? Publish के बाद wallet prize credit होगा और result lock हो जाएगा.'))return;
+  try{const r=await api('/api/admin/results/'+adminContestData.contest.id+'/publish',{method:'POST',body:JSON.stringify({rows})});show(r.message||'Result published');await loadAdminResult();}catch(e){show(e.message)}
+}
+
+async function initAuth(){
+  if(!authToken){window.location.href='login.html';return}
+  try{const d=await api('/api/auth/me');currentUser=d.user;await afterAuth();openPage('home');}
+  catch{logoutUser()}
+}
+document.addEventListener('DOMContentLoaded',initAuth);
+</script>
+</body>
+</html>
