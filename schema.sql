@@ -1,0 +1,62 @@
+CREATE TABLE IF NOT EXISTS users (
+  id BIGSERIAL PRIMARY KEY,
+  username VARCHAR(30) UNIQUE NOT NULL,
+  password_hash TEXT NOT NULL,
+  game_uid VARCHAR(100),
+  first_name VARCHAR(60), last_name VARCHAR(60), mobile VARCHAR(20), email VARCHAR(160), referral_code VARCHAR(30), referred_by VARCHAR(30),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  is_admin BOOLEAN NOT NULL DEFAULT FALSE
+);
+CREATE TABLE IF NOT EXISTS wallets (
+  user_id BIGINT PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+  balance NUMERIC(12,2) NOT NULL DEFAULT 0,
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+CREATE TABLE IF NOT EXISTS contests (
+  id BIGSERIAL PRIMARY KEY, game VARCHAR(40) NOT NULL, title TEXT NOT NULL,
+  entry_fee NUMERIC(12,2) NOT NULL CHECK(entry_fee>=0), prize_pool NUMERIC(12,2) NOT NULL DEFAULT 0,
+  slots INT NOT NULL CHECK(slots>0), status VARCHAR(20) NOT NULL DEFAULT 'upcoming', starts_at TIMESTAMPTZ NOT NULL
+);
+CREATE TABLE IF NOT EXISTS contest_joins (
+  id BIGSERIAL PRIMARY KEY, user_id BIGINT NOT NULL REFERENCES users(id), contest_id BIGINT NOT NULL REFERENCES contests(id),
+  slot INT NOT NULL, ign VARCHAR(100) NOT NULL, game_uid VARCHAR(100) NOT NULL, status VARCHAR(20) NOT NULL DEFAULT 'joined', created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE(contest_id,slot)
+);
+CREATE TABLE IF NOT EXISTS wallet_transactions (
+  id BIGSERIAL PRIMARY KEY, user_id BIGINT NOT NULL REFERENCES users(id), amount NUMERIC(12,2) NOT NULL, type VARCHAR(30) NOT NULL, reference_id VARCHAR(100), status VARCHAR(20) NOT NULL DEFAULT 'pending', created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS idx_contest_joins_user ON contest_joins(user_id);
+CREATE INDEX IF NOT EXISTS idx_wallet_tx_user ON wallet_transactions(user_id,created_at DESC);
+
+
+ALTER TABLE users ADD COLUMN IF NOT EXISTS is_admin BOOLEAN NOT NULL DEFAULT FALSE;
+ALTER TABLE users ADD COLUMN IF NOT EXISTS first_name VARCHAR(60);
+ALTER TABLE users ADD COLUMN IF NOT EXISTS last_name VARCHAR(60);
+ALTER TABLE users ADD COLUMN IF NOT EXISTS mobile VARCHAR(20);
+ALTER TABLE users ADD COLUMN IF NOT EXISTS email VARCHAR(160);
+ALTER TABLE users ADD COLUMN IF NOT EXISTS referral_code VARCHAR(30);
+ALTER TABLE users ADD COLUMN IF NOT EXISTS referred_by VARCHAR(30);
+
+
+CREATE TABLE IF NOT EXISTS contest_prizes (
+  id BIGSERIAL PRIMARY KEY,
+  contest_id BIGINT NOT NULL REFERENCES contests(id) ON DELETE CASCADE,
+  rank INT NOT NULL CHECK(rank>0),
+  prize NUMERIC(12,2) NOT NULL CHECK(prize>=0),
+  UNIQUE(contest_id, rank)
+);
+
+CREATE TABLE IF NOT EXISTS contest_results (
+  id BIGSERIAL PRIMARY KEY,
+  contest_id BIGINT NOT NULL REFERENCES contests(id) ON DELETE CASCADE,
+  contest_join_id BIGINT NOT NULL REFERENCES contest_joins(id) ON DELETE CASCADE,
+  rank INT NOT NULL CHECK(rank>0),
+  kills INT NOT NULL DEFAULT 0 CHECK(kills>=0),
+  score NUMERIC(12,2) NOT NULL DEFAULT 0 CHECK(score>=0),
+  prize NUMERIC(12,2) NOT NULL DEFAULT 0 CHECK(prize>=0),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE(contest_id, contest_join_id),
+  UNIQUE(contest_id, rank)
+);
+CREATE INDEX IF NOT EXISTS idx_contest_prizes_contest ON contest_prizes(contest_id);
+CREATE INDEX IF NOT EXISTS idx_contest_results_contest ON contest_results(contest_id);
